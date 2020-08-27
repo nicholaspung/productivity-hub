@@ -3,4 +3,4 @@
 Parent application to house productivity tools:
 
 - A habit tracker
-- Subreddit post saver
+- A post saver

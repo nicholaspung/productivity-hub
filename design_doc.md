@@ -29,6 +29,7 @@ Technologies:
 - VPS
 - Linux
 - Nginx
+- CI/CD
 
 ## Future Considerations:
 
@@ -65,6 +66,8 @@ Habit Tracker
   - Habits ID (required, foreign key, number)
   - Finished (required, boolean)
   - User UID (required, foreign key, string)
+
+Post Saver
 
 - Posts (Reddit, Websites)
 
