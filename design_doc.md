@@ -89,6 +89,8 @@ Post Saver
   - Seen (required, boolean)
   - User UID (required, foreign key, string)
 
+Users
+
 - Users
 
   - ID (required, unique, number)

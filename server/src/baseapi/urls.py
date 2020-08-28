@@ -16,6 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from habittracker.views import todo_create_view, todo_delete_view, todo_detail_view, todo_list_view
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/todos/<int:todo_id>', todo_detail_view),
+    path('api/todos/<int:todo_id>/delete', todo_delete_view),
+    path('api/todos/', todo_list_view),
+    path('api/todos/add', todo_create_view)
 ]
