@@ -35,75 +35,71 @@ Technologies:
 
 - Email service
 - Abstracting away websites to scrape
+- Max todos and habits in system?
+- Pomodoro Timing System
 
-### Database Schemas
+### Database Schemas (In Django Model fields)
 
 Habit Tracker
 
-- Todos
+- Todo
 
-  - ID (required, unique, number)
-  - Name (required, string)
-  - Description (optional, string)
-  - Date Created (required, datetime)
-  - Date Finished (optional, datetime)
-  - Finished (required, boolean)
-  - Order? Priority? (required, unique)
-  - User UID (required, foreign key, string)
+  - ID (AutoField)
+  - Name (CharField, max_length=280)
+  - Description (TextField, optional)
+  - Date Created (DateTimeField, auto_now_add=True)
+  - Date Finished (DateTimeField, optional)
+  - Finished (BooleanField, default=False)
+  - Order (SmallIntegerField, default=grabLastNumberInUnfinishedTodos)
+  - Priority (CharField, max_length=2, choices=ENUM_PRIORITY_CHOICES, default=NONE)
+  - User UID (ForeignKey, 'User', on_delete=models.CASCADE)
 
-- Habits
+- Habit
 
-  - ID (required, unique, primary key, number)
-  - Name (required, string)
-  - Description (optional, string)
-  - Date Created (required, datetime)
-  - Order? Priority? (required, unique)
-  - User UID (required, foreign key, string)
+  - ID (AutoField)
+  - Name (CharField, max_length=280)
+  - Description (TextField, optional)
+  - Date Created (DateTimeField, auto_now_add=True)
+  - Order (SmallIntegerField, default=grabLastNumberInUnfinishedTodos)
+  - User UID (ForeignKey, 'User', on_delete=models.CASCADE)
 
-- Daily Habits
+- Daily
 
-  - ID (required, string)
-  - Date (required, datetime)
-  - Habits ID (required, foreign key, number)
-  - Finished (required, boolean)
-  - User UID (required, foreign key, string)
+  - ID (AutoField)
+  - Date (DateField, auto_now_add=True, unique)
+  - Habits ID (ForeignKey, 'Habit', on_delete=models.SET(get_sentinel_habit))
+  - Finished (BooleanField, default=False)
+  - User UID (ForeignKey, 'User', on_delete=models.CASCADE)
 
 Post Saver
 
 - Posts (Reddit, Websites)
 
-  - ID (required, unique, primary key, number)
-  - Reddit ID (optional, unique, string)
-  - Title (required, unique, string)
-  - URL (required, string)
+  - ID (AutoField)
+  - Reddit ID (TextField, optional)
+  - Title (CharField, max_length=200)
+  - URL (TextField, optional)
 
 - Titles
 
-  - ID (required, unique, number)
-  - Title (required, unique, string)
-  - User UID (required, foreign key, string)
+  - ID (AutoField)
+  - Title (CharField, max_length=200)
+  - User UID (ForeignKey, 'User', on_delete=models.CASCADE)
 
 - Saved Posts
 
-  - ID (required, number)
-  - Post ID (required, foreign key, number)
-  - Seen (required, boolean)
-  - User UID (required, foreign key, string)
+  - ID (AutoField)
+  - Post ID (ForeignKey, 'Post', on_delete=models.CASCADE, unique)
+  - Seen (BooleanField, default=False)
+  - User UID (ForeignKey, 'User', on_delete=models.CASCADE)
 
 Users
 
 - Users
 
-  - ID (required, unique, number)
-  - UID (required, unique, primary key, string)
-  - Services (required, foreign key)
-
-Services
-
-- Services
-
-  - ID (required, unique, number)
-  - Type (required, unique, string)
+  - ID (UUIDField, primary_key=True, default=uuid.uuid4, editable=False)
+  - Provider ID (TextField, editable=False)
+  - Services (CharField, max_length=5, choices=ENUM_SERVICES_CHOICES, default=ENUM_SERVICES_CHOICES_HABIT_TRACKER)
 
 # User Actions
 
@@ -117,7 +113,7 @@ Habit Tracker
   - Finish todos
   - Unfinish todos
   - Order todos (up, down, drag up and down)
-  - Prioritize todos (separate from ordering todos)
+  - Prioritize todos (none, high, low)
 
 - Habits
 
