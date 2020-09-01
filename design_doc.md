@@ -34,6 +34,7 @@ Technologies:
 ## Future Considerations:
 
 - Email service
+- Abstracting away websites to scrape
 
 ### Database Schemas
 
@@ -95,3 +96,67 @@ Users
 
   - ID (required, unique, number)
   - UID (required, unique, primary key, string)
+  - Services (required, foreign key)
+
+Services
+
+- Services
+
+  - ID (required, unique, number)
+  - Type (required, unique, string)
+
+# User Actions
+
+Habit Tracker
+
+- Todos
+
+  - Add todos
+  - Edit todos
+  - Delete todos
+  - Finish todos
+  - Unfinish todos
+  - Order todos (up, down, drag up and down)
+  - Prioritize todos (separate from ordering todos)
+
+- Habits
+
+  - Add habits
+  - Edit habits
+  - Delete habits
+  - Finish todos
+  - Unfinish todos
+  - Order habits (up, down, drag up and down)
+
+- Daily Habits
+
+  - Show habits for week, month, and year view
+
+Post Saver
+
+- Posts (Reddit, Websites)
+
+  - View current posts
+  - Refresh current posts
+    - Cross out seen posts
+
+- Titles
+
+  - Add titles
+  - Edit titles
+  - Delete titles
+  - Search titles
+  - Sort titles
+
+- Saved Posts
+
+  - Read posts
+  - Refresh saved posts
+
+Users
+
+- Users
+
+  - Delete account
+  - Add services
+  - Delete services
