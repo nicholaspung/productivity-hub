@@ -22,42 +22,60 @@ export const signInWithGoogle = async () => {
   }
 };
 
-// firebase
-//   .auth()
-//   .getRedirectResult()
-//   .then((res) => {
-//     if (res.credential) {
-//       const token = res.credential.accessToken;
-//     }
-//     const user = res.user;
-//   })
-//   .catch((err) => {
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//     const email = error.email;
-//     const credential = error.credential;
-//   });
-
 // Sign In Anonymously
-// firebase
-//   .auth()
-//   .signInAnonymously()
-//   .catch((err) => {
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//     const email = error.email;
-//     const credential = error.credential;
-//   });
+export const signInAnonymously = async () => {
+  try {
+    await firebase.auth().signInAnonymously();
+  } catch (err) {
+    return {
+      error: {
+        code: err.code,
+        message: err.message,
+        email: err.email,
+        credential: err.credential,
+      },
+    };
+  }
+};
 
 // Auth State Changed
-// firebase.auth().onAuthStateChanged((user) => {
-//   if (user) {
-//     const isAnonymous = user.isAnonymous;
-//     const uid = user.uid;
-//   } else {
-//     // User is signed out
-//   }
-// });
+export const onAuthStateChange = async (next, fallback) => {
+  firebase.auth().onAuthStateChanged((user) => {
+    let isAnonymous;
+    let uid;
+    if (user) {
+      isAnonymous = user.isAnonymous;
+      uid = user.uid;
+      next({ isAnonymous, uid });
+    } else {
+      fallback();
+    }
+  });
+};
+
+// Log out
+export const signOut = () => {
+  firebase.auth().signOut();
+};
+
+// Get ID Token
+export const getIdToken = async () => {
+  try {
+    const idToken = await firebase
+      .auth()
+      .currentUser.getIdToken(/* forceRefreshs*/ true);
+    return idToken;
+  } catch (err) {
+    return {
+      error: {
+        code: err.code,
+        message: err.message,
+        email: err.email,
+        credential: err.credential,
+      },
+    };
+  }
+};
 
 // Link anonymous account with Google
 // const credential = firebase.auth.GoogleAuthProvider.credential(

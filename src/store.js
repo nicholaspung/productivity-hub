@@ -1,4 +1,9 @@
-import { createStore } from "redux";
-import habitTrackerReducer from "./components/HabitTracker/redux/reducers";
+import { createStore, combineReducers } from "redux";
+// import habitTrackerReducers from "./components/HabitTracker/redux/reducers";
+import userReducers from "./components/User/redux/reducers";
 
-export default createStore(habitTrackerReducer);
+const combinedReducers = combineReducers({
+  ...userReducers,
+});
+
+export default createStore(combinedReducers);

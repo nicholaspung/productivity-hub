@@ -1,0 +1,5 @@
+export const SIGNED_IN = "SIGNED_IN";
+export const LOADING_USER_STATUS = "LOADING_USER_STATUS";
+export const SIGNED_OUT = "SIGNED_OUT";
+export const LOADING_USER_ERROR = "LOADING_USER_ERROR";
+export const UPDATE_APPS = "UPDATE_APPS";

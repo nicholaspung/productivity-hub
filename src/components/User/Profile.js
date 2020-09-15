@@ -8,7 +8,7 @@ const Profile = () => (
     <ul>
       <li>
         <input type="checkbox" id="habit-tracker" />
-        <label for="habit-tracker">Habit Tracker</label>
+        <label htmlFor="habit-tracker">Habit Tracker</label>
       </li>
     </ul>
     <button>Save</button>

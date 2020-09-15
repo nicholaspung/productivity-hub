@@ -1,10 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-import { signInWithGoogle } from "../firebase/utils";
+import {
+  signInWithGoogle,
+  onAuthStateChange,
+  signInAnonymously,
+  signOut,
+} from "../firebase/utils";
 
-const Header = () => {
+const Header = ({ isLoggedIn, isLoading }) => {
   const [showLogin, setShowLogin] = useState(false);
+
+  useEffect(() => {
+    onAuthStateChange(
+      (authUser) => {
+        console.log(authUser);
+      },
+      () => {
+        console.log("logged out");
+      }
+    );
+  }, []);
+
+  console.log(isLoggedIn, isLoading);
+
   return (
     <header>
       <nav>
@@ -18,13 +38,15 @@ const Header = () => {
           <li>
             <Link to="/habit-tracker">Habit Tracker</Link>
           </li>
-          <li onClick={() => setShowLogin(!showLogin)}>
-            <div>
+          <li>
+            <div onClick={() => setShowLogin(!showLogin)}>
               <p>Login</p>
               {showLogin && (
                 <>
                   <button onClick={signInWithGoogle}>Google Login</button>
-                  <button>Guest Login</button>
+                  <Link to="/habit-tracker">
+                    <button onClick={signInAnonymously}>Guest Login</button>
+                  </Link>
                   <p onClick={() => setShowLogin(!showLogin)}>Hide</p>
                 </>
               )}
@@ -33,11 +55,21 @@ const Header = () => {
           <li>
             <Link to="/profile">Profile</Link>
           </li>
-          <li>Logout</li>
+          <li>
+            <Link to="/">
+              <button onClick={signOut}>Logout</button>
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
   );
 };
 
-export default Header;
+export default connect(
+  (state) =>
+    console.log(state) || {
+      isLoggedIn: Boolean(state.users.info.uid),
+      isLoading: Boolean(state.users.loading),
+    }
+)(Header);
