@@ -12,12 +12,10 @@ export const signInWithGoogle = async () => {
     };
   } catch (err) {
     return {
-      error: {
-        code: err.code,
-        message: err.message,
-        email: err.email,
-        credential: err.credential,
-      },
+      code: err.code,
+      message: err.message,
+      email: err.email,
+      credential: err.credential,
     };
   }
 };
@@ -28,12 +26,10 @@ export const signInAnonymously = async () => {
     await firebase.auth().signInAnonymously();
   } catch (err) {
     return {
-      error: {
-        code: err.code,
-        message: err.message,
-        email: err.email,
-        credential: err.credential,
-      },
+      code: err.code,
+      message: err.message,
+      email: err.email,
+      credential: err.credential,
     };
   }
 };
@@ -67,12 +63,24 @@ export const getIdToken = async () => {
     return idToken;
   } catch (err) {
     return {
-      error: {
-        code: err.code,
-        message: err.message,
-        email: err.email,
-        credential: err.credential,
-      },
+      code: err.code,
+      message: err.message,
+      email: err.email,
+      credential: err.credential,
+    };
+  }
+};
+
+// Delete user
+export const deleteUser = async () => {
+  const user = firebase.auth().currentUser;
+  try {
+    await user.delete();
+  } catch (err) {
+    console.log(err);
+    return {
+      code: err.code,
+      message: err.message,
     };
   }
 };

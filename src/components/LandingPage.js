@@ -1,6 +1,6 @@
 import React from "react";
 
-const LandingPage = () => (
+const LandingPage = (props) => (
   <main>
     <div>Image showing balance and namaste</div>
     <p>
