@@ -12,15 +12,26 @@ import {
   logIn as logInAction,
   loggedIn as loggedInAction,
   logOut as logOutAction,
+  updateApps as updateAppsAction,
 } from "./User/redux/actions";
+import { getProfile } from "./User/api";
 
-const Header = ({ isLoggedIn, isLoading, logIn, loggedIn, logOut }) => {
+const Header = ({
+  isLoggedIn,
+  isLoading,
+  logIn,
+  loggedIn,
+  logOut,
+  updateApps,
+}) => {
   const [showLogin, setShowLogin] = useState(false);
 
   useEffect(() => {
     onAuthStateChange(
-      (authUser) => {
+      async (authUser) => {
+        const { apps } = await getProfile();
         loggedIn(authUser);
+        updateApps(apps);
       },
       () => {
         logOut();
@@ -88,5 +99,6 @@ export default connect(
     logIn: logInAction,
     loggedIn: loggedInAction,
     logOut: logOutAction,
+    updateApps: updateAppsAction,
   }
 )(Header);

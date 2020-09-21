@@ -11,3 +11,4 @@ export const logIn = (callback) => async (dispatch) => {
 
 export const loggedIn = (authUser) => ({ type: LOGGED_IN, payload: authUser });
 export const logOut = () => ({ type: LOGGED_OUT });
+export const updateApps = (apps) => ({ type: UPDATE_APPS, payload: apps });

@@ -4,10 +4,10 @@ import { getUserInfo, getUserApps } from "./redux/selectors";
 import { deleteUser } from "../../firebase/utils";
 
 const Profile = ({ userInfo, apps }) => {
-  const [userApps, setUserApps] = useState(apps);
+  const [userApps, setUserApps] = useState(apps.split(","));
   const enableApp = (event) =>
     setUserApps({ ...userApps, [event.target.id]: event.target.checked });
-
+  console.log(userApps);
   return (
     <main>
       <h1>Profile</h1>
@@ -19,6 +19,7 @@ const Profile = ({ userInfo, apps }) => {
             type="checkbox"
             id="habitTracker"
             onClick={(event) => enableApp(event)}
+            value={userApps.includes("HABIT_TRACKER")}
           />
           <label htmlFor="habitTracker">Habit Tracker</label>
         </li>
