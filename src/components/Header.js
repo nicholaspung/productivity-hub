@@ -25,11 +25,11 @@ const Header = ({
   updateApps,
 }) => {
   const [showLogin, setShowLogin] = useState(false);
-
   useEffect(() => {
     onAuthStateChange(
       async (authUser) => {
-        const { apps } = await getProfile();
+        const { apps, user: userId } = await getProfile();
+        authUser.userId = userId;
         loggedIn(authUser);
         updateApps(apps);
       },
@@ -37,7 +37,7 @@ const Header = ({
         logOut();
       }
     );
-  }, [loggedIn, logOut]);
+  }, [loggedIn, logOut, updateApps]);
 
   return (
     <header>

@@ -1,4 +1,4 @@
-import dailies from "./dailies";
-import todos from "./todos";
+import dailiesReducer from "./dailies";
+import todosReducer from "./todos";
 
-export const { todos, dailies };
+export default { todos: todosReducer, dailies: dailiesReducer };

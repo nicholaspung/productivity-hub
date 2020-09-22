@@ -10,8 +10,9 @@ const initialState = {
   info: {
     uid: "",
     isAnonymous: false,
+    userId: undefined,
   },
-  apps: {},
+  apps: "",
   loading: false,
   error: {},
 };

@@ -1,3 +1,3 @@
-import users from "./users";
+import usersReducer from "./users";
 
-export default { users };
+export default { users: usersReducer };
