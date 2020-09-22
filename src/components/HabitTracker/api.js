@@ -23,7 +23,7 @@ export const addHabit = async (habit) => {
 
 export const editHabit = async (id, habit) => {
   try {
-    const response = await (await axiosWithAuth()).patch(
+    const response = await (await axiosWithAuth()).put(
       `${habitUrl}${id}/`,
       habit
     );
@@ -73,7 +73,7 @@ export const addTodo = async (todo) => {
 
 export const editTodo = async (id, todo) => {
   try {
-    const response = await (await axiosWithAuth()).patch(
+    const response = await (await axiosWithAuth()).put(
       `${todoUrl}${id}/`,
       todo
     );
@@ -97,6 +97,17 @@ export const reorderTodos = async (firstId, secondId) => {
 export const deleteTodo = async (id) => {
   try {
     const response = await (await axiosWithAuth()).delete(`${todoUrl}${id}/`);
+    return response.data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const toggleDaily = async (daily) => {
+  try {
+    const response = await (
+      await axiosWithAuth()
+    ).put(`${dailiesUrl}${daily.id}/`, { finished: !daily.finished });
     return response.data;
   } catch (err) {
     return err;

@@ -5,22 +5,31 @@ import {
   deleteTodo as deleteTodoAction,
   reorderTodos as reorderTodosAction,
 } from "./redux/actions";
+import { getTodosTodos } from "./redux/selectors";
 import ItemAction from "./ItemAction";
+import { PRIORITIES, DIRECTIONS } from "./constants";
 
-const PRIORITIES = {
-  HIGH: "HIGH",
-  NONE: "NONE",
-  LOW: "LOW",
-};
-
-const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos }) => {
-  const onCheckedChange = () => {
-    editTodo(data.id, { finished: !data.finished });
+const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
+  const onCheckedChange = async () => {
+    await editTodo(data.id, { finished: !data.finished, name: data.name });
   };
   const onSetPriorityTodo = (priority) => {
-    editTodo(data.id, { priority });
+    editTodo(data.id, { priority, name: data.name });
   };
-  const onReorderTodo = () => {};
+  const onReorderTodo = (direction) => {
+    const priority = data.priority;
+    const filteredTodos = todos.filter(
+      (item) => priority === item.priority && !data.finished
+    );
+    const currentIdx = filteredTodos.findIndex((el) => el.id === data.id);
+    if (direction === DIRECTIONS.UP) {
+      if (currentIdx - 1 < 0) return;
+      reorderTodos(data.id, filteredTodos[currentIdx - 1].id);
+    } else {
+      if (currentIdx + 1 > filteredTodos.length) return;
+      reorderTodos(data.id, filteredTodos[currentIdx + 1].id);
+    }
+  };
   const onDeleteTodo = () => {
     deleteTodo(data.id);
   };
@@ -52,8 +61,10 @@ const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos }) => {
         <button onClick={() => onSetPriorityTodo(PRIORITIES.LOW)}>
           Set Low Priority
         </button>
-        <button>Move Up</button>
-        <button>Move Down</button>
+        <button onClick={() => onReorderTodo(DIRECTIONS.UP)}>Move Up</button>
+        <button onClick={() => onReorderTodo(DIRECTIONS.DOWN)}>
+          Move Down
+        </button>
         <button onClick={onDeleteTodo}>Delete Todo</button>
       </div>
       <ItemAction
@@ -65,8 +76,13 @@ const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos }) => {
   );
 };
 
-export default connect(null, {
-  editTodo: editTodoAction,
-  deleteTodo: deleteTodoAction,
-  reorderTodos: reorderTodosAction,
-})(TodoItem);
+export default connect(
+  (state) => ({
+    todos: getTodosTodos(state),
+  }),
+  {
+    editTodo: editTodoAction,
+    deleteTodo: deleteTodoAction,
+    reorderTodos: reorderTodosAction,
+  }
+)(TodoItem);

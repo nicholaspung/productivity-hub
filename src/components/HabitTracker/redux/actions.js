@@ -9,6 +9,7 @@ import {
   editTodo as editTodoAPI,
   deleteTodo as deleteTodoAPI,
   reorderTodos as reorderTodosAPI,
+  toggleDaily as toggleDailyAPI,
 } from "../api";
 
 export const HABITS_UPDATING = "HABITS_UPDATING";
@@ -35,11 +36,38 @@ export const TODOS_REORDERING_ERROR = "TODOS_REORDERING_ERROR";
 export const DAILIES_FETCHING = "DAILIES_FETCHING";
 export const DAILIES_FETCHING_DONE = "DAILIES_FETCHING_DONE";
 export const DAILIES_FETCHING_ERROR = "DAILIES_FETCHING_ERROR";
+export const DAILIES_TOGGLE = "DAILIES_TOGGLE";
+export const DAILIES_TOGGLE_DONE = "DAILIES_TOGGLE_DONE";
+export const DAILIES_TOGGLE_ERROR = "DAILIES_TOGGLE_ERROR";
+
+export const toggleDaily = (daily) => async (dispatch, getState) => {
+  dispatch({ type: DAILIES_TOGGLE });
+  const { dailies } = getState();
+  const dailiesCopy = [...dailies.dailies];
+  try {
+    const response = await toggleDailyAPI(daily);
+    dailiesCopy[
+      dailies.dailies.findIndex((el) => el.id === response.id)
+    ] = response;
+    return dispatch({ type: DAILIES_TOGGLE_DONE, payload: dailiesCopy });
+  } catch (err) {
+    return dispatch({ type: DAILIES_TOGGLE_ERROR, payload: err });
+  }
+};
 
 export const getDailiesForToday = () => async (dispatch) => {
   dispatch({ type: DAILIES_FETCHING });
   try {
     const data = await getDailiesForTodayAPI();
+    data.sort((a, b) => {
+      if (a.habit.order > b.habit.order) {
+        return 1;
+      } else if (a.habit.order < b.habit.order) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
     return dispatch({ type: DAILIES_FETCHING_DONE, payload: data });
   } catch (err) {
     return dispatch({ type: DAILIES_FETCHING_ERROR, payload: err });
@@ -90,10 +118,21 @@ export const deleteHabit = (id) => async (dispatch) => {
   }
 };
 
+const todosSortFunction = (a, b) => {
+  if (a.order > b.order) {
+    return 1;
+  } else if (a.order < b.order) {
+    return -1;
+  } else {
+    return 0;
+  }
+};
+
 export const getTodos = () => async (dispatch) => {
   dispatch({ type: TODOS_FETCHING });
   try {
     const data = await getTodosAPI();
+    data.sort(todosSortFunction);
     return dispatch({ type: TODOS_FETCHING_DONE, payload: data });
   } catch (err) {
     return dispatch({ type: TODOS_FETCHING_ERROR, payload: err });
@@ -120,7 +159,7 @@ export const editTodo = (id, todo) => async (dispatch, getState) => {
   try {
     const response = await editTodoAPI(id, todo);
     const todosCopy = [...todos.todos];
-    todosCopy[todos.todos.indexOf(response.id)] = response;
+    todosCopy[todos.todos.findIndex((el) => el.id === response.id)] = response;
     return dispatch({ type: TODOS_EDITING_DONE, payload: todosCopy });
   } catch (err) {
     return dispatch({ type: TODOS_EDITING_ERROR, payload: err });
@@ -130,10 +169,11 @@ export const editTodo = (id, todo) => async (dispatch, getState) => {
 export const deleteTodo = (id) => async (dispatch, getState) => {
   dispatch({ type: TODOS_DELETING });
   const { todos } = getState();
+  const idIndex = todos.todos.findIndex((el) => el.id === id);
   try {
     await deleteTodoAPI(id);
     const todosCopy = [...todos.todos];
-    todosCopy.splice(id, 1);
+    todosCopy.splice(idIndex, 1);
     return dispatch({ type: TODOS_DELETING_DONE, payload: todosCopy });
   } catch (err) {
     return dispatch({ type: TODOS_DELETING_ERROR });
@@ -153,6 +193,7 @@ export const reorderTodos = (firstId, secondId) => async (
       const index = todosCopy.findIndex((el) => el.id === todo.id);
       todosCopy[index] = todo;
     });
+    todosCopy.sort(todosSortFunction);
     return dispatch({ type: TODOS_REORDERING_DONE, payload: todosCopy });
   } catch (err) {
     return dispatch({ type: TODOS_REORDERING_ERROR, payload: err });

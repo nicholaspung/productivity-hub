@@ -2,6 +2,8 @@ import {
   DAILIES_FETCHING,
   DAILIES_FETCHING_DONE,
   DAILIES_FETCHING_ERROR,
+  DAILIES_TOGGLE_DONE,
+  DAILIES_TOGGLE_ERROR,
   HABITS_DELETING_ERROR,
   HABITS_UPDATING_ERROR,
 } from "../actions";
@@ -29,6 +31,17 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
+        error: action.payload,
+      };
+    case DAILIES_TOGGLE_DONE:
+      return {
+        ...state,
+        dailies: action.payload,
+        error: {},
+      };
+    case DAILIES_TOGGLE_ERROR:
+      return {
+        ...state,
         error: action.payload,
       };
     case HABITS_UPDATING_ERROR:

@@ -1,22 +1,25 @@
 import { updateProfile } from "../api";
 
-export const LOGGED_IN = "LOGGED_IN";
-export const LOADING_USER_STATUS = "LOADING_USER_STATUS";
-export const LOGGED_OUT = "LOGGED_OUT";
-export const LOADING_USER_ERROR = "LOADING_USER_ERROR";
-export const ADDING_APP = "ADDING_APP";
-export const UPDATE_APPS = "UPDATE_APPS";
+export const USER_LOGGED_IN = "USER_LOGGED_IN";
+export const USER_LOADING = "USER_LOADING";
+export const USER_LOGGED_OUT = "USER_LOGGED_OUT";
+export const USER_LOADING_ERROR = "USER_LOADING_ERROR";
+export const APPS_UPDATING = "APPS_UPDATING";
+export const APPS_UPDATED = "APPS_UPDATED";
 
 export const logIn = (callback) => async (dispatch) => {
-  dispatch({ type: LOADING_USER_STATUS });
+  dispatch({ type: USER_LOADING });
   await callback();
 };
-export const loggedIn = (authUser) => ({ type: LOGGED_IN, payload: authUser });
-export const logOut = () => ({ type: LOGGED_OUT });
+export const loggedIn = (authUser) => ({
+  type: USER_LOGGED_IN,
+  payload: authUser,
+});
+export const logOut = () => ({ type: USER_LOGGED_OUT });
 
 export const addApp = (id, newApps) => async (dispatch) => {
-  dispatch({ type: ADDING_APP });
+  dispatch({ type: APPS_UPDATING });
   const { apps } = await updateProfile(id, { apps: newApps });
   return dispatch(updateApps(apps));
 };
-export const updateApps = (apps) => ({ type: UPDATE_APPS, payload: apps });
+export const updateApps = (apps) => ({ type: APPS_UPDATED, payload: apps });

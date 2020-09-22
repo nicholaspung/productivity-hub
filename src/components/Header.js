@@ -47,9 +47,14 @@ const Header = ({
             <Link to="/">Logo</Link>
           </li>
           {isLoggedIn && (
-            <li>
-              <Link to="/habit-tracker">Habit Tracker</Link>
-            </li>
+            <>
+              <li>
+                <Link to="/habit-tracker">Habit Tracker</Link>
+              </li>
+              <li>
+                <Link to="/post-saver">Post Saver</Link>
+              </li>
+            </>
           )}
           {!isLoggedIn && !isLoading && (
             <li>

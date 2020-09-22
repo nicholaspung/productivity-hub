@@ -1,9 +1,9 @@
 import {
-  LOGGED_IN,
-  LOADING_USER_ERROR,
-  LOADING_USER_STATUS,
-  LOGGED_OUT,
-  UPDATE_APPS,
+  USER_LOGGED_IN,
+  USER_LOADING_ERROR,
+  USER_LOADING,
+  USER_LOGGED_OUT,
+  APPS_UPDATED,
 } from "../actions";
 
 const initialState = {
@@ -20,24 +20,24 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     // User Status
-    case LOGGED_IN:
+    case USER_LOGGED_IN:
       return {
         ...state,
         info: action.payload,
         loading: false,
       };
-    case LOADING_USER_STATUS:
+    case USER_LOADING:
       return {
         ...state,
         loading: true,
       };
-    case LOGGED_OUT:
+    case USER_LOGGED_OUT:
       return {
         ...state,
         info: initialState.info,
         loading: initialState.loading,
       };
-    case LOADING_USER_ERROR:
+    case USER_LOADING_ERROR:
       return {
         ...state,
         info: initialState.info,
@@ -45,7 +45,7 @@ export default function (state = initialState, action) {
         error: action.payload,
       };
     // App Status
-    case UPDATE_APPS:
+    case APPS_UPDATED:
       return {
         ...state,
         apps: action.payload,

@@ -1,24 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import {
   editHabit as editHabitAction,
   reorderHabits as reorderHabitsAction,
   deleteHabit as deleteHabitAction,
+  toggleDaily as toggleDailyAction,
 } from "./redux/actions";
+import { getDailiesDailies } from "./redux/selectors";
 import ItemAction from "./ItemAction";
+import { DIRECTIONS } from "./constants";
 
-const DailyItem = ({ data, editHabit, reorderHabits, deleteHabit }) => {
-  const [finished, setFinished] = useState(data.finished);
-  const onCheckedChange = (event) => {
-    setFinished(event.target.checked);
+const DailyItem = ({
+  data,
+  editHabit,
+  reorderHabits,
+  deleteHabit,
+  dailies,
+  toggleDaily,
+}) => {
+  const onCheckedChange = () => {
+    toggleDaily(data);
   };
   const onArchiveHabit = () => {
-    editHabit(data.habit.id, { archived: true });
+    editHabit(data.habit.id, { archived: true, name: data.habit.name });
   };
   const onUnarchiveHabit = () => {
-    editHabit(data.habit.id, { archived: false });
+    editHabit(data.habit.id, { archived: false, name: data.habit.name });
   };
-  const onReorderHabits = () => {};
+  const onReorderHabits = (direction) => {
+    const filteredDailies = dailies.filter((item) => !item.habit.archived);
+    const currentIdx = filteredDailies.findIndex((el) => el.id === data.id);
+    if (direction === DIRECTIONS.UP) {
+      if (currentIdx - 1 < 0) return;
+      reorderHabits(data.habit.id, filteredDailies[currentIdx - 1].habit.id);
+    } else {
+      if (currentIdx + 1 > filteredDailies.length) return;
+      reorderHabits(data.habit.id, filteredDailies[currentIdx + 1].habit.id);
+    }
+  };
   const onDeleteHabit = () => {
     deleteHabit(data.habit.id);
   };
@@ -31,7 +50,7 @@ const DailyItem = ({ data, editHabit, reorderHabits, deleteHabit }) => {
         <input
           id={labelId}
           type="checkbox"
-          checked={finished}
+          checked={data.finished}
           onChange={onCheckedChange}
         />
         <label htmlFor={labelId}>
@@ -43,12 +62,14 @@ const DailyItem = ({ data, editHabit, reorderHabits, deleteHabit }) => {
         <button>Edit Habit</button>
         <button onClick={onArchiveHabit}>Archive Habit</button>
         <button onClick={onUnarchiveHabit}>Unarchive Habit</button>
-        <button>Move Up</button>
-        <button>Move Down</button>
+        <button onClick={() => onReorderHabits(DIRECTIONS.UP)}>Move Up</button>
+        <button onClick={() => onReorderHabits(DIRECTIONS.DOWN)}>
+          Move Down
+        </button>
         <button onClick={onDeleteHabit}>Delete Habit</button>
       </div>
       <ItemAction
-        data={data}
+        data={data.habit}
         labelName={"Edit Habit"}
         actionFunction={editHabit}
       />
@@ -56,8 +77,9 @@ const DailyItem = ({ data, editHabit, reorderHabits, deleteHabit }) => {
   );
 };
 
-export default connect(null, {
+export default connect((state) => ({ dailies: getDailiesDailies(state) }), {
   editHabit: editHabitAction,
   reorderHabits: reorderHabitsAction,
   deleteHabit: deleteHabitAction,
+  toggleDaily: toggleDailyAction,
 })(DailyItem);

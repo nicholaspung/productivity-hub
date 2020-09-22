@@ -18,7 +18,9 @@ const DailyList = ({ dailies, getDailiesForToday, loading, addHabit }) => {
       <h1>Habit Tracker</h1>
       <ItemAction labelName={"Add a Habit"} actionFunction={addHabit} />
       {loading && <p>Loading...</p>}
-      {!loading && <ItemList data={dailies} Component={DailyItem} />}
+      {!loading && (
+        <ItemList data={dailies} sortField={"habit"} Component={DailyItem} />
+      )}
     </div>
   );
 };
