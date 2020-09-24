@@ -2,15 +2,17 @@ import {
   POSTS_FETCHING,
   POSTS_FETCHING_DONE,
   POSTS_FETCHING_ERROR,
+  POSTS_ADD_TO_CACHE_DONE,
 } from "../actions";
 
 const initialState = {
-  posts: {
+  fetchedPosts: {
     count: 0,
     next: "",
     previous: "",
     results: [],
   },
+  posts: {},
   loading: false,
   error: {},
 };
@@ -26,7 +28,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
-        posts: action.payload,
+        fetchedPosts: action.payload,
         error: {},
       };
     case POSTS_FETCHING_ERROR:
@@ -34,6 +36,11 @@ export default function (state = initialState, action) {
         ...state,
         loading: false,
         error: action.payload,
+      };
+    case POSTS_ADD_TO_CACHE_DONE:
+      return {
+        ...state,
+        posts: action.payload,
       };
     default:
       return state;

@@ -28,7 +28,8 @@ const Header = ({
   useEffect(() => {
     onAuthStateChange(
       async (authUser) => {
-        const { apps, user: userId } = await getProfile();
+        const { data } = await getProfile();
+        const { apps, user: userId } = data;
         authUser.userId = userId;
         loggedIn(authUser);
         updateApps(apps);

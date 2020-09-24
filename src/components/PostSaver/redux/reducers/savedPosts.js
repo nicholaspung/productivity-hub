@@ -23,7 +23,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
-        saved_posts: action.payload,
+        savedPosts: action.payload,
         error: {},
       };
     case SAVED_POSTS_FETCHING_ERROR:

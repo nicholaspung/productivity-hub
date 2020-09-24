@@ -4,10 +4,14 @@ const savedPostsUrl = "/savedposts/";
 const postsUrl = "/posts/";
 const titlesUrl = "/titles/";
 
-export const getPosts = async () => {
+export const getPosts = async (newUrl) => {
+  let response;
   try {
-    const response = await (await axiosWithAuth()).get(postsUrl);
-    console.log(response.data);
+    if (Boolean(newUrl)) {
+      response = await (await axiosWithAuth()).get(newUrl);
+    } else {
+      response = await (await axiosWithAuth()).get(postsUrl);
+    }
     return response.data;
   } catch (err) {
     return err;
@@ -17,7 +21,6 @@ export const getPosts = async () => {
 export const getTitles = async () => {
   try {
     const response = await (await axiosWithAuth()).get(titlesUrl);
-    console.log(response.data);
     return response.data;
   } catch (err) {
     return err;
@@ -27,7 +30,6 @@ export const getTitles = async () => {
 export const addTitle = async (title) => {
   try {
     const response = await (await axiosWithAuth()).post(titlesUrl, title);
-    console.log(response.data);
     return response.data;
   } catch (err) {
     return err;
@@ -40,7 +42,6 @@ export const updateTitle = async (id, title) => {
       `${titlesUrl}${id}/`,
       title
     );
-    console.log(response.data);
     return response.data;
   } catch (err) {
     return err;
@@ -50,7 +51,6 @@ export const updateTitle = async (id, title) => {
 export const deleteTitle = async (id) => {
   try {
     const response = await (await axiosWithAuth()).delete(`${titlesUrl}${id}/`);
-    console.log(response.data);
     return response.data;
   } catch (err) {
     return err;
@@ -60,7 +60,6 @@ export const deleteTitle = async (id) => {
 export const getSavedPosts = async () => {
   try {
     const response = await (await axiosWithAuth()).get(savedPostsUrl);
-    console.log(response.data);
     return response.data;
   } catch (err) {
     return err;
@@ -73,7 +72,6 @@ export const updateSavedPost = async (id) => {
       `${savedPostsUrl}${id}/`,
       { seen: true }
     );
-    console.log(response.data);
     return response.data;
   } catch (err) {
     return err;

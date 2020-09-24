@@ -19,7 +19,7 @@ export const logOut = () => ({ type: USER_LOGGED_OUT });
 
 export const addApp = (id, newApps) => async (dispatch) => {
   dispatch({ type: APPS_UPDATING });
-  const { apps } = await updateProfile(id, { apps: newApps });
-  return dispatch(updateApps(apps));
+  const { data } = await updateProfile(id, { apps: newApps });
+  return dispatch(updateApps(data.apps));
 };
 export const updateApps = (apps) => ({ type: APPS_UPDATED, payload: apps });

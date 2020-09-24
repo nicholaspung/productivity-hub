@@ -77,7 +77,6 @@ export const deleteUser = async () => {
   try {
     await user.delete();
   } catch (err) {
-    console.log(err);
     return {
       code: err.code,
       message: err.message,

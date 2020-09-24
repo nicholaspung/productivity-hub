@@ -137,22 +137,21 @@ Post Saver
 
 - Posts (Reddit, Websites)
 
-  - View current posts
-  - Refresh current posts
-    - Cross out seen posts
+  [x] View current posts
+  [x] Refresh current posts
 
 - Titles
 
-  - Add titles
-  - Edit titles
-  - Delete titles
-  - Search titles
-  - Sort titles
+  [x] Add titles
+  [x] Edit titles
+  [x] Delete titles
+  [x] Search titles
+  [x] Sort titles
 
 - Saved Posts
 
-  - Read posts
-  - Refresh saved posts
+  [x] Read posts
+  [x] Refresh saved posts
 
 Users
 
