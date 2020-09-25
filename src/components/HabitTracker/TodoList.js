@@ -11,8 +11,10 @@ import { getTodosTodos, getTodosLoadingStatus } from "./redux/selectors";
 
 const TodoList = ({ todos, getTodos, loading, addTodo }) => {
   useEffect(() => {
-    getTodos();
-  }, [getTodos]);
+    if (!todos.length) {
+      getTodos();
+    }
+  }, [getTodos, todos]);
 
   return (
     <div>

@@ -6,13 +6,22 @@ import ItemAction from "./ItemAction";
 import {
   getDailiesForToday as getDailiesForTodayAction,
   addHabit as addHabitAction,
+  createDailiesForToday as createDailiesForTodayAction,
 } from "./redux/actions";
 import { getDailiesDailies, getDailiesLoadingStatus } from "./redux/selectors";
 
-const DailyList = ({ dailies, getDailiesForToday, loading, addHabit }) => {
+const DailyList = ({
+  dailies,
+  getDailiesForToday,
+  loading,
+  addHabit,
+  createDailiesForToday,
+}) => {
   useEffect(() => {
-    getDailiesForToday();
-  }, [getDailiesForToday]);
+    if (!dailies.length) {
+      createDailiesForToday();
+    }
+  }, [createDailiesForToday, dailies]);
   return (
     <div>
       <h1>Habit Tracker</h1>
@@ -30,5 +39,9 @@ export default connect(
     dailies: getDailiesDailies(state),
     loading: getDailiesLoadingStatus(state),
   }),
-  { getDailiesForToday: getDailiesForTodayAction, addHabit: addHabitAction }
+  {
+    getDailiesForToday: getDailiesForTodayAction,
+    addHabit: addHabitAction,
+    createDailiesForToday: createDailiesForTodayAction,
+  }
 )(DailyList);

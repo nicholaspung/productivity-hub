@@ -71,19 +71,6 @@ export const getIdToken = async () => {
   }
 };
 
-// Delete user
-export const deleteUser = async () => {
-  const user = firebase.auth().currentUser;
-  try {
-    await user.delete();
-  } catch (err) {
-    return {
-      code: err.code,
-      message: err.message,
-    };
-  }
-};
-
 // Link anonymous account with Google
 // const credential = firebase.auth.GoogleAuthProvider.credential(
 //   googleUser.getAuthResponse().id_token

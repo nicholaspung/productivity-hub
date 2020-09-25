@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import habitTrackerReducers from "./components/HabitTracker/redux/reducers";
 import userReducers from "./components/User/redux/reducers";
 import postSaverReducers from "./components/PostSaver/redux/reducers";

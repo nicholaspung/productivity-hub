@@ -12,158 +12,59 @@ const transformToDateFormat = (date) => {
   return `${date.getFullYear()}-${month}-${date.getDate()}`;
 };
 
-export const addHabit = async (habit) => {
-  try {
-    const response = await (await axiosWithAuth()).post(habitUrl, habit);
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const addHabit = async (habit) =>
+  (await axiosWithAuth()).post(habitUrl, habit);
 
-export const editHabit = async (id, habit) => {
-  try {
-    const response = await (await axiosWithAuth()).put(
-      `${habitUrl}${id}/`,
-      habit
-    );
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const editHabit = async (id, habit) =>
+  (await axiosWithAuth()).put(`${habitUrl}${id}/`, habit);
 
-export const reorderHabits = async (firstId, secondId) => {
-  try {
-    const response = await (
-      await axiosWithAuth()
-    ).patch(`${habitUrl}${firstId}/`, { reorder: secondId });
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const reorderHabits = async (firstId, secondId) =>
+  (await axiosWithAuth()).patch(`${habitUrl}${firstId}/`, {
+    reorder: secondId,
+  });
 
-export const deleteHabit = async (id) => {
-  try {
-    const response = await (await axiosWithAuth()).delete(`${habitUrl}${id}/`);
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const deleteHabit = async (id) =>
+  (await axiosWithAuth()).delete(`${habitUrl}${id}/`);
 
-export const getTodos = async () => {
-  try {
-    const response = await (await axiosWithAuth()).get(todoUrl);
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const getTodos = async () => (await axiosWithAuth()).get(todoUrl);
 
-export const addTodo = async (todo) => {
-  try {
-    const response = await (await axiosWithAuth()).post(todoUrl, todo);
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const addTodo = async (todo) =>
+  (await axiosWithAuth()).post(todoUrl, todo);
 
-export const editTodo = async (id, todo) => {
-  try {
-    const response = await (await axiosWithAuth()).put(
-      `${todoUrl}${id}/`,
-      todo
-    );
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const editTodo = async (id, todo) =>
+  (await axiosWithAuth()).put(`${todoUrl}${id}/`, todo);
 
-export const reorderTodos = async (firstId, secondId) => {
-  try {
-    const response = await (
-      await axiosWithAuth()
-    ).patch(`${todoUrl}${firstId}/`, { reorder: secondId });
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const reorderTodos = async (firstId, secondId) =>
+  (await axiosWithAuth()).patch(`${todoUrl}${firstId}/`, { reorder: secondId });
 
-export const deleteTodo = async (id) => {
-  try {
-    const response = await (await axiosWithAuth()).delete(`${todoUrl}${id}/`);
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const deleteTodo = async (id) =>
+  (await axiosWithAuth()).delete(`${todoUrl}${id}/`);
 
-export const toggleDaily = async (daily) => {
-  try {
-    const response = await (
-      await axiosWithAuth()
-    ).put(`${dailiesUrl}${daily.id}/`, { finished: !daily.finished });
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const toggleDaily = async (daily) =>
+  (await axiosWithAuth()).put(`${dailiesUrl}${daily.id}/`, {
+    finished: !daily.finished,
+  });
 
-export const getDailiesForToday = async () => {
-  try {
-    const response = await (await axiosWithAuth()).get(dailiesUrl);
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const createDailiesForToday = async () =>
+  (await axiosWithAuth()).post(dailiesUrl);
 
-export const getDailiesForWeek = async (date = new Date()) => {
-  try {
-    const response = await (await axiosWithAuth()).get(
-      `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=week`
-    );
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const getDailiesForToday = async () =>
+  (await axiosWithAuth()).get(dailiesUrl);
 
-export const getDailiesForMonth = async (date = new Date()) => {
-  try {
-    const response = await (await axiosWithAuth()).get(
-      `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=month`
-    );
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const getDailiesForWeek = async (date = new Date()) =>
+  (await axiosWithAuth()).get(
+    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=week`
+  );
 
-export const getDailiesForYear = async (date = new Date()) => {
-  try {
-    const response = await (await axiosWithAuth()).get(
-      `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=year`
-    );
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const getDailiesForMonth = async (date = new Date()) =>
+  (await axiosWithAuth()).get(
+    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=month`
+  );
 
-export const toggleDailies = async (id, daily) => {
-  try {
-    const response = await (await axiosWithAuth()).put(
-      `${dailiesUrl}${id}/`,
-      daily
-    );
-    return response.data;
-  } catch (err) {
-    return err;
-  }
-};
+export const getDailiesForYear = async (date = new Date()) =>
+  (await axiosWithAuth()).get(
+    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=year`
+  );
+
+export const toggleDailies = async (id, daily) =>
+  (await axiosWithAuth()).put(`${dailiesUrl}${id}/`, daily);

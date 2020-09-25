@@ -15,8 +15,10 @@ const TitleList = ({ titles, loading, getTitles }) => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState(FILTER_OPTIONS["NONE"]);
   useEffect(() => {
-    getTitles();
-  }, [getTitles]);
+    if (!titles.length) {
+      getTitles();
+    }
+  }, [getTitles, titles]);
 
   return (
     <div>
@@ -27,6 +29,7 @@ const TitleList = ({ titles, loading, getTitles }) => {
           id="title-search"
           type="text"
           value={search}
+          // May want to add a debounce at some point
           onChange={(event) => setSearch(event.target.value.toLowerCase())}
         />
         <button onClick={() => setSearch("")}>Clear Search</button>

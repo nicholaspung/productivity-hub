@@ -56,13 +56,13 @@ export const getPosts = (newUrl) => async (dispatch, getState) => {
 
   dispatch({ type: POSTS_FETCHING });
   try {
-    const response = await getPostsAPI(url);
+    const { data } = await getPostsAPI(url);
     dispatch({ type: POSTS_ADD_TO_CACHE });
 
-    posts.posts[lastTwoStrings] = response;
+    posts.posts[lastTwoStrings] = data;
 
     dispatch({ type: POSTS_ADD_TO_CACHE_DONE, payload: posts.posts });
-    return dispatch({ type: POSTS_FETCHING_DONE, payload: response });
+    return dispatch({ type: POSTS_FETCHING_DONE, payload: data });
   } catch (err) {
     return dispatch({ type: POSTS_FETCHING_ERROR, payload: err });
   }
@@ -72,13 +72,13 @@ export const getRefreshedPosts = () => async (dispatch) => {
   dispatch({ type: POSTS_FETCHING });
 
   try {
-    const response = await getPostsAPI();
+    const { data } = await getPostsAPI();
     const posts = {
-      "s/": response,
+      "s/": data,
     };
 
     dispatch({ type: POSTS_ADD_TO_CACHE_DONE, payload: posts });
-    return dispatch({ type: POSTS_FETCHING_DONE, payload: response });
+    return dispatch({ type: POSTS_FETCHING_DONE, payload: data });
   } catch (err) {
     return dispatch({ type: POSTS_FETCHING_ERROR, payload: err });
   }
@@ -87,8 +87,8 @@ export const getRefreshedPosts = () => async (dispatch) => {
 export const getTitles = () => async (dispatch) => {
   dispatch({ type: TITLES_FETCHING });
   try {
-    const response = await getTitlesAPI();
-    return dispatch({ type: TITLES_FETCHING_DONE, payload: response });
+    const { data } = await getTitlesAPI();
+    return dispatch({ type: TITLES_FETCHING_DONE, payload: data });
   } catch (err) {
     return dispatch({ type: TITLES_FETCHING_ERROR, payload: err });
   }
@@ -98,10 +98,10 @@ export const addTitle = (title) => async (dispatch, getState) => {
   dispatch({ type: TITLES_ADDING });
   const { titles } = getState();
   try {
-    const response = await addTitleAPI(title);
+    const { data } = await addTitleAPI(title);
     return dispatch({
       type: TITLES_ADDING_DONE,
-      payload: [...titles.titles, response],
+      payload: [...titles.titles, data],
     });
   } catch (err) {
     return dispatch({ type: TITLES_ADDING_ERROR, payload: err });
@@ -113,11 +113,9 @@ export const updateTitle = (id, title) => async (dispatch, getState) => {
   const { titles } = getState();
 
   try {
-    const response = await updateTitleAPI(id, title);
+    const { data } = await updateTitleAPI(id, title);
     const titlesCopy = [...titles.titles];
-    titlesCopy[
-      titles.titles.findIndex((el) => el.id === response.id)
-    ] = response;
+    titlesCopy[titles.titles.findIndex((el) => el.id === data.id)] = data;
     return dispatch({ type: TITLES_UPDATING_DONE, payload: titlesCopy });
   } catch (err) {
     return dispatch({ type: TITLES_UPDATING_ERROR, payload: err });
@@ -141,8 +139,8 @@ export const deleteTitle = (id) => async (dispatch, getState) => {
 export const getSavedPosts = () => async (dispatch) => {
   dispatch({ type: SAVED_POSTS_FETCHING });
   try {
-    const response = await getSavedPostsAPI();
-    return dispatch({ type: SAVED_POSTS_FETCHING_DONE, payload: response });
+    const { data } = await getSavedPostsAPI();
+    return dispatch({ type: SAVED_POSTS_FETCHING_DONE, payload: data });
   } catch (err) {
     return dispatch({ type: SAVED_POSTS_FETCHING_ERROR, payload: err });
   }

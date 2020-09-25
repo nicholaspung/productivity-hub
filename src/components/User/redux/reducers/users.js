@@ -3,7 +3,10 @@ import {
   USER_LOADING_ERROR,
   USER_LOADING,
   USER_LOGGED_OUT,
-  APPS_UPDATED,
+  USER_DELETING_DONE,
+  USER_DELETING_ERROR,
+  APPS_UPDATING_DONE,
+  APPS_UPDATING_ERROR,
 } from "../actions";
 
 const initialState = {
@@ -44,11 +47,27 @@ export default function (state = initialState, action) {
         loading: initialState.loading,
         error: action.payload,
       };
+    case USER_DELETING_DONE:
+      return {
+        ...state,
+        info: initialState.info,
+        error: initialState.error,
+      };
+    case USER_DELETING_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
     // App Status
-    case APPS_UPDATED:
+    case APPS_UPDATING_DONE:
       return {
         ...state,
         apps: action.payload,
+      };
+    case APPS_UPDATING_ERROR:
+      return {
+        ...state,
+        error: action.payload,
       };
     default:
       return state;

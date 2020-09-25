@@ -16,8 +16,10 @@ const SavedPostList = ({
   updateSavedPost,
 }) => {
   useEffect(() => {
-    getSavedPosts();
-  }, [getSavedPosts]);
+    if (!savedPosts.length) {
+      getSavedPosts();
+    }
+  }, [getSavedPosts, savedPosts]);
   return (
     <div>
       <h1>Saved Post List</h1>

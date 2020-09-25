@@ -15,6 +15,7 @@ import {
   updateApps as updateAppsAction,
 } from "./User/redux/actions";
 import { getProfile } from "./User/api";
+import { ReactComponent as UserSvg } from "../assets/userprofile.svg";
 
 const Header = ({
   isLoggedIn,
@@ -41,24 +42,24 @@ const Header = ({
   }, [loggedIn, logOut, updateApps]);
 
   return (
-    <header>
+    <header className="lg:container lg:mx-auto">
       <nav>
-        <ul>
-          <li>
+        <ul className="flex list-none text-center sm:text-left">
+          <li className="flex-1 p-2">
             <Link to="/">Logo</Link>
           </li>
           {isLoggedIn && (
             <>
-              <li>
+              <li className="p-2">
                 <Link to="/habit-tracker">Habit Tracker</Link>
               </li>
-              <li>
+              <li className="p-2">
                 <Link to="/post-saver">Post Saver</Link>
               </li>
             </>
           )}
           {!isLoggedIn && !isLoading && (
-            <li>
+            <li className="p-2">
               <div onClick={() => setShowLogin(!showLogin)}>
                 <p>Login</p>
                 {showLogin && (
@@ -77,13 +78,13 @@ const Header = ({
               </div>
             </li>
           )}
-          {isLoading && <li>Loading...</li>}
+          {isLoading && <li className="p-2">Loading...</li>}
           {isLoggedIn && !isLoading && (
             <>
-              <li>
+              <li className="p-2">
                 <Link to="/profile">Profile</Link>
               </li>
-              <li>
+              <li className="p-2">
                 <Link to="/">
                   <button onClick={signOut}>Logout</button>
                 </Link>
@@ -91,6 +92,7 @@ const Header = ({
             </>
           )}
         </ul>
+        <UserSvg className="w-4 h-4" />
       </nav>
     </header>
   );

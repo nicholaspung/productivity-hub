@@ -10,6 +10,7 @@ import {
   deleteTodo as deleteTodoAPI,
   reorderTodos as reorderTodosAPI,
   toggleDaily as toggleDailyAPI,
+  createDailiesForToday as createDailiesForTodayAPI,
 } from "../api";
 
 export const HABITS_UPDATING = "HABITS_UPDATING";
@@ -45,20 +46,37 @@ export const toggleDaily = (daily) => async (dispatch, getState) => {
   const { dailies } = getState();
   const dailiesCopy = [...dailies.dailies];
   try {
-    const response = await toggleDailyAPI(daily);
-    dailiesCopy[
-      dailies.dailies.findIndex((el) => el.id === response.id)
-    ] = response;
+    const { data } = await toggleDailyAPI(daily);
+    dailiesCopy[dailies.dailies.findIndex((el) => el.id === data.id)] = data;
     return dispatch({ type: DAILIES_TOGGLE_DONE, payload: dailiesCopy });
   } catch (err) {
     return dispatch({ type: DAILIES_TOGGLE_ERROR, payload: err });
   }
 };
 
+export const createDailiesForToday = () => async (dispatch) => {
+  dispatch({ type: DAILIES_FETCHING });
+  try {
+    const { data } = await createDailiesForTodayAPI();
+    data.sort((a, b) => {
+      if (a.habit.order > b.habit.order) {
+        return 1;
+      } else if (a.habit.order < b.habit.order) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+    return dispatch({ type: DAILIES_FETCHING_DONE, payload: data });
+  } catch (err) {
+    return dispatch({ type: DAILIES_FETCHING_ERROR, payload: err });
+  }
+};
+
 export const getDailiesForToday = () => async (dispatch) => {
   dispatch({ type: DAILIES_FETCHING });
   try {
-    const data = await getDailiesForTodayAPI();
+    const { data } = await getDailiesForTodayAPI();
     data.sort((a, b) => {
       if (a.habit.order > b.habit.order) {
         return 1;
@@ -131,7 +149,7 @@ const todosSortFunction = (a, b) => {
 export const getTodos = () => async (dispatch) => {
   dispatch({ type: TODOS_FETCHING });
   try {
-    const data = await getTodosAPI();
+    const { data } = await getTodosAPI();
     data.sort(todosSortFunction);
     return dispatch({ type: TODOS_FETCHING_DONE, payload: data });
   } catch (err) {
@@ -143,10 +161,10 @@ export const addTodo = (todo) => async (dispatch, getState) => {
   dispatch({ type: TODOS_ADDING });
   const { todos } = getState();
   try {
-    const response = await addTodoAPI(todo);
+    const { data } = await addTodoAPI(todo);
     return dispatch({
       type: TODOS_ADDING_DONE,
-      payload: [...todos.todos, response],
+      payload: [...todos.todos, data],
     });
   } catch (err) {
     return dispatch({ type: TODOS_ADDING_ERROR, payload: err });
@@ -157,9 +175,9 @@ export const editTodo = (id, todo) => async (dispatch, getState) => {
   dispatch({ type: TODOS_EDITING });
   const { todos } = getState();
   try {
-    const response = await editTodoAPI(id, todo);
+    const { data } = await editTodoAPI(id, todo);
     const todosCopy = [...todos.todos];
-    todosCopy[todos.todos.findIndex((el) => el.id === response.id)] = response;
+    todosCopy[todos.todos.findIndex((el) => el.id === data.id)] = data;
     return dispatch({ type: TODOS_EDITING_DONE, payload: todosCopy });
   } catch (err) {
     return dispatch({ type: TODOS_EDITING_ERROR, payload: err });
@@ -187,9 +205,9 @@ export const reorderTodos = (firstId, secondId) => async (
   dispatch({ type: TODOS_REORDERING });
   const { todos } = getState();
   try {
-    const response = await reorderTodosAPI(firstId, secondId);
+    const { data } = await reorderTodosAPI(firstId, secondId);
     const todosCopy = [...todos.todos];
-    response.forEach((todo) => {
+    data.forEach((todo) => {
       const index = todosCopy.findIndex((el) => el.id === todo.id);
       todosCopy[index] = todo;
     });

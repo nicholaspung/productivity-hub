@@ -157,6 +157,6 @@ Users
 
 - Users
 
-  [] Delete account
+  [x] Delete account
   [x] Add services
   [x] Delete services

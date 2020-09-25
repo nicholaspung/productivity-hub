@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { getUserInfo, getUserApps } from "./redux/selectors";
-import { deleteUser } from "../../firebase/utils";
-import { addApp as addAppAction } from "./redux/actions";
+import {
+  addApp as addAppAction,
+  deleteUser as deleteUserAction,
+} from "./redux/actions";
 
 const APPS = ["HABIT_TRACKER", "POST_SAVER"];
 
-const Profile = ({ userInfo, apps, addApp }) => {
-  const [userApps, setUserApps] = useState(apps.split(","));
+const Profile = ({ userInfo, apps, addApp, deleteUser }) => {
+  const defaultApps = apps.split(",");
+  const [userApps, setUserApps] = useState(defaultApps);
 
   const onCheckboxChange = (event, app) => {
     let userAppsCopy = [...userApps];
@@ -18,8 +21,11 @@ const Profile = ({ userInfo, apps, addApp }) => {
     }
     userAppsCopy = userAppsCopy.filter((word) => word);
     setUserApps(userAppsCopy);
-    addApp(userInfo.userId, userAppsCopy.join(","));
   };
+
+  const onProfileCancel = () => setUserApps(defaultApps);
+  const onProfileSave = () => addApp(userInfo.userId, userApps.join(","));
+  const onDeleteUser = () => deleteUser(userInfo.userId);
 
   return (
     <main>
@@ -41,9 +47,9 @@ const Profile = ({ userInfo, apps, addApp }) => {
           </li>
         ))}
       </ul>
-      <button>Save</button>
-      <button>Cancel</button>
-      <button onClick={deleteUser}>Delete Account</button>
+      <button onClick={onProfileSave}>Save</button>
+      <button onClick={onProfileCancel}>Cancel</button>
+      <button onClick={onDeleteUser}>Delete Account</button>
     </main>
   );
 };
@@ -53,5 +59,5 @@ export default connect(
     userInfo: getUserInfo(state),
     apps: getUserApps(state),
   }),
-  { addApp: addAppAction }
+  { addApp: addAppAction, deleteUser: deleteUserAction }
 )(Profile);
