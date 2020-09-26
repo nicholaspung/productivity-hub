@@ -8,7 +8,7 @@ import HabitTracker from "./HabitTracker";
 import PostSaver from "./PostSaver";
 import Profile from "./User/Profile";
 
-function App() {
+const App = () => {
   return (
     <>
       <Header />
@@ -23,6 +23,6 @@ function App() {
       <Footer />
     </>
   );
-}
+};
 
 export default App;
