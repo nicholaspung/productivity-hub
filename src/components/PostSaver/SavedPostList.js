@@ -8,26 +8,33 @@ import {
   getSavedPostsSavedPosts,
   getSavedPostsLoading,
 } from "./redux/selectors";
+import {
+  FilledButton,
+  smallerFilledButtonClassName,
+  fixedDisplayContainer,
+  overflowDisplayContainer,
+} from "../BaseComponents";
 
 const SavedPostList = ({
   savedPosts,
   loading,
   getSavedPosts,
   updateSavedPost,
+  classes,
 }) => {
   useEffect(() => {
     if (!savedPosts.length) {
       getSavedPosts();
     }
-  }, [getSavedPosts, savedPosts]);
+  }, [getSavedPosts]);
   return (
-    <div>
-      <h1>Saved Post List</h1>
-      <button onClick={getSavedPosts}>Refresh Saved Posts</button>
+    <div className={`${fixedDisplayContainer} ${classes ? classes : ""}`}>
+      <h1 className="text-2xl font-bold text-center">Saved Post List</h1>
+      <FilledButton action={getSavedPosts}>Refresh Saved Posts</FilledButton>
       {loading && <div>Loading...</div>}
       {!loading && (
-        <div>
-          <ul>
+        <>
+          <ul className={overflowDisplayContainer}>
             {savedPosts
               .sort((a, b) => {
                 const aTitle = a.title.toLowerCase();
@@ -40,21 +47,28 @@ const SavedPostList = ({
                 return 0;
               })
               .map((savedPost) => (
-                <li key={savedPost.id}>
+                <li
+                  key={savedPost.id}
+                  className="flex justify-between items-center p-2"
+                >
                   <a
                     href={savedPost.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => updateSavedPost(savedPost.id)}
                   >
                     {savedPost.title}
                   </a>
-                  <button onClick={() => updateSavedPost(savedPost.id)}>
-                    X
+                  <button
+                    className={smallerFilledButtonClassName}
+                    onClick={() => updateSavedPost(savedPost.id)}
+                  >
+                    x
                   </button>
                 </li>
               ))}
           </ul>
-        </div>
+        </>
       )}
     </div>
   );

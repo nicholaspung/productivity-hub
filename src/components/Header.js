@@ -16,6 +16,7 @@ import {
   onAuthStateChange,
 } from "../firebase/utils";
 import { getProfile } from "./User/api";
+import { Button, FilledButton } from "./BaseComponents";
 
 const Header = ({ isLoggedIn, updateApps, loggedIn, logOut }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -46,7 +47,7 @@ const Header = ({ isLoggedIn, updateApps, loggedIn, logOut }) => {
   const navSubItems = [];
 
   return (
-    <div className="relative bg-white">
+    <header className="relative bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="lg:w-0 lg:flex-1">
@@ -73,7 +74,7 @@ const Header = ({ isLoggedIn, updateApps, loggedIn, logOut }) => {
           </div>
         </div>
       )}
-    </div>
+    </header>
   );
 };
 
@@ -166,6 +167,7 @@ const TopMobileNavItems = ({ data = [], onClickAction }) => (
             key={item.label}
             to={item.link}
             className="-m-3 p-3 flex items-center space-x-3 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
+            onClick={onClickAction}
           >
             {item.icon && item.icon}
             <div className="text-base leading-6 font-medium text-gray-900">
@@ -201,48 +203,16 @@ const UserActions = connect(
   <div className="hidden md:flex items-center justify-end space-x-8 md:flex-1 lg:w-0">
     {!isLoggedIn && (
       <>
-        <button
-          className={
-            "whitespace-no-wrap text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900"
-          }
-          onClick={() => logIn(signInWithGoogle)}
-        >
-          Sign in
-        </button>
-        <span className="inline-flex rounded-md shadow-sm">
-          <button
-            className={
-              "whitespace-no-wrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
-            }
-            onClick={() => logIn(signInWithGoogle)}
-          >
-            Sign up
-          </button>
-        </span>
-        <span className="inline-flex rounded-md shadow-sm">
-          <button
-            className={
-              "whitespace-no-wrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
-            }
-            onClick={() => logIn(signInAnonymously)}
-          >
-            Guest sign in
-          </button>
-        </span>
+        <Button action={() => logIn(signInWithGoogle)}>Sign in</Button>
+        <FilledButton action={() => logIn(signInWithGoogle)}>
+          Sign up
+        </FilledButton>
+        <FilledButton action={() => logIn(signInAnonymously)}>
+          Guest sign in
+        </FilledButton>
       </>
     )}
-    {isLoggedIn && (
-      <span className="inline-flex rounded-md shadow-sm">
-        <button
-          className={
-            "whitespace-no-wrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
-          }
-          onClick={signOut}
-        >
-          Sign out
-        </button>
-      </span>
-    )}
+    {isLoggedIn && <FilledButton action={signOut}>Sign out</FilledButton>}
   </div>
 ));
 
@@ -253,26 +223,18 @@ const MobileUserActions = connect(
   <div className="space-y-6">
     {!isLoggedIn && (
       <>
-        <span className="w-full flex rounded-md shadow-sm">
-          <button
-            className={
-              "w-full flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
-            }
-            onClick={() => logIn(signInWithGoogle)}
-          >
-            Sign up
-          </button>
-        </span>
-        <span className="w-full flex rounded-md shadow-sm">
-          <button
-            className={
-              "w-full flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
-            }
-            onClick={() => logIn(signInAnonymously)}
-          >
-            Guest sign in
-          </button>
-        </span>
+        <FilledButton
+          action={() => logIn(signInWithGoogle)}
+          classes={"w-full flex"}
+        >
+          Sign up
+        </FilledButton>
+        <FilledButton
+          action={() => logIn(signInAnonymously)}
+          classes={"w-full flex"}
+        >
+          Guest sign in
+        </FilledButton>
         <p className="text-center text-base leading-6 font-medium text-gray-500">
           Existing user?{" "}
           <button
@@ -287,16 +249,9 @@ const MobileUserActions = connect(
       </>
     )}
     {isLoggedIn && (
-      <span className="w-full flex rounded-md shadow-sm">
-        <button
-          className={
-            "w-full flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
-          }
-          onClick={signOut}
-        >
-          Sign out
-        </button>
-      </span>
+      <FilledButton classes={"w-full flex"} action={signOut}>
+        Sign out
+      </FilledButton>
     )}
   </div>
 ));

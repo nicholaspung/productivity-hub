@@ -140,6 +140,7 @@ export const getSavedPosts = () => async (dispatch) => {
   dispatch({ type: SAVED_POSTS_FETCHING });
   try {
     const { data } = await getSavedPostsAPI();
+    data.sort((a, b) => a.title > b.title);
     return dispatch({ type: SAVED_POSTS_FETCHING_DONE, payload: data });
   } catch (err) {
     return dispatch({ type: SAVED_POSTS_FETCHING_ERROR, payload: err });

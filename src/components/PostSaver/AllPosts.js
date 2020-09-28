@@ -5,42 +5,63 @@ import {
   getRefreshedPosts as getRefreshedPostsAction,
 } from "./redux/actions";
 import { getPostsFetchedPosts, getPostsLoading } from "./redux/selectors";
+import {
+  FilledButton,
+  smallerFilledButtonClassName,
+  fixedDisplayContainer,
+  overflowDisplayContainer,
+} from "../BaseComponents";
 
-const AllPosts = ({ getPosts, postsObj, loading, getRefreshedPosts }) => {
+const AllPosts = ({
+  getPosts,
+  postsObj,
+  loading,
+  getRefreshedPosts,
+  classes,
+}) => {
   useEffect(() => {
     getPosts();
   }, [getPosts]);
 
   return (
-    <div>
-      <h1>All Posts</h1>
-      <button onClick={getRefreshedPosts}>Refresh Data</button>
+    <div className={`${fixedDisplayContainer} ${classes ? classes : ""}`}>
+      <h1 className="text-2xl font-bold text-center">All Posts</h1>
+      <FilledButton action={getRefreshedPosts}>Refresh Data</FilledButton>
       {loading && <div>Loading...</div>}
       {!loading && (
-        <div>
-          <ul>
+        <>
+          <ul className={overflowDisplayContainer}>
             {postsObj.results.map((result) => (
-              <li key={result.id}>
+              <li key={result.id} className="flex items-center p-2">
                 <a
                   href={result.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className={smallerFilledButtonClassName}
                   style={result.seen && { textDecoration: "line-through" }}
                 >
-                  {result.title}
+                  Link
                 </a>
+                <span className="pl-1">{result.title}</span>
               </li>
             ))}
           </ul>
-          {postsObj.previous && (
-            <button onClick={() => getPosts(postsObj.previous)}>
-              Previous
-            </button>
-          )}
-          {postsObj.next && (
-            <button onClick={() => getPosts(postsObj.next)}>Next</button>
-          )}
-        </div>
+          <div className="flex justify-end">
+            {postsObj.previous && (
+              <FilledButton
+                action={() => getPosts(postsObj.previous)}
+                classes="mr-1"
+              >
+                Previous
+              </FilledButton>
+            )}
+            {postsObj.next && (
+              <FilledButton action={() => getPosts(postsObj.next)}>
+                Next
+              </FilledButton>
+            )}
+          </div>
+        </>
       )}
     </div>
   );
