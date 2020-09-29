@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Logo from '../assets/icons/logo.png';
@@ -7,8 +8,12 @@ import {
   updateApps as updateAppsAction,
   loggedIn as loggedInAction,
   logOut as logOutAction,
+  initialLoad as initialLoadAction,
 } from './User/redux/actions';
-import { isLoggedIn as isLoggedInSelector } from './User/redux/selectors';
+import {
+  isLoggedIn as isLoggedInSelector,
+  isUserLoading as isUserLoadingSelector,
+} from './User/redux/selectors';
 import {
   signInWithGoogle,
   signInAnonymously,
@@ -17,8 +22,9 @@ import {
 } from '../firebase/utils';
 import { getProfile } from './User/api';
 import { Button, FilledButton } from './BaseComponents';
+import { ReactComponent as LoadingSVG } from '../assets/icons/loading.svg';
 
-const Header = ({ isLoggedIn, updateApps, loggedIn, logOut }) => {
+const Header = ({ isLoggedIn, updateApps, loggedIn, logOut, initialLoad }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
@@ -26,15 +32,16 @@ const Header = ({ isLoggedIn, updateApps, loggedIn, logOut }) => {
       async (authUser) => {
         const { data } = await getProfile();
         const { apps, user: userId } = data;
-        authUser.userId = userId;
-        loggedIn(authUser);
+        const updatedAuthUser = { ...authUser, userId };
+        loggedIn(updatedAuthUser);
         updateApps(apps);
       },
       () => {
         logOut();
       },
+      () => initialLoad(),
     );
-  }, [loggedIn, logOut, updateApps]);
+  }, [loggedIn, logOut, updateApps, initialLoad]);
 
   //  { link: "/", label: "", icons: "" }
   const navItems = isLoggedIn
@@ -78,11 +85,25 @@ const Header = ({ isLoggedIn, updateApps, loggedIn, logOut }) => {
   );
 };
 
-export default connect((state) => ({ isLoggedIn: isLoggedInSelector(state) }), {
-  updateApps: updateAppsAction,
-  loggedIn: loggedInAction,
-  logOut: logOutAction,
-})(Header);
+Header.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+  updateApps: PropTypes.func.isRequired,
+  loggedIn: PropTypes.func.isRequired,
+  logOut: PropTypes.func.isRequired,
+  initialLoad: PropTypes.func.isRequired,
+};
+
+export default connect(
+  (state) => ({
+    isLoggedIn: isLoggedInSelector(state),
+  }),
+  {
+    updateApps: updateAppsAction,
+    loggedIn: loggedInAction,
+    logOut: logOutAction,
+    initialLoad: initialLoadAction,
+  },
+)(Header);
 
 const LogoComponent = () => (
   <Link to="/">
@@ -113,6 +134,9 @@ const MenuButton = ({ onClickAction }) => (
     </button>
   </div>
 );
+MenuButton.propTypes = {
+  onClickAction: PropTypes.func.isRequired,
+};
 
 const ExitButton = ({ onClickAction }) => (
   <div className="-mr-2">
@@ -137,6 +161,9 @@ const ExitButton = ({ onClickAction }) => (
     </button>
   </div>
 );
+ExitButton.propTypes = {
+  onClickAction: PropTypes.func.isRequired,
+};
 
 const NavItems = ({ data = [] }) => (
   <nav className="hidden md:flex space-x-10">
@@ -151,6 +178,12 @@ const NavItems = ({ data = [] }) => (
     ))}
   </nav>
 );
+NavItems.propTypes = {
+  data: PropTypes.array,
+};
+NavItems.defaultProps = {
+  data: [],
+};
 
 const TopMobileNavItems = ({ data = [], onClickAction }) => (
   <div className="pt-5 pb-6 px-5 space-y-6">
@@ -179,6 +212,13 @@ const TopMobileNavItems = ({ data = [], onClickAction }) => (
     </div>
   </div>
 );
+TopMobileNavItems.propTypes = {
+  data: PropTypes.array,
+  onClickAction: PropTypes.func.isRequired,
+};
+TopMobileNavItems.defaultProps = {
+  data: [],
+};
 
 const BottomMobileNavItems = ({ data = [] }) => (
   <div className="py-6 px-5 space-y-6">
@@ -195,13 +235,25 @@ const BottomMobileNavItems = ({ data = [] }) => (
     <MobileUserActions />
   </div>
 );
+BottomMobileNavItems.propTypes = {
+  data: PropTypes.array,
+};
+BottomMobileNavItems.defaultProps = {
+  data: [],
+};
 
 const UserActions = connect(
-  (state) => ({ isLoggedIn: isLoggedInSelector(state) }),
+  (state) => ({
+    isLoggedIn: isLoggedInSelector(state),
+    isUserLoading: isUserLoadingSelector(state),
+  }),
   { logIn: logInAction },
-)(({ logIn, isLoggedIn }) => (
+)(({ logIn, isLoggedIn, isUserLoading }) => (
   <div className="hidden md:flex items-center justify-end space-x-8 md:flex-1 lg:w-0">
-    {!isLoggedIn && (
+    {isUserLoading && (
+      <LoadingSVG className="w-6 h-auto animate-spin absolute" />
+    )}
+    {!isLoggedIn && !isUserLoading && (
       <>
         <Button action={() => logIn(signInWithGoogle)}>Sign in</Button>
         <FilledButton action={() => logIn(signInWithGoogle)}>
@@ -217,31 +269,36 @@ const UserActions = connect(
 ));
 
 const MobileUserActions = connect(
-  (state) => ({ isLoggedIn: isLoggedInSelector(state) }),
+  (state) => ({
+    isLoggedIn: isLoggedInSelector(state),
+    isUserLoading: isUserLoadingSelector(state),
+  }),
   { logIn: logInAction },
-)(({ logIn, isLoggedIn }) => (
+)(({ logIn, isLoggedIn, isUserLoading }) => (
   <div className="space-y-6">
-    {!isLoggedIn && (
+    {isUserLoading && (
+      <LoadingSVG className="w-6 h-auto animate-spin absolute" />
+    )}
+    {!isLoggedIn && !isUserLoading && (
       <>
         <FilledButton
           action={() => logIn(signInWithGoogle)}
-          classes={'w-full flex'}
+          classes="w-full flex"
         >
           Sign up
         </FilledButton>
         <FilledButton
           action={() => logIn(signInAnonymously)}
-          classes={'w-full flex'}
+          classes="w-full flex"
         >
           Guest sign in
         </FilledButton>
         <p className="text-center text-base leading-6 font-medium text-gray-500">
-          Existing user?{' '}
+          <span>Existing user? </span>
           <button
-            className={
-              'text-indigo-600 hover:text-indigo-500 transition ease-in-out duration-150 font-medium'
-            }
+            className="text-indigo-600 hover:text-indigo-500 transition ease-in-out duration-150 font-medium"
             onClick={() => logIn(signInWithGoogle)}
+            type="button"
           >
             Sign in
           </button>
@@ -249,7 +306,7 @@ const MobileUserActions = connect(
       </>
     )}
     {isLoggedIn && (
-      <FilledButton classes={'w-full flex'} action={signOut}>
+      <FilledButton classes="w-full flex" action={signOut}>
         Sign out
       </FilledButton>
     )}

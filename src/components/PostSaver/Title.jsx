@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   updateTitle as updateTitleAction,
@@ -8,6 +9,10 @@ import {
   smallerFilledButtonClassName,
   smallerFormInputClassName,
 } from '../BaseComponents';
+import { ReactComponent as EditSVG } from '../../assets/icons/edit.svg';
+import { ReactComponent as DeleteSVG } from '../../assets/icons/delete.svg';
+import { ReactComponent as SaveSVG } from '../../assets/icons/save.svg';
+import { ReactComponent as CancelSVG } from '../../assets/icons/cancel.svg';
 
 const Title = ({ data, updateTitle, deleteTitle }) => {
   const [edit, showEdit] = useState(false);
@@ -40,20 +45,41 @@ const Title = ({ data, updateTitle, deleteTitle }) => {
             <button
               onClick={onUpdateTitle}
               className={smallerFilledButtonClassName}
+              type="button"
             >
-              Save
+              <SaveSVG className="w-4 h-auto" title="Save" />
             </button>
           </form>
         </div>
       </div>
       <div className="flex flex-col">
-        <button onClick={onChangeView} className={smallerFilledButtonClassName}>
-          {edit ? 'Cancel' : 'Update'}
+        <button
+          onClick={onChangeView}
+          className={smallerFilledButtonClassName}
+          type="button"
+        >
+          {edit ? (
+            <CancelSVG className="w-4 h-auto" title="Edit title" />
+          ) : (
+            <EditSVG className="w-4 h-auto" title="Edit title" />
+          )}
         </button>
-        <button onClick={() => deleteTitle(data.id)}>Delete</button>
+        <button
+          onClick={() => deleteTitle(data.id)}
+          type="button"
+          className="py-1 px-5 flex justify-center"
+        >
+          <DeleteSVG className="w-4 h-auto" title="Delete title" />
+        </button>
       </div>
     </li>
   );
+};
+
+Title.propTypes = {
+  data: PropTypes.object.isRequired,
+  updateTitle: PropTypes.func.isRequired,
+  deleteTitle: PropTypes.func.isRequired,
 };
 
 export default connect(null, {

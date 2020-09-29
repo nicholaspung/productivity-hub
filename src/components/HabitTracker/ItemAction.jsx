@@ -73,7 +73,6 @@ const ItemAction = ({ data, actionFunction, displayFunction, labelName }) => {
 };
 
 ItemAction.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
   actionFunction: PropTypes.func.isRequired,
   displayFunction: PropTypes.func,

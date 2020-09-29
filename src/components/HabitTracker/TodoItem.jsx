@@ -19,12 +19,21 @@ import { ReactComponent as ArrowDownSVG } from '../../assets/icons/arrowdown.svg
 
 const displayColor = (priority) => {
   if (priority === PRIORITIES.HIGH) {
-    return 'bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700';
+    return [
+      'bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700',
+      'text-red-600',
+    ];
   }
   if (priority === PRIORITIES.LOW) {
-    return 'bg-green-600 hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green active:bg-green-700';
+    return [
+      'bg-green-600 hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green active:bg-green-700',
+      'text-green-600',
+    ];
   }
-  return 'bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700';
+  return [
+    'bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700',
+    'text-indigo-600',
+  ];
 };
 
 const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
@@ -37,10 +46,7 @@ const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
     editTodo(data.id, { priority, name: data.name });
   };
   const onReorderTodo = (direction) => {
-    const { priority } = data;
-    const filteredTodos = todos.filter(
-      (item) => priority === item.priority && !data.finished,
-    );
+    const filteredTodos = todos.filter((item) => !item.finished);
     const currentIdx = filteredTodos.findIndex((el) => el.id === data.id);
     if (direction === DIRECTIONS.UP) {
       if (currentIdx - 1 < 0) return;
@@ -61,15 +67,18 @@ const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
       <div>
         <label htmlFor={labelId} className="flex items-center">
           <div
-            className={`p-4 border border-transparent rounded-md transition ease-in-out duration-150 ${displayColor(
-              data.priority,
-            )}`}
+            className={`flex items-center p-4 border border-transparent rounded-md transition ease-in-out duration-150 ${
+              displayColor(data.priority)[0]
+            }`}
           >
             <input
               id={labelId}
               type="checkbox"
               checked={data.finished}
               onChange={onCheckedChange}
+              className={`form-checkbox w-6 h-6 ${
+                displayColor(data.priority)[1]
+              }`}
             />
           </div>
           <div className="flex flex-col px-4">
@@ -133,23 +142,11 @@ const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
 };
 
 TodoItem.propTypes = {
-  data: PropTypes.objectOf({
-    name: PropTypes.string,
-    description: PropTypes.string,
-    finished: PropTypes.bool,
-    id: PropTypes.number,
-    priority: PropTypes.string,
-  }).isRequired,
+  data: PropTypes.object.isRequired,
   editTodo: PropTypes.func.isRequired,
   deleteTodo: PropTypes.func.isRequired,
   reorderTodos: PropTypes.func.isRequired,
-  todos: PropTypes.arrayOf({
-    name: PropTypes.string,
-    description: PropTypes.string,
-    finished: PropTypes.bool,
-    id: PropTypes.number,
-    priority: PropTypes.string,
-  }).isRequired,
+  todos: PropTypes.array.isRequired,
 };
 
 export default connect(

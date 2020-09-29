@@ -5,11 +5,10 @@ const postsUrl = '/posts/';
 const titlesUrl = '/titles/';
 
 export const getPosts = async (newUrl) => {
-  if (Boolean(newUrl)) {
+  if (newUrl) {
     return (await axiosWithAuth()).get(newUrl);
-  } else {
-    return (await axiosWithAuth()).get(postsUrl);
   }
+  return (await axiosWithAuth()).get(postsUrl);
 };
 
 export const getTitles = async () => (await axiosWithAuth()).get(titlesUrl);

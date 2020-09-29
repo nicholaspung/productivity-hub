@@ -56,12 +56,13 @@ const DailyItem = ({
     <li className="p-1 border-t-2 border-gray-200 flex justify-between items-center">
       <div>
         <label htmlFor={labelId} className="flex items-center">
-          <div className="p-4 border border-transparent rounded-md bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
+          <div className="flex items-center p-4 border border-transparent rounded-md bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
             <input
               id={labelId}
               type="checkbox"
               checked={data.finished}
               onChange={onCheckedChange}
+              className="form-checkbox text-indigo-600 w-6 h-6"
             />
           </div>
           <div className="flex flex-col px-4">
@@ -112,27 +113,11 @@ const DailyItem = ({
 };
 
 DailyItem.propTypes = {
-  data: PropTypes.objectOf({
-    habit: PropTypes.objectOf({
-      id: PropTypes.number,
-      name: PropTypes.string,
-      description: PropTypes.string,
-      archived: PropTypes.bool,
-    }),
-    finished: PropTypes.bool,
-  }).isRequired,
+  data: PropTypes.object.isRequired,
   editHabit: PropTypes.func.isRequired,
   reorderHabits: PropTypes.func.isRequired,
   deleteHabit: PropTypes.func.isRequired,
-  dailies: PropTypes.arrayOf({
-    habit: PropTypes.objectOf({
-      id: PropTypes.number,
-      name: PropTypes.string,
-      description: PropTypes.string,
-      archived: PropTypes.bool,
-    }),
-    finished: PropTypes.bool,
-  }).isRequired,
+  dailies: PropTypes.array.isRequired,
   toggleDaily: PropTypes.func.isRequired,
 };
 

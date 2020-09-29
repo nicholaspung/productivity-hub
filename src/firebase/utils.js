@@ -24,6 +24,7 @@ export const signInWithGoogle = async () => {
 export const signInAnonymously = async () => {
   try {
     await firebase.auth().signInAnonymously();
+    return {};
   } catch (err) {
     return {
       code: err.code,
@@ -35,7 +36,12 @@ export const signInAnonymously = async () => {
 };
 
 // Auth State Changed
-export const onAuthStateChange = async (next, fallback) => {
+export const onAuthStateChange = async (
+  next,
+  fallback,
+  beforeAction = () => {},
+) => {
+  beforeAction();
   firebase.auth().onAuthStateChanged((user) => {
     let isAnonymous;
     let uid;
@@ -59,7 +65,7 @@ export const getIdToken = async () => {
   try {
     const idToken = await firebase
       .auth()
-      .currentUser.getIdToken(/* forceRefreshs*/ true);
+      .currentUser.getIdToken(/* forceRefreshs */ true);
     return idToken;
   } catch (err) {
     return {

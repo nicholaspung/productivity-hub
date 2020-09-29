@@ -11,6 +11,7 @@ import {
 import { getTodosTodos, getTodosLoadingStatus } from './redux/selectors';
 import { DisplayContainer, DisplayContainerCard } from '../BaseComponents';
 import { FILTERS } from './constants';
+import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 
 const getFilterFunction = (filter) => {
   if (filter === FILTERS.ACTIVE) return (item) => !item.finished;
@@ -51,34 +52,28 @@ const TodoList = ({ todos, getTodos, loading, addTodo, classes }) => {
         </div>
       </div>
       <DisplayContainerCard>
+        {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
         <AddItem
           addItem={addTodo}
           labelTitle="Add a todo"
           labelButton="Add New Todo"
           placeholder="Add..."
           property="name"
+          classes="mt-2"
         />
-        {loading && <p>Loading...</p>}
-        {!loading && (
-          <ItemList
-            data={todos}
-            Component={TodoItem}
-            filterFunction={getFilterFunction(filter)}
-          />
-        )}
+        <ItemList
+          data={todos}
+          Component={TodoItem}
+          filterFunction={getFilterFunction(filter)}
+          loading={loading}
+        />
       </DisplayContainerCard>
     </DisplayContainer>
   );
 };
 
 TodoList.propTypes = {
-  todos: PropTypes.arrayOf({
-    name: PropTypes.string,
-    description: PropTypes.string,
-    finished: PropTypes.bool,
-    id: PropTypes.number,
-    priority: PropTypes.string,
-  }),
+  todos: PropTypes.array,
   getTodos: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   addTodo: PropTypes.func.isRequired,

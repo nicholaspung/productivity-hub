@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deleteUser as deleteUserAction } from './redux/actions';
 import { getUserInfo } from './redux/selectors';
@@ -11,7 +12,7 @@ const DeleteAccount = ({ deleteUser, userInfo }) => {
   return (
     <DisplayContainerCard>
       <h2 className="text-xl font-bold">Want to delete your account?</h2>
-      <Button action={onDeleteStatusChange} classes={'w-full'}>
+      <Button action={onDeleteStatusChange} classes="w-full md:text-left">
         Delete My Account
       </Button>
       {showDelete && (
@@ -76,6 +77,10 @@ const DeleteAccount = ({ deleteUser, userInfo }) => {
   );
 };
 
+DeleteAccount.propTypes = {
+  deleteUser: PropTypes.func.isRequired,
+  userInfo: PropTypes.object.isRequired,
+};
 export default connect(
   (state) => ({
     userInfo: getUserInfo(state),

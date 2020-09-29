@@ -164,5 +164,5 @@ Users
 To Dos
 
 - Adding error components
-- Adding loading components
+  [x] Adding loading components
 - Organized code to be production grade

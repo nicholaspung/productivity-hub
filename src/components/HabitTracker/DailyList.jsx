@@ -11,6 +11,7 @@ import {
 import { getDailiesDailies, getDailiesLoadingStatus } from './redux/selectors';
 import { DisplayContainer, DisplayContainerCard } from '../BaseComponents';
 import { FILTERS } from './constants';
+import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 
 const getFilterFunction = (filter) => {
   if (filter === FILTERS.UNFINISHED) {
@@ -68,36 +69,28 @@ const DailyList = ({
       </div>
 
       <DisplayContainerCard>
+        {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
         <AddItem
           addItem={addHabit}
           labelTitle="Add a habit"
           labelButton="Add New Habit"
           placeholder="Add..."
           property="name"
+          classes="mt-2"
         />
-        {loading && <p>Loading...</p>}
-        {!loading && (
-          <ItemList
-            data={dailies}
-            Component={DailyItem}
-            filterFunction={getFilterFunction(filter)}
-          />
-        )}
+        <ItemList
+          data={dailies}
+          Component={DailyItem}
+          filterFunction={getFilterFunction(filter)}
+          loading={loading}
+        />
       </DisplayContainerCard>
     </DisplayContainer>
   );
 };
 
 DailyList.propTypes = {
-  dailies: PropTypes.arrayOf({
-    habit: PropTypes.objectOf({
-      id: PropTypes.number,
-      name: PropTypes.string,
-      description: PropTypes.string,
-      archived: PropTypes.bool,
-    }),
-    finished: PropTypes.bool,
-  }),
+  dailies: PropTypes.array,
   loading: PropTypes.bool,
   addHabit: PropTypes.func.isRequired,
   createDailiesForToday: PropTypes.func.isRequired,

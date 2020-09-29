@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FilledButton } from '.';
+import { ReactComponent as SaveSVG } from '../../assets/icons/save.svg';
 
 const AddItem = ({
   addItem,
@@ -8,6 +9,7 @@ const AddItem = ({
   labelButton,
   placeholder,
   property,
+  classes,
 }) => {
   const [newItem, setNewItem] = useState('');
   const onAddItem = (event) => {
@@ -18,7 +20,7 @@ const AddItem = ({
   const onTextChange = (event) => setNewItem(event.target.value);
 
   return (
-    <form onSubmit={onAddItem} className="p-4">
+    <form onSubmit={onAddItem} className={`p-4 ${classes}`}>
       <span className="w-full uppercase text-xs">{labelTitle}</span>
       <label htmlFor={labelTitle} className="flex">
         <input
@@ -29,7 +31,12 @@ const AddItem = ({
           placeholder={placeholder}
           className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         />
-        <FilledButton action={onAddItem}>{labelButton}</FilledButton>
+        <FilledButton action={onAddItem} classes="md:hidden">
+          <SaveSVG className="w-4 h-auto" />
+        </FilledButton>
+        <FilledButton action={onAddItem} classes="hidden md:inline-flex">
+          {labelButton}
+        </FilledButton>
       </label>
     </form>
   );
@@ -41,6 +48,7 @@ AddItem.propTypes = {
   labelButton: PropTypes.string,
   placeholder: PropTypes.string,
   property: PropTypes.string,
+  classes: PropTypes.string,
 };
 
 AddItem.defaultProps = {
@@ -48,6 +56,7 @@ AddItem.defaultProps = {
   labelButton: '',
   placeholder: '',
   property: '',
+  classes: '',
 };
 
 export default AddItem;

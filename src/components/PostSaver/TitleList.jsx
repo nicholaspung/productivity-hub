@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   getTitles as getTitlesAction,
@@ -13,6 +14,9 @@ import {
   fixedDisplayContainer,
   overflowDisplayContainer,
 } from '../BaseComponents';
+import EmptyItem from '../BaseComponents/EmptyItem';
+import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
+import { ReactComponent as CancelSVG } from '../../assets/icons/cancel.svg';
 
 const FILTER_OPTIONS = {
   'A-Z': 'A-Z',
@@ -32,6 +36,7 @@ const TitleList = ({ titles, loading, getTitles, classes, addTitle }) => {
 
   return (
     <div className={`${fixedDisplayContainer} ${classes || ''}`}>
+      {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
       <h1 className="text-2xl font-bold text-center">Titles</h1>
       <AddItem
         addItem={addTitle}
@@ -39,6 +44,7 @@ const TitleList = ({ titles, loading, getTitles, classes, addTitle }) => {
         labelButton="Add New Title"
         placeholder="Add..."
         property="title"
+        classes="p-2"
       />
       <div className="flex justify-around items-end">
         <label htmlFor="title-filter" className="w-4/12">
@@ -77,45 +83,58 @@ const TitleList = ({ titles, loading, getTitles, classes, addTitle }) => {
               // May want to add a debounce at some point
               onChange={(event) => setSearch(event.target.value.toLowerCase())}
             />
-            <FilledButton action={() => setSearch('')}>X</FilledButton>
+            <FilledButton action={() => setSearch('')}>
+              <CancelSVG className="w-4 h-auto" title="Edit title" />
+            </FilledButton>
           </div>
         </label>
       </div>
-      {loading && <div>Loading...</div>}
-      {!loading && (
-        <ul className={overflowDisplayContainer}>
-          {titles
-            .sort((a, b) => {
-              const aTitle = a.title.toLowerCase();
-              const bTitle = b.title.toLowerCase();
-              if (filter === FILTER_OPTIONS['A-Z']) {
-                if (aTitle < bTitle) {
-                  return -1;
-                }
-                if (aTitle > bTitle) {
-                  return 1;
-                }
-                return 0;
+      <ul className={overflowDisplayContainer}>
+        <EmptyItem length={titles.length} loading={loading} />
+        {titles
+          .sort((a, b) => {
+            const aTitle = a.title.toLowerCase();
+            const bTitle = b.title.toLowerCase();
+            if (filter === FILTER_OPTIONS['A-Z']) {
+              if (aTitle < bTitle) {
+                return -1;
               }
-              if (filter === FILTER_OPTIONS['Z-A']) {
-                if (aTitle > bTitle) {
-                  return -1;
-                }
-                if (aTitle < bTitle) {
-                  return 1;
-                }
-                return 0;
+              if (aTitle > bTitle) {
+                return 1;
               }
               return 0;
-            })
-            .filter((title) => title.title.toLowerCase().includes(search))
-            .map((title) => (
-              <Title data={title} key={title.id} />
-            ))}
-        </ul>
-      )}
+            }
+            if (filter === FILTER_OPTIONS['Z-A']) {
+              if (aTitle > bTitle) {
+                return -1;
+              }
+              if (aTitle < bTitle) {
+                return 1;
+              }
+              return 0;
+            }
+            return 0;
+          })
+          .filter((title) => title.title.toLowerCase().includes(search))
+          .map((title) => (
+            <Title data={title} key={title.id} />
+          ))}
+      </ul>
     </div>
   );
+};
+
+TitleList.propTypes = {
+  titles: PropTypes.array,
+  loading: PropTypes.bool,
+  getTitles: PropTypes.func.isRequired,
+  classes: PropTypes.string,
+  addTitle: PropTypes.func.isRequired,
+};
+TitleList.defaultProps = {
+  classes: '',
+  loading: false,
+  titles: [],
 };
 
 export default connect(

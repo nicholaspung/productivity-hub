@@ -11,6 +11,9 @@ export const APPS_UPDATING = 'APPS_UPDATING';
 export const APPS_UPDATING_DONE = 'APPS_UPDATING_DONE';
 export const APPS_UPDATING_ERROR = 'APPS_UPDATING_ERROR';
 
+export const initialLoad = () => (dispatch) => {
+  dispatch({ type: USER_LOADING });
+};
 export const logIn = (callback) => async (dispatch) => {
   dispatch({ type: USER_LOADING });
   await callback();
@@ -21,6 +24,10 @@ export const loggedIn = (authUser) => ({
 });
 export const logOut = () => ({ type: USER_LOGGED_OUT });
 
+export const updateApps = (apps) => ({
+  type: APPS_UPDATING_DONE,
+  payload: apps,
+});
 export const addApp = (id, newApps) => async (dispatch) => {
   dispatch({ type: APPS_UPDATING });
   try {
@@ -30,10 +37,6 @@ export const addApp = (id, newApps) => async (dispatch) => {
     return dispatch({ type: APPS_UPDATING_ERROR, payload: err });
   }
 };
-export const updateApps = (apps) => ({
-  type: APPS_UPDATING_DONE,
-  payload: apps,
-});
 
 export const deleteUser = (id) => async (dispatch) => {
   dispatch({ type: USER_DELETING });

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getUserInfo, getUserApps } from './redux/selectors';
 import { addApp as addAppAction } from './redux/actions';
@@ -9,6 +10,7 @@ const APPS = ['HABIT_TRACKER', 'POST_SAVER'];
 
 const Profile = ({ userInfo, apps, addApp }) => {
   const defaultApps = apps.split(',');
+
   const [userApps, setUserApps] = useState(defaultApps);
 
   const onCheckboxChange = (event, app) => {
@@ -21,7 +23,6 @@ const Profile = ({ userInfo, apps, addApp }) => {
     userAppsCopy = userAppsCopy.filter((word) => word);
     setUserApps(userAppsCopy);
   };
-
   const onProfileCancel = () => setUserApps(defaultApps);
   const onProfileSave = () => addApp(userInfo.userId, userApps.join(','));
 
@@ -30,7 +31,9 @@ const Profile = ({ userInfo, apps, addApp }) => {
       <DisplayContainerCard>
         <h1 className="text-3xl font-bold">Profile</h1>
         <p>
-          <strong>Account:</strong> {userInfo.uid.slice(0, 10)}...
+          <strong>Account:</strong>
+          {userInfo.uid.slice(0, 10)}
+          ...
         </p>
       </DisplayContainerCard>
       <DisplayContainerCard>
@@ -58,11 +61,11 @@ const Profile = ({ userInfo, apps, addApp }) => {
         </div>
       </DisplayContainerCard>
       <DisplayContainerCard>
-        <FilledButton action={onProfileSave} classes={'w-full flex'}>
+        <FilledButton action={onProfileSave} classes="w-full flex">
           Save
         </FilledButton>
         <div className="w-full flex justify-center p-2">
-          <Button action={onProfileCancel} classes={'w-full'}>
+          <Button action={onProfileCancel} classes="w-full">
             Cancel
           </Button>
         </div>
@@ -72,6 +75,11 @@ const Profile = ({ userInfo, apps, addApp }) => {
   );
 };
 
+Profile.propTypes = {
+  userInfo: PropTypes.object.isRequired,
+  apps: PropTypes.string.isRequired,
+  addApp: PropTypes.func.isRequired,
+};
 export default connect(
   (state) => ({
     userInfo: getUserInfo(state),

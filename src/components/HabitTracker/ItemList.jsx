@@ -1,23 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import EmptyItem from '../BaseComponents/EmptyItem';
 
-const List = ({ data, Component, filterFunction }) => (
+const ItemList = ({ data, Component, filterFunction, loading }) => (
   <ul>
+    <EmptyItem length={data.length} loading={loading} />
     {data.filter(filterFunction).map((item) => (
       <Component data={item} key={item.id} />
     ))}
   </ul>
 );
 
-List.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
+ItemList.propTypes = {
   data: PropTypes.array,
-  Component: PropTypes.element.isRequired,
+  Component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
   filterFunction: PropTypes.func,
+  loading: PropTypes.bool,
 };
-List.defaultProps = {
+ItemList.defaultProps = {
   data: [],
   filterFunction: (item) => item,
+  loading: false,
 };
 
-export default List;
+export default ItemList;
