@@ -1,7 +1,7 @@
-import { axiosWithAuth } from "../../api";
+import { axiosWithAuth } from '../../api';
 
-const profileUrl = "/profile/";
-const userUrl = "/user/";
+const profileUrl = '/profile/';
+const userUrl = '/user/';
 
 export const getProfile = async () => (await axiosWithAuth()).get(profileUrl);
 

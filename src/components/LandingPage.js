@@ -1,8 +1,8 @@
-import React from "react";
-import { ReactComponent as LandingSVG } from "../assets/icons/landing.svg";
-import { ReactComponent as ListSVG } from "../assets/icons/list.svg";
-import { ReactComponent as SaverSVG } from "../assets/icons/saver.svg";
-import { DisplayContainer, DisplayContainerCard } from "./BaseComponents";
+import React from 'react';
+import { ReactComponent as LandingSVG } from '../assets/icons/landing.svg';
+import { ReactComponent as ListSVG } from '../assets/icons/list.svg';
+import { ReactComponent as SaverSVG } from '../assets/icons/saver.svg';
+import { DisplayContainer, DisplayContainerCard } from './BaseComponents';
 
 const LandingPage = () => (
   <>

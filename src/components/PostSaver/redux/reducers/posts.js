@@ -3,13 +3,13 @@ import {
   POSTS_FETCHING_DONE,
   POSTS_FETCHING_ERROR,
   POSTS_ADD_TO_CACHE_DONE,
-} from "../actions";
+} from '../actions';
 
 const initialState = {
   fetchedPosts: {
     count: 0,
-    next: "",
-    previous: "",
+    next: '',
+    previous: '',
     results: [],
   },
   posts: {},

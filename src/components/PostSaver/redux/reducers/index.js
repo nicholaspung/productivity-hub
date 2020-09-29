@@ -1,6 +1,6 @@
-import postsReducer from "./posts";
-import savedPostsReducer from "./savedPosts";
-import titlesReducer from "./titles";
+import postsReducer from './posts';
+import savedPostsReducer from './savedPosts';
+import titlesReducer from './titles';
 
 export default {
   titles: titlesReducer,

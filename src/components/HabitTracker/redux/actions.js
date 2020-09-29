@@ -11,35 +11,35 @@ import {
   reorderTodos as reorderTodosAPI,
   toggleDaily as toggleDailyAPI,
   createDailiesForToday as createDailiesForTodayAPI,
-} from "../api";
+} from '../api';
 
-export const HABITS_UPDATING = "HABITS_UPDATING";
-export const HABITS_UPDATING_DONE = "HABITS_UPDATING_DONE";
-export const HABITS_UPDATING_ERROR = "HABITS_UPDATING_ERROR";
-export const HABITS_DELETING = "HABITS_DELETING";
-export const HABITS_DELETING_DONE = "HABITS_DELETING_DONE";
-export const HABITS_DELETING_ERROR = "HABITS_DELETING_ERROR";
-export const TODOS_FETCHING = "TODOS_FETCHING";
-export const TODOS_FETCHING_DONE = "TODOS_FETCHING_DONE";
-export const TODOS_FETCHING_ERROR = "TODOS_FETCHING_ERROR";
-export const TODOS_ADDING = "TODOS_ADDING";
-export const TODOS_ADDING_DONE = "TODOS_ADDING_DONE";
-export const TODOS_ADDING_ERROR = "TODOS_ADDING_ERROR";
-export const TODOS_EDITING = "TODOS_EDITING";
-export const TODOS_EDITING_DONE = "TODOS_EDITING_DONE";
-export const TODOS_EDITING_ERROR = "TODOS_EDITING_ERROR";
-export const TODOS_DELETING = "TODOS_DELETING";
-export const TODOS_DELETING_DONE = "TODOS_DELETING_DONE";
-export const TODOS_DELETING_ERROR = "TODOS_DELETING_ERROR";
-export const TODOS_REORDERING = "TODOS_REORDERING";
-export const TODOS_REORDERING_DONE = "TODOS_REORDERING_DONE";
-export const TODOS_REORDERING_ERROR = "TODOS_REORDERING_ERROR";
-export const DAILIES_FETCHING = "DAILIES_FETCHING";
-export const DAILIES_FETCHING_DONE = "DAILIES_FETCHING_DONE";
-export const DAILIES_FETCHING_ERROR = "DAILIES_FETCHING_ERROR";
-export const DAILIES_TOGGLE = "DAILIES_TOGGLE";
-export const DAILIES_TOGGLE_DONE = "DAILIES_TOGGLE_DONE";
-export const DAILIES_TOGGLE_ERROR = "DAILIES_TOGGLE_ERROR";
+export const HABITS_UPDATING = 'HABITS_UPDATING';
+export const HABITS_UPDATING_DONE = 'HABITS_UPDATING_DONE';
+export const HABITS_UPDATING_ERROR = 'HABITS_UPDATING_ERROR';
+export const HABITS_DELETING = 'HABITS_DELETING';
+export const HABITS_DELETING_DONE = 'HABITS_DELETING_DONE';
+export const HABITS_DELETING_ERROR = 'HABITS_DELETING_ERROR';
+export const TODOS_FETCHING = 'TODOS_FETCHING';
+export const TODOS_FETCHING_DONE = 'TODOS_FETCHING_DONE';
+export const TODOS_FETCHING_ERROR = 'TODOS_FETCHING_ERROR';
+export const TODOS_ADDING = 'TODOS_ADDING';
+export const TODOS_ADDING_DONE = 'TODOS_ADDING_DONE';
+export const TODOS_ADDING_ERROR = 'TODOS_ADDING_ERROR';
+export const TODOS_EDITING = 'TODOS_EDITING';
+export const TODOS_EDITING_DONE = 'TODOS_EDITING_DONE';
+export const TODOS_EDITING_ERROR = 'TODOS_EDITING_ERROR';
+export const TODOS_DELETING = 'TODOS_DELETING';
+export const TODOS_DELETING_DONE = 'TODOS_DELETING_DONE';
+export const TODOS_DELETING_ERROR = 'TODOS_DELETING_ERROR';
+export const TODOS_REORDERING = 'TODOS_REORDERING';
+export const TODOS_REORDERING_DONE = 'TODOS_REORDERING_DONE';
+export const TODOS_REORDERING_ERROR = 'TODOS_REORDERING_ERROR';
+export const DAILIES_FETCHING = 'DAILIES_FETCHING';
+export const DAILIES_FETCHING_DONE = 'DAILIES_FETCHING_DONE';
+export const DAILIES_FETCHING_ERROR = 'DAILIES_FETCHING_ERROR';
+export const DAILIES_TOGGLE = 'DAILIES_TOGGLE';
+export const DAILIES_TOGGLE_DONE = 'DAILIES_TOGGLE_DONE';
+export const DAILIES_TOGGLE_ERROR = 'DAILIES_TOGGLE_ERROR';
 
 export const toggleDaily = (daily) => async (dispatch, getState) => {
   dispatch({ type: DAILIES_TOGGLE });
@@ -59,13 +59,9 @@ export const createDailiesForToday = () => async (dispatch) => {
   try {
     const { data } = await createDailiesForTodayAPI();
     data.sort((a, b) => {
-      if (a.habit.order > b.habit.order) {
-        return 1;
-      } else if (a.habit.order < b.habit.order) {
-        return -1;
-      } else {
-        return 0;
-      }
+      if (a.habit.order > b.habit.order) return 1;
+      if (a.habit.order < b.habit.order) return -1;
+      return 0;
     });
     return dispatch({ type: DAILIES_FETCHING_DONE, payload: data });
   } catch (err) {
@@ -78,13 +74,9 @@ export const getDailiesForToday = () => async (dispatch) => {
   try {
     const { data } = await getDailiesForTodayAPI();
     data.sort((a, b) => {
-      if (a.habit.order > b.habit.order) {
-        return 1;
-      } else if (a.habit.order < b.habit.order) {
-        return -1;
-      } else {
-        return 0;
-      }
+      if (a.habit.order > b.habit.order) return 1;
+      if (a.habit.order < b.habit.order) return -1;
+      return 0;
     });
     return dispatch({ type: DAILIES_FETCHING_DONE, payload: data });
   } catch (err) {
@@ -137,13 +129,9 @@ export const deleteHabit = (id) => async (dispatch) => {
 };
 
 const todosSortFunction = (a, b) => {
-  if (a.order > b.order) {
-    return 1;
-  } else if (a.order < b.order) {
-    return -1;
-  } else {
-    return 0;
-  }
+  if (a.order > b.order) return 1;
+  if (a.order < b.order) return -1;
+  return 0;
 };
 
 export const getTodos = () => async (dispatch) => {
@@ -200,7 +188,7 @@ export const deleteTodo = (id) => async (dispatch, getState) => {
 
 export const reorderTodos = (firstId, secondId) => async (
   dispatch,
-  getState
+  getState,
 ) => {
   dispatch({ type: TODOS_REORDERING });
   const { todos } = getState();

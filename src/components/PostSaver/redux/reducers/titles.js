@@ -8,7 +8,7 @@ import {
   TITLES_UPDATING_ERROR,
   TITLES_DELETING_DONE,
   TITLES_DELETING_ERROR,
-} from "../actions";
+} from '../actions';
 
 const initialState = {
   titles: [],

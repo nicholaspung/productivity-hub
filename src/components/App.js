@@ -1,13 +1,13 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import PrivateRoute from "./PrivateRoute";
-import Header from "./Header";
-import Footer from "./Footer";
-import LandingPage from "./LandingPage";
-import HabitTracker from "./HabitTracker";
-import PostSaver from "./PostSaver";
-import Profile from "./User/Profile";
-import { Main } from "./BaseComponents";
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute';
+import Header from './Header';
+import Footer from './Footer';
+import LandingPage from './LandingPage';
+import HabitTracker from './HabitTracker';
+import PostSaver from './PostSaver';
+import Profile from './User/Profile';
+import { Main } from './BaseComponents';
 
 const App = () => {
   return (

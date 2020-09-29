@@ -1,10 +1,20 @@
 export const DIRECTIONS = {
-  UP: "UP",
-  DOWN: "DOWN",
+  UP: 'UP',
+  DOWN: 'DOWN',
 };
 
 export const PRIORITIES = {
-  HIGH: "HIGH",
-  NONE: "NONE",
-  LOW: "LOW",
+  HIGH: 'HIGH',
+  NONE: 'NONE',
+  LOW: 'LOW',
+};
+
+export const FILTERS = {
+  ALL: 'ALL',
+  ARCHIVED: 'ARCHIVED',
+  UNARCHIVED: 'UNARCHIVED',
+  FINISHED: 'FINISHED',
+  UNFINISHED: 'UNFINISHED',
+  ACTIVE: 'ACTIVE',
+  COMPLETED: 'COMPLETED',
 };

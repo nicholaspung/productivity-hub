@@ -1,16 +1,17 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   getPosts as getPostsAction,
   getRefreshedPosts as getRefreshedPostsAction,
-} from "./redux/actions";
-import { getPostsFetchedPosts, getPostsLoading } from "./redux/selectors";
+} from './redux/actions';
+import { getPostsFetchedPosts, getPostsLoading } from './redux/selectors';
 import {
   FilledButton,
   smallerFilledButtonClassName,
   fixedDisplayContainer,
   overflowDisplayContainer,
-} from "../BaseComponents";
+} from '../BaseComponents';
 
 const AllPosts = ({
   getPosts,
@@ -24,7 +25,7 @@ const AllPosts = ({
   }, [getPosts]);
 
   return (
-    <div className={`${fixedDisplayContainer} ${classes ? classes : ""}`}>
+    <div className={`${fixedDisplayContainer} ${classes || ''}`}>
       <h1 className="text-2xl font-bold text-center">All Posts</h1>
       <FilledButton action={getRefreshedPosts}>Refresh Data</FilledButton>
       {loading && <div>Loading...</div>}
@@ -38,7 +39,6 @@ const AllPosts = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   className={smallerFilledButtonClassName}
-                  style={result.seen && { textDecoration: "line-through" }}
                 >
                   Link
                 </a>
@@ -63,8 +63,34 @@ const AllPosts = ({
           </div>
         </>
       )}
+      <p className="py-4">
+        <strong>Note:</strong>
+        All posts are gathering on the current day. If you find yourself looking
+        for more to distract yourself, you are doing something wrong.
+      </p>
     </div>
   );
+};
+
+AllPosts.propTypes = {
+  getPosts: PropTypes.func.isRequired,
+  postsObj: PropTypes.objectOf({
+    results: PropTypes.arrayOf({
+      id: PropTypes.number,
+      url: PropTypes.string,
+      title: PropTypes.string,
+    }),
+    previous: PropTypes.string,
+    next: PropTypes.string,
+  }).isRequired,
+  loading: PropTypes.bool,
+  getRefreshedPosts: PropTypes.func.isRequired,
+  classes: PropTypes.string,
+};
+
+AllPosts.defaultProps = {
+  classes: '',
+  loading: false,
 };
 
 export default connect(
@@ -75,5 +101,5 @@ export default connect(
   {
     getPosts: getPostsAction,
     getRefreshedPosts: getRefreshedPostsAction,
-  }
+  },
 )(AllPosts);

@@ -1,13 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./assets/main.css";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './assets/main.css';
 
-import { BrowserRouter as Router } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./store";
-import "./firebase/config";
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
+import './firebase/config';
 
-import App from "./components/App";
+import App from './components/App';
 // import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -18,7 +18,7 @@ ReactDOM.render(
       </Provider>
     </Router>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

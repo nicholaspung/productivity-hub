@@ -1,35 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { getTitles as getTitlesAction } from "./redux/actions";
-import { getTitlesTitles, getTitlesLoading } from "./redux/selectors";
-import Title from "./Title";
-import AddTitle from "./AddTitle";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import {
+  getTitles as getTitlesAction,
+  addTitle as addTitleAction,
+} from './redux/actions';
+import { getTitlesTitles, getTitlesLoading } from './redux/selectors';
+import Title from './Title';
+import AddItem from '../BaseComponents/AddItem';
 import {
   FilledButton,
   formInputClassName,
   fixedDisplayContainer,
   overflowDisplayContainer,
-} from "../BaseComponents";
+} from '../BaseComponents';
 
 const FILTER_OPTIONS = {
-  "A-Z": "A-Z",
-  "Z-A": "Z-A",
-  NONE: "NONE",
+  'A-Z': 'A-Z',
+  'Z-A': 'Z-A',
+  NONE: 'NONE',
 };
 
-const TitleList = ({ titles, loading, getTitles, classes }) => {
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState(FILTER_OPTIONS["NONE"]);
+const TitleList = ({ titles, loading, getTitles, classes, addTitle }) => {
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState(FILTER_OPTIONS.NONE);
   useEffect(() => {
     if (!titles.length) {
       getTitles();
     }
+    // eslint-disable-next-line
   }, [getTitles]);
 
   return (
-    <div className={`${fixedDisplayContainer} ${classes ? classes : ""}`}>
+    <div className={`${fixedDisplayContainer} ${classes || ''}`}>
       <h1 className="text-2xl font-bold text-center">Titles</h1>
-      <AddTitle />
+      <AddItem
+        addItem={addTitle}
+        labelTitle="Add a title"
+        labelButton="Add New Title"
+        placeholder="Add..."
+        property="title"
+      />
       <div className="flex justify-around items-end">
         <label htmlFor="title-filter" className="w-4/12">
           <span className="w-full uppercase text-xs">Filtering Options</span>
@@ -67,7 +77,7 @@ const TitleList = ({ titles, loading, getTitles, classes }) => {
               // May want to add a debounce at some point
               onChange={(event) => setSearch(event.target.value.toLowerCase())}
             />
-            <FilledButton action={() => setSearch("")}>X</FilledButton>
+            <FilledButton action={() => setSearch('')}>X</FilledButton>
           </div>
         </label>
       </div>
@@ -78,23 +88,25 @@ const TitleList = ({ titles, loading, getTitles, classes }) => {
             .sort((a, b) => {
               const aTitle = a.title.toLowerCase();
               const bTitle = b.title.toLowerCase();
-              if (filter === FILTER_OPTIONS["A-Z"]) {
+              if (filter === FILTER_OPTIONS['A-Z']) {
                 if (aTitle < bTitle) {
                   return -1;
-                } else if (aTitle > bTitle) {
-                  return 1;
                 }
-                return 0;
-              } else if (filter === FILTER_OPTIONS["Z-A"]) {
                 if (aTitle > bTitle) {
-                  return -1;
-                } else if (aTitle < bTitle) {
                   return 1;
                 }
-                return 0;
-              } else {
                 return 0;
               }
+              if (filter === FILTER_OPTIONS['Z-A']) {
+                if (aTitle > bTitle) {
+                  return -1;
+                }
+                if (aTitle < bTitle) {
+                  return 1;
+                }
+                return 0;
+              }
+              return 0;
             })
             .filter((title) => title.title.toLowerCase().includes(search))
             .map((title) => (
@@ -113,5 +125,6 @@ export default connect(
   }),
   {
     getTitles: getTitlesAction,
-  }
+    addTitle: addTitleAction,
+  },
 )(TitleList);

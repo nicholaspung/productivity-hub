@@ -1,7 +1,7 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { isLoggedIn as isLoggedInSelector } from "./User/redux/selectors";
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { isLoggedIn as isLoggedInSelector } from './User/redux/selectors';
 
 const PrivateRoute = ({ component: Component, isLoggedIn, ...rest }) => {
   return (
@@ -18,5 +18,5 @@ const PrivateRoute = ({ component: Component, isLoggedIn, ...rest }) => {
 };
 
 export default connect((state) => ({ isLoggedIn: isLoggedInSelector(state) }))(
-  PrivateRoute
+  PrivateRoute,
 );

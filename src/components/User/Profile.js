@@ -1,16 +1,14 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { getUserInfo, getUserApps } from "./redux/selectors";
-import {
-  addApp as addAppAction,
-  deleteUser as deleteUserAction,
-} from "./redux/actions";
-import { DisplayContainerCard, Button, FilledButton } from "../BaseComponents";
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { getUserInfo, getUserApps } from './redux/selectors';
+import { addApp as addAppAction } from './redux/actions';
+import { DisplayContainerCard, Button, FilledButton } from '../BaseComponents';
+import DeleteAccount from './DeleteAccount';
 
-const APPS = ["HABIT_TRACKER", "POST_SAVER"];
+const APPS = ['HABIT_TRACKER', 'POST_SAVER'];
 
-const Profile = ({ userInfo, apps, addApp, deleteUser }) => {
-  const defaultApps = apps.split(",");
+const Profile = ({ userInfo, apps, addApp }) => {
+  const defaultApps = apps.split(',');
   const [userApps, setUserApps] = useState(defaultApps);
 
   const onCheckboxChange = (event, app) => {
@@ -25,8 +23,7 @@ const Profile = ({ userInfo, apps, addApp, deleteUser }) => {
   };
 
   const onProfileCancel = () => setUserApps(defaultApps);
-  const onProfileSave = () => addApp(userInfo.userId, userApps.join(","));
-  const onDeleteUser = () => deleteUser(userInfo.userId);
+  const onProfileSave = () => addApp(userInfo.userId, userApps.join(','));
 
   return (
     <>
@@ -43,7 +40,7 @@ const Profile = ({ userInfo, apps, addApp, deleteUser }) => {
           <ul>
             {APPS.map((app) => (
               <li key={app}>
-                <label htmlFor={app} style={{ textTransform: "capitalize" }}>
+                <label htmlFor={app} style={{ textTransform: 'capitalize' }}>
                   <input
                     id={app}
                     className="mr-2 leading-tight"
@@ -52,7 +49,7 @@ const Profile = ({ userInfo, apps, addApp, deleteUser }) => {
                     onChange={(event) => onCheckboxChange(event, app)}
                   />
                   <span className="text-sm">
-                    {app.replace(/_/, " ").toLowerCase()}
+                    {app.replace(/_/, ' ').toLowerCase()}
                   </span>
                 </label>
               </li>
@@ -61,21 +58,16 @@ const Profile = ({ userInfo, apps, addApp, deleteUser }) => {
         </div>
       </DisplayContainerCard>
       <DisplayContainerCard>
-        <FilledButton action={onProfileSave} classes={"w-full flex"}>
+        <FilledButton action={onProfileSave} classes={'w-full flex'}>
           Save
         </FilledButton>
         <div className="w-full flex justify-center p-2">
-          <Button action={onProfileCancel} classes={"w-full"}>
+          <Button action={onProfileCancel} classes={'w-full'}>
             Cancel
           </Button>
         </div>
       </DisplayContainerCard>
-      <DisplayContainerCard>
-        <h2 className="text-xl font-bold">Want to delete your account?</h2>
-        <Button action={onDeleteUser} classes={"w-full"}>
-          Delete My Account
-        </Button>
-      </DisplayContainerCard>
+      <DeleteAccount />
     </>
   );
 };
@@ -85,5 +77,5 @@ export default connect(
     userInfo: getUserInfo(state),
     apps: getUserApps(state),
   }),
-  { addApp: addAppAction, deleteUser: deleteUserAction }
+  { addApp: addAppAction },
 )(Profile);

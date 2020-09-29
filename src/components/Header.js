@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import Logo from "../assets/icons/logo.png";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Logo from '../assets/icons/logo.png';
 import {
   logIn as logInAction,
   updateApps as updateAppsAction,
   loggedIn as loggedInAction,
   logOut as logOutAction,
-} from "./User/redux/actions";
-import { isLoggedIn as isLoggedInSelector } from "./User/redux/selectors";
+} from './User/redux/actions';
+import { isLoggedIn as isLoggedInSelector } from './User/redux/selectors';
 import {
   signInWithGoogle,
   signInAnonymously,
   signOut,
   onAuthStateChange,
-} from "../firebase/utils";
-import { getProfile } from "./User/api";
-import { Button, FilledButton } from "./BaseComponents";
+} from '../firebase/utils';
+import { getProfile } from './User/api';
+import { Button, FilledButton } from './BaseComponents';
 
 const Header = ({ isLoggedIn, updateApps, loggedIn, logOut }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -32,16 +32,16 @@ const Header = ({ isLoggedIn, updateApps, loggedIn, logOut }) => {
       },
       () => {
         logOut();
-      }
+      },
     );
   }, [loggedIn, logOut, updateApps]);
 
   //  { link: "/", label: "", icons: "" }
   const navItems = isLoggedIn
     ? [
-        { link: "/habit-tracker", label: "Habit Tracker", icons: "" },
-        { link: "/post-saver", label: "Post Saver", icons: "" },
-        { link: "/profile", label: "Profile", icons: "" },
+        { link: '/habit-tracker', label: 'Habit Tracker', icons: '' },
+        { link: '/post-saver', label: 'Post Saver', icons: '' },
+        { link: '/profile', label: 'Profile', icons: '' },
       ]
     : [];
   const navSubItems = [];
@@ -198,7 +198,7 @@ const BottomMobileNavItems = ({ data = [] }) => (
 
 const UserActions = connect(
   (state) => ({ isLoggedIn: isLoggedInSelector(state) }),
-  { logIn: logInAction }
+  { logIn: logInAction },
 )(({ logIn, isLoggedIn }) => (
   <div className="hidden md:flex items-center justify-end space-x-8 md:flex-1 lg:w-0">
     {!isLoggedIn && (
@@ -218,28 +218,28 @@ const UserActions = connect(
 
 const MobileUserActions = connect(
   (state) => ({ isLoggedIn: isLoggedInSelector(state) }),
-  { logIn: logInAction }
+  { logIn: logInAction },
 )(({ logIn, isLoggedIn }) => (
   <div className="space-y-6">
     {!isLoggedIn && (
       <>
         <FilledButton
           action={() => logIn(signInWithGoogle)}
-          classes={"w-full flex"}
+          classes={'w-full flex'}
         >
           Sign up
         </FilledButton>
         <FilledButton
           action={() => logIn(signInAnonymously)}
-          classes={"w-full flex"}
+          classes={'w-full flex'}
         >
           Guest sign in
         </FilledButton>
         <p className="text-center text-base leading-6 font-medium text-gray-500">
-          Existing user?{" "}
+          Existing user?{' '}
           <button
             className={
-              "text-indigo-600 hover:text-indigo-500 transition ease-in-out duration-150 font-medium"
+              'text-indigo-600 hover:text-indigo-500 transition ease-in-out duration-150 font-medium'
             }
             onClick={() => logIn(signInWithGoogle)}
           >
@@ -249,7 +249,7 @@ const MobileUserActions = connect(
       </>
     )}
     {isLoggedIn && (
-      <FilledButton classes={"w-full flex"} action={signOut}>
+      <FilledButton classes={'w-full flex'} action={signOut}>
         Sign out
       </FilledButton>
     )}

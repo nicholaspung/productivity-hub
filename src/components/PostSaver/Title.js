@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {
   updateTitle as updateTitleAction,
   deleteTitle as deleteTitleAction,
-} from "./redux/actions";
+} from './redux/actions';
 import {
   smallerFilledButtonClassName,
   smallerFormInputClassName,
-} from "../BaseComponents";
+} from '../BaseComponents';
 
 const Title = ({ data, updateTitle, deleteTitle }) => {
   const [edit, showEdit] = useState(false);
@@ -24,12 +24,12 @@ const Title = ({ data, updateTitle, deleteTitle }) => {
     <li
       key={data.id}
       className={`flex justify-between items-center p-2 ${
-        edit ? "bg-gray-400 rounded-md" : ""
+        edit ? 'bg-gray-400 rounded-md' : ''
       }`}
     >
       <div>
-        <span className={edit ? "text-xs" : ""}>{data.title}</span>
-        <div className={edit ? "" : "hidden"}>
+        <span className={edit ? 'text-xs' : ''}>{data.title}</span>
+        <div className={edit ? '' : 'hidden'}>
           <form onSubmit={onUpdateTitle} className="flex">
             <input
               type="text"
@@ -48,7 +48,7 @@ const Title = ({ data, updateTitle, deleteTitle }) => {
       </div>
       <div className="flex flex-col">
         <button onClick={onChangeView} className={smallerFilledButtonClassName}>
-          {edit ? "Cancel" : "Update"}
+          {edit ? 'Cancel' : 'Update'}
         </button>
         <button onClick={() => deleteTitle(data.id)}>Delete</button>
       </div>

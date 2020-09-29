@@ -6,7 +6,7 @@ import {
   DAILIES_TOGGLE_ERROR,
   HABITS_DELETING_ERROR,
   HABITS_UPDATING_ERROR,
-} from "../actions";
+} from '../actions';
 
 const initialState = {
   dailies: [],

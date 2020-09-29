@@ -1,9 +1,9 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
-import habitTrackerReducers from "./components/HabitTracker/redux/reducers";
-import userReducers from "./components/User/redux/reducers";
-import postSaverReducers from "./components/PostSaver/redux/reducers";
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
+import habitTrackerReducers from './components/HabitTracker/redux/reducers';
+import userReducers from './components/User/redux/reducers';
+import postSaverReducers from './components/PostSaver/redux/reducers';
 
 const combinedReducers = combineReducers({
   ...userReducers,
@@ -13,5 +13,5 @@ const combinedReducers = combineReducers({
 
 export default createStore(
   combinedReducers,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware(thunk)),
 );

@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import {
   getSavedPosts as getSavedPostsAction,
   updateSavedPost as updateSavedPostAction,
-} from "./redux/actions";
+} from './redux/actions';
 import {
   getSavedPostsSavedPosts,
   getSavedPostsLoading,
-} from "./redux/selectors";
+} from './redux/selectors';
 import {
   FilledButton,
   smallerFilledButtonClassName,
   fixedDisplayContainer,
   overflowDisplayContainer,
-} from "../BaseComponents";
+} from '../BaseComponents';
 
 const SavedPostList = ({
   savedPosts,
@@ -26,9 +26,10 @@ const SavedPostList = ({
     if (!savedPosts.length) {
       getSavedPosts();
     }
+    // eslint-disable-next-line
   }, [getSavedPosts]);
   return (
-    <div className={`${fixedDisplayContainer} ${classes ? classes : ""}`}>
+    <div className={`${fixedDisplayContainer} ${classes || ''}`}>
       <h1 className="text-2xl font-bold text-center">Saved Post List</h1>
       <FilledButton action={getSavedPosts}>Refresh Saved Posts</FilledButton>
       {loading && <div>Loading...</div>}
@@ -41,7 +42,8 @@ const SavedPostList = ({
                 const bTitle = b.title.toLowerCase();
                 if (aTitle < bTitle) {
                   return -1;
-                } else if (aTitle > bTitle) {
+                }
+                if (aTitle > bTitle) {
                   return 1;
                 }
                 return 0;
@@ -70,6 +72,11 @@ const SavedPostList = ({
           </ul>
         </>
       )}
+      <p className="py-4">
+        <strong>Note:</strong> All relevant posts are have found when you first
+        load the page. If you find yourself looking for more to distract
+        yourself, you are doing something wrong.
+      </p>
     </div>
   );
 };
@@ -82,5 +89,5 @@ export default connect(
   {
     getSavedPosts: getSavedPostsAction,
     updateSavedPost: updateSavedPostAction,
-  }
+  },
 )(SavedPostList);

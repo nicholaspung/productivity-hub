@@ -1,5 +1,5 @@
-import * as firebase from "firebase/app";
-import "firebase/auth";
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 
 // Google Log-In
 export const signInWithGoogle = async () => {

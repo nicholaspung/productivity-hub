@@ -160,3 +160,9 @@ Users
   [x] Delete account
   [x] Add services
   [x] Delete services
+
+To Dos
+
+- Adding error components
+- Adding loading components
+- Organized code to be production grade

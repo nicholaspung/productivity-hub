@@ -4,7 +4,7 @@ import {
   SAVED_POSTS_FETCHING_ERROR,
   SAVED_POSTS_UPDATING_DONE,
   SAVED_POSTS_UPDATING_ERROR,
-} from "../actions";
+} from '../actions';
 
 const initialState = {
   savedPosts: [],

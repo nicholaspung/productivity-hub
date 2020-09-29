@@ -1,8 +1,8 @@
-import { axiosWithAuth } from "../../api";
+import { axiosWithAuth } from '../../api';
 
-const habitUrl = "/habits/";
-const todoUrl = "/todos/";
-const dailiesUrl = "/dailies/";
+const habitUrl = '/habits/';
+const todoUrl = '/todos/';
+const dailiesUrl = '/dailies/';
 
 const transformToDateFormat = (date) => {
   let month = date.getMonth() + 1;
@@ -53,17 +53,17 @@ export const getDailiesForToday = async () =>
 
 export const getDailiesForWeek = async (date = new Date()) =>
   (await axiosWithAuth()).get(
-    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=week`
+    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=week`,
   );
 
 export const getDailiesForMonth = async (date = new Date()) =>
   (await axiosWithAuth()).get(
-    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=month`
+    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=month`,
   );
 
 export const getDailiesForYear = async (date = new Date()) =>
   (await axiosWithAuth()).get(
-    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=year`
+    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=year`,
   );
 
 export const toggleDailies = async (id, daily) =>

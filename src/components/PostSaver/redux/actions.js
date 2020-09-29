@@ -6,44 +6,45 @@ import {
   deleteTitle as deleteTitleAPI,
   getSavedPosts as getSavedPostsAPI,
   updateSavedPost as updateSavedPostAPI,
-} from "../api";
+} from '../api';
 
-export const POSTS_FETCHING = "POSTS_FETCHING";
-export const POSTS_FETCHING_DONE = "POSTS_FETCHING_DONE";
-export const POSTS_FETCHING_ERROR = "POSTS_FETCHING_ERROR";
-export const POSTS_ADD_TO_CACHE = "POSTS_ADD_TO_CACHE";
-export const POSTS_ADD_TO_CACHE_DONE = "POSTS_ADD_TO_CACHE_DONE";
-export const TITLES_FETCHING = "TITLES_FETCHING";
-export const TITLES_FETCHING_DONE = "TITLES_FETCHING_DONE";
-export const TITLES_FETCHING_ERROR = "TITLES_FETCHING_ERROR";
-export const TITLES_ADDING = "TITLES_ADDING";
-export const TITLES_ADDING_DONE = "TITLES_ADDING_DONE";
-export const TITLES_ADDING_ERROR = "TITLES_ADDING_ERROR";
-export const TITLES_UPDATING = "TITLES_UPDATING";
-export const TITLES_UPDATING_DONE = "TITLES_UPDATING_DONE";
-export const TITLES_UPDATING_ERROR = "TITLES_UPDATING_ERROR";
-export const TITLES_DELETING = "TITLES_DELETING";
-export const TITLES_DELETING_DONE = "TITLES_DELETING_DONE";
-export const TITLES_DELETING_ERROR = "TITLES_DELETING_ERROR";
-export const SAVED_POSTS_FETCHING = "SAVED_POSTS_FETCHING";
-export const SAVED_POSTS_FETCHING_DONE = "SAVED_POSTS_FETCHING_DONE";
-export const SAVED_POSTS_FETCHING_ERROR = "SAVED_POSTS_FETCHING_ERROR";
-export const SAVED_POSTS_UPDATING = "SAVED_POSTS_UPDATING";
-export const SAVED_POSTS_UPDATING_DONE = "SAVED_POSTS_UPDATING_DONE";
-export const SAVED_POSTS_UPDATING_ERROR = "SAVED_POSTS_UPDATING_ERROR";
+export const POSTS_FETCHING = 'POSTS_FETCHING';
+export const POSTS_FETCHING_DONE = 'POSTS_FETCHING_DONE';
+export const POSTS_FETCHING_ERROR = 'POSTS_FETCHING_ERROR';
+export const POSTS_ADD_TO_CACHE = 'POSTS_ADD_TO_CACHE';
+export const POSTS_ADD_TO_CACHE_DONE = 'POSTS_ADD_TO_CACHE_DONE';
+export const TITLES_FETCHING = 'TITLES_FETCHING';
+export const TITLES_FETCHING_DONE = 'TITLES_FETCHING_DONE';
+export const TITLES_FETCHING_ERROR = 'TITLES_FETCHING_ERROR';
+export const TITLES_ADDING = 'TITLES_ADDING';
+export const TITLES_ADDING_DONE = 'TITLES_ADDING_DONE';
+export const TITLES_ADDING_ERROR = 'TITLES_ADDING_ERROR';
+export const TITLES_UPDATING = 'TITLES_UPDATING';
+export const TITLES_UPDATING_DONE = 'TITLES_UPDATING_DONE';
+export const TITLES_UPDATING_ERROR = 'TITLES_UPDATING_ERROR';
+export const TITLES_DELETING = 'TITLES_DELETING';
+export const TITLES_DELETING_DONE = 'TITLES_DELETING_DONE';
+export const TITLES_DELETING_ERROR = 'TITLES_DELETING_ERROR';
+export const SAVED_POSTS_FETCHING = 'SAVED_POSTS_FETCHING';
+export const SAVED_POSTS_FETCHING_DONE = 'SAVED_POSTS_FETCHING_DONE';
+export const SAVED_POSTS_FETCHING_ERROR = 'SAVED_POSTS_FETCHING_ERROR';
+export const SAVED_POSTS_UPDATING = 'SAVED_POSTS_UPDATING';
+export const SAVED_POSTS_UPDATING_DONE = 'SAVED_POSTS_UPDATING_DONE';
+export const SAVED_POSTS_UPDATING_ERROR = 'SAVED_POSTS_UPDATING_ERROR';
 
 export const getPosts = (newUrl) => async (dispatch, getState) => {
-  let lastTwoStrings, url;
+  let lastTwoStrings;
+  let url;
   const { posts } = getState();
 
   if (newUrl) {
     url = newUrl;
   }
 
-  if (Boolean(url)) {
+  if (url) {
     lastTwoStrings = url.slice(url.length - 2, url.length);
   } else {
-    lastTwoStrings = "s/";
+    lastTwoStrings = 's/';
   }
 
   // If cached
@@ -74,7 +75,7 @@ export const getRefreshedPosts = () => async (dispatch) => {
   try {
     const { data } = await getPostsAPI();
     const posts = {
-      "s/": data,
+      's/': data,
     };
 
     dispatch({ type: POSTS_ADD_TO_CACHE_DONE, payload: posts });

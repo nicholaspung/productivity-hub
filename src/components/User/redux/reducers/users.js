@@ -7,15 +7,15 @@ import {
   USER_DELETING_ERROR,
   APPS_UPDATING_DONE,
   APPS_UPDATING_ERROR,
-} from "../actions";
+} from '../actions';
 
 const initialState = {
   info: {
-    uid: "",
+    uid: '',
     isAnonymous: false,
     userId: undefined,
   },
-  apps: "",
+  apps: '',
   loading: false,
   error: {},
 };
