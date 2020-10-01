@@ -11,6 +11,9 @@ import {
   reorderTodos as reorderTodosAPI,
   toggleDaily as toggleDailyAPI,
   createDailiesForToday as createDailiesForTodayAPI,
+  getDailiesForWeek as getDailiesForWeekAPI,
+  getDailiesForMonth as getDailiesForMonthAPI,
+  getDailiesForYear as getDailiesForYearAPI,
 } from '../api';
 
 export const HABITS_UPDATING = 'HABITS_UPDATING';
@@ -40,6 +43,9 @@ export const DAILIES_FETCHING_ERROR = 'DAILIES_FETCHING_ERROR';
 export const DAILIES_TOGGLE = 'DAILIES_TOGGLE';
 export const DAILIES_TOGGLE_DONE = 'DAILIES_TOGGLE_DONE';
 export const DAILIES_TOGGLE_ERROR = 'DAILIES_TOGGLE_ERROR';
+export const DAILIES_CACHE_FETCHING = 'DAILIES_CACHE_FETCHING';
+export const DAILIES_CACHE_DONE = 'DAILIES_CACHE_DONE';
+export const DAILIES_CACHE_ERROR = 'DAILIES_CACHE_ERROR';
 
 export const toggleDaily = (daily) => async (dispatch, getState) => {
   dispatch({ type: DAILIES_TOGGLE });
@@ -54,10 +60,29 @@ export const toggleDaily = (daily) => async (dispatch, getState) => {
   }
 };
 
-export const createDailiesForToday = () => async (dispatch) => {
+export const createDailiesForToday = () => async (dispatch, getState) => {
   dispatch({ type: DAILIES_FETCHING });
+  const { dailies } = getState();
   try {
     const { data } = await createDailiesForTodayAPI();
+
+    if (!Object.keys(dailies.dailiesCache).length) {
+      dispatch({ type: DAILIES_CACHE_FETCHING });
+      const dateObj = {};
+      data.forEach((daily) => {
+        if (dateObj[daily.date]) {
+          if (
+            dateObj[daily.date].findIndex((el) => el.id === daily.id) !== -1
+          ) {
+            dateObj[daily.date].push(daily);
+          }
+        } else {
+          dateObj[daily.date] = [daily];
+        }
+      });
+      dispatch({ type: DAILIES_CACHE_DONE, payload: dateObj });
+    }
+
     data.sort((a, b) => {
       if (a.habit.order > b.habit.order) return 1;
       if (a.habit.order < b.habit.order) return -1;
@@ -83,6 +108,49 @@ export const getDailiesForToday = () => async (dispatch) => {
     return dispatch({ type: DAILIES_FETCHING_ERROR, payload: err });
   }
 };
+
+const DATE_RANGES = {
+  WEEK: 'WEEK',
+  MONTH: 'MONTH',
+  YEAR: 'YEAR',
+};
+const getDailiesForDateRange = (apiCall, dateRange) => async (
+  dispatch,
+  getState,
+) => {
+  dispatch({ type: DAILIES_CACHE_FETCHING });
+  const { dailies } = getState();
+  try {
+    const { data } = await apiCall();
+    const dateObj = {};
+    data.forEach((daily) => {
+      if (dateObj[daily.date]) {
+        if (dateObj[daily.date].findIndex((el) => el.id === daily.id) !== -1) {
+          dateObj[daily.date].push(daily);
+        }
+      } else {
+        dateObj[daily.date] = [daily];
+      }
+    });
+    const fetchedDateRange = { ...dailies.dateRange, [dateRange]: true };
+    dispatch({
+      type: DAILIES_CACHE_DONE,
+      payload: [dateObj, fetchedDateRange],
+    });
+    return dispatch({ type: DAILIES_FETCHING_DONE, payload: data });
+  } catch (err) {
+    return dispatch({ type: DAILIES_CACHE_ERROR, payload: err });
+  }
+};
+
+export const getDailiesForWeek = () =>
+  getDailiesForDateRange(getDailiesForWeekAPI, DATE_RANGES.WEEK);
+
+export const getDailiesForMonth = () =>
+  getDailiesForDateRange(getDailiesForMonthAPI, DATE_RANGES.MONTH);
+
+export const getDailiesForYear = () =>
+  getDailiesForDateRange(getDailiesForYearAPI, DATE_RANGES.YEAR);
 
 export const addHabit = (habit) => async (dispatch) => {
   dispatch({ type: HABITS_UPDATING });

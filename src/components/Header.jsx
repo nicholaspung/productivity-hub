@@ -275,40 +275,44 @@ const MobileUserActions = connect(
   }),
   { logIn: logInAction },
 )(({ logIn, isLoggedIn, isUserLoading }) => (
-  <div className="space-y-6">
+  <>
     {isUserLoading && (
-      <LoadingSVG className="w-6 h-auto animate-spin absolute" />
+      <div className="flex justify-center">
+        <LoadingSVG className="w-6 h-auto animate-spin relative" />
+      </div>
     )}
-    {!isLoggedIn && !isUserLoading && (
-      <>
-        <FilledButton
-          action={() => logIn(signInWithGoogle)}
-          classes="w-full flex"
-        >
-          Sign up
-        </FilledButton>
-        <FilledButton
-          action={() => logIn(signInAnonymously)}
-          classes="w-full flex"
-        >
-          Guest sign in
-        </FilledButton>
-        <p className="text-center text-base leading-6 font-medium text-gray-500">
-          <span>Existing user? </span>
-          <button
-            className="text-indigo-600 hover:text-indigo-500 transition ease-in-out duration-150 font-medium"
-            onClick={() => logIn(signInWithGoogle)}
-            type="button"
+    <div className="space-y-6">
+      {!isLoggedIn && !isUserLoading && (
+        <>
+          <FilledButton
+            action={() => logIn(signInWithGoogle)}
+            classes="w-full flex"
           >
-            Sign in
-          </button>
-        </p>
-      </>
-    )}
-    {isLoggedIn && (
-      <FilledButton classes="w-full flex" action={signOut}>
-        Sign out
-      </FilledButton>
-    )}
-  </div>
+            Sign up
+          </FilledButton>
+          <FilledButton
+            action={() => logIn(signInAnonymously)}
+            classes="w-full flex"
+          >
+            Guest sign in
+          </FilledButton>
+          <p className="text-center text-base leading-6 font-medium text-gray-500">
+            <span>Existing user? </span>
+            <button
+              className="text-indigo-600 hover:text-indigo-500 transition ease-in-out duration-150 font-medium"
+              onClick={() => logIn(signInWithGoogle)}
+              type="button"
+            >
+              Sign in
+            </button>
+          </p>
+        </>
+      )}
+      {isLoggedIn && (
+        <FilledButton classes="w-full flex" action={signOut}>
+          Sign out
+        </FilledButton>
+      )}
+    </div>
+  </>
 ));

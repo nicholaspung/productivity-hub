@@ -16,7 +16,7 @@ const initialState = {
     userId: undefined,
   },
   apps: '',
-  loading: false,
+  loading: true,
   error: {},
 };
 
@@ -38,13 +38,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         info: initialState.info,
-        loading: initialState.loading,
+        loading: false,
       };
     case USER_LOADING_ERROR:
       return {
         ...state,
         info: initialState.info,
-        loading: initialState.loading,
+        loading: false,
         error: action.payload,
       };
     case USER_DELETING_DONE:

@@ -46,8 +46,8 @@ const TitleList = ({ titles, loading, getTitles, classes, addTitle }) => {
         property="title"
         classes="p-2"
       />
-      <div className="flex justify-around items-end">
-        <label htmlFor="title-filter" className="w-4/12">
+      <div className="flex flex-col md:flex-row md:justify-around md:items-end">
+        <label htmlFor="title-filter" className="p-4 w-full md:w-6/12">
           <span className="w-full uppercase text-xs">Filtering Options</span>
           <div className="relative">
             <select
@@ -71,7 +71,7 @@ const TitleList = ({ titles, loading, getTitles, classes, addTitle }) => {
             </div>
           </div>
         </label>
-        <label htmlFor="title-search" className="w-4/12">
+        <label htmlFor="title-search" className="p-4 w-full md:w-6/12">
           <p className="w-full uppercase text-xs">Search Titles</p>
           <div className="flex">
             <input
@@ -89,7 +89,7 @@ const TitleList = ({ titles, loading, getTitles, classes, addTitle }) => {
           </div>
         </label>
       </div>
-      <ul className={overflowDisplayContainer}>
+      <ul className={`${overflowDisplayContainer} h-screen`}>
         <EmptyItem length={titles.length} loading={loading} />
         {titles
           .sort((a, b) => {

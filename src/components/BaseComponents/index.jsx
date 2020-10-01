@@ -106,6 +106,9 @@ Modal.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
+export const smallerButtonClassName =
+  'whitespace-no-wrap text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900';
+
 export const smallerFilledButtonClassName =
   'py-1 px-5 rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150';
 
@@ -119,4 +122,4 @@ export const fixedDisplayContainer =
   'mb-4 p-4 sm:px-6 rounded-md border-2 border-gray-200';
 
 export const overflowDisplayContainer =
-  'my-2 h-screen overflow-auto p-4 rounded-md border-2 border-gray-200';
+  'my-2 overflow-auto p-4 rounded-md border-2 border-gray-200';

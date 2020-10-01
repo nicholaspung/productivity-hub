@@ -39,7 +39,7 @@ const AllPosts = ({
       </div>
       {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
       <h1 className="text-2xl font-bold text-center">All Posts</h1>
-      <ul className={overflowDisplayContainer}>
+      <ul className={`${overflowDisplayContainer} h-screen`}>
         <EmptyItem length={postsObj.results.length} loading={loading} />
         {postsObj.results.map((result) => (
           <li key={result.id} className="flex items-center p-2">
