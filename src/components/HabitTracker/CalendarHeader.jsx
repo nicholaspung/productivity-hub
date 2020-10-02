@@ -9,6 +9,7 @@ import {
 import {
   getDailiesForMonth as getDailiesForMonthAction,
   getDailiesForYear as getDailiesForYearAction,
+  getDailiesForWeek as getDailiesForWeekAction,
 } from './redux/actions';
 import { getDailiesDateRangeCache } from './redux/selectors';
 import { ReactComponent as ArrowLeftSVG } from '../../assets/icons/arrowleft.svg';
@@ -24,12 +25,25 @@ const CalendarHeader = ({
   dateRangeCache,
   getDailiesForMonth,
   getDailiesForYear,
+  getDailiesForWeek,
 }) => (
   <>
     <div className="flex p-4 items-center">
       <button
         type="button"
-        onClick={() => setDate(changeDate(date, view.label, DIRECTIONS.DOWN))}
+        onClick={async () => {
+          const newDate = changeDate(date, view.label, DIRECTIONS.DOWN);
+          if (view.label === VIEWS.WEEK.label) {
+            await getDailiesForWeek(newDate);
+          }
+          if (view.label === VIEWS.MONTH.label) {
+            await getDailiesForMonth(newDate);
+          }
+          if (view.label === VIEWS.YEAR.label) {
+            await getDailiesForYear(newDate);
+          }
+          setDate(newDate);
+        }}
         className={`${smallerFilledButtonClassName} mx-2`}
       >
         <ArrowLeftSVG className="w-4 h-auto" />
@@ -39,7 +53,19 @@ const CalendarHeader = ({
       </span>
       <button
         type="button"
-        onClick={() => setDate(changeDate(date, view.label, DIRECTIONS.UP))}
+        onClick={async () => {
+          const newDate = changeDate(date, view.label, DIRECTIONS.UP);
+          if (view.label === VIEWS.WEEK.label) {
+            await getDailiesForWeek(newDate);
+          }
+          if (view.label === VIEWS.MONTH.label) {
+            await getDailiesForMonth(newDate);
+          }
+          if (view.label === VIEWS.YEAR.label) {
+            await getDailiesForYear(newDate);
+          }
+          setDate(newDate);
+        }}
         className={`${smallerFilledButtonClassName} mx-2`}
       >
         <ArrowRightSVG className="w-4 h-auto" />
@@ -62,7 +88,7 @@ const CalendarHeader = ({
         type="button"
         onClick={async () => {
           if (!dateRangeCache[VIEWS.MONTH.label]) {
-            await getDailiesForMonth();
+            await getDailiesForMonth(date);
           }
           setView(VIEWS.MONTH);
         }}
@@ -78,7 +104,7 @@ const CalendarHeader = ({
         type="button"
         onClick={async () => {
           if (!dateRangeCache[VIEWS.YEAR.label]) {
-            await getDailiesForYear();
+            await getDailiesForYear(date);
           }
           setView(VIEWS.YEAR);
         }}
@@ -102,6 +128,7 @@ CalendarHeader.propTypes = {
   setView: PropTypes.func.isRequired,
   getDailiesForMonth: PropTypes.func.isRequired,
   getDailiesForYear: PropTypes.func.isRequired,
+  getDailiesForWeek: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -111,5 +138,6 @@ export default connect(
   {
     getDailiesForMonth: getDailiesForMonthAction,
     getDailiesForYear: getDailiesForYearAction,
+    getDailiesForWeek: getDailiesForWeekAction,
   },
 )(CalendarHeader);

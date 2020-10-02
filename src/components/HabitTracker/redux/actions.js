@@ -131,14 +131,21 @@ const DATE_RANGES = {
   MONTH: 'MONTH',
   YEAR: 'YEAR',
 };
-const getDailiesForDateRange = (apiCall, dateRange) => async (
+const getDailiesForDateRange = (apiCall, dateRange, date) => async (
   dispatch,
   getState,
 ) => {
   dispatch({ type: DAILIES_CACHE_FETCHING });
   const { dailies } = getState();
   try {
-    const { data } = await apiCall();
+    let data;
+    if (date) {
+      const response = await apiCall(date);
+      data = response.data;
+    } else {
+      const response = await apiCall();
+      data = response.data;
+    }
     const { dailiesCache: dateObj, dateRangeCache } = dailies;
     data.forEach((daily) => {
       if (dateObj[daily.date]) {
@@ -161,14 +168,14 @@ const getDailiesForDateRange = (apiCall, dateRange) => async (
   }
 };
 
-export const getDailiesForWeek = () =>
-  getDailiesForDateRange(getDailiesForWeekAPI, DATE_RANGES.WEEK);
+export const getDailiesForWeek = (date) =>
+  getDailiesForDateRange(getDailiesForWeekAPI, DATE_RANGES.WEEK, date);
 
-export const getDailiesForMonth = () =>
-  getDailiesForDateRange(getDailiesForMonthAPI, DATE_RANGES.MONTH);
+export const getDailiesForMonth = (date) =>
+  getDailiesForDateRange(getDailiesForMonthAPI, DATE_RANGES.MONTH, date);
 
-export const getDailiesForYear = () =>
-  getDailiesForDateRange(getDailiesForYearAPI, DATE_RANGES.YEAR);
+export const getDailiesForYear = (date) =>
+  getDailiesForDateRange(getDailiesForYearAPI, DATE_RANGES.YEAR, date);
 
 export const addHabit = (habit) => async (dispatch) => {
   dispatch({ type: HABITS_UPDATING });
@@ -291,3 +298,6 @@ export const reorderTodos = (firstId, secondId) => async (
     return dispatch({ type: TODOS_REORDERING_ERROR, payload: err });
   }
 };
+
+export const HABIT_TRACKER_CLEAR = 'HABIT_TRACKER_CLEAR';
+export const clearHabitTracker = () => ({ type: HABIT_TRACKER_CLEAR });

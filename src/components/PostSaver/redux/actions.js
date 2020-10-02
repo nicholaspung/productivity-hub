@@ -164,3 +164,6 @@ export const updateSavedPost = (id) => async (dispatch, getState) => {
     return dispatch({ type: SAVED_POSTS_UPDATING_ERROR, payload: err });
   }
 };
+
+export const POST_SAVER_CLEAR = 'POST_SAVER_CLEAR';
+export const clearPostSaver = () => ({ type: POST_SAVER_CLEAR });

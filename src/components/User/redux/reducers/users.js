@@ -35,11 +35,7 @@ export default function (state = initialState, action) {
         loading: true,
       };
     case USER_LOGGED_OUT:
-      return {
-        ...state,
-        info: initialState.info,
-        loading: false,
-      };
+      return { ...initialState, loading: false };
     case USER_LOADING_ERROR:
       return {
         ...state,

@@ -2,8 +2,10 @@ import { DIRECTIONS } from './constants';
 
 export const getDaysInMonth = (date) =>
   new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-export const isLeapYear = (year) =>
-  year % 400 === 0 || year % 100 === 0 || year % 4 === 0;
+export const isLeapYear = (year) => {
+  if (year % 100 === 0 && year % 400 !== 0) return false;
+  return year % 4 === 0;
+};
 export const getDaysInYear = (date) => {
   const leapYear = isLeapYear(date.getFullYear());
   return leapYear ? 366 : 365;
@@ -97,16 +99,23 @@ export const createFrontEmptyDates = (pythonDate) => {
     pythonDate.slice(5, 7) - 1,
     pythonDate.slice(8, 10),
   );
-  const numOfEmptyDates = date.getDay();
+  const firstDay = getFirstDateInMonth(date);
+  const numOfEmptyDates = firstDay.getDay();
   return Array(numOfEmptyDates).fill(0);
 };
 
 export const createBackEmptyDates = (pythonDate) => {
   const date = new Date(
     pythonDate.slice(0, 4),
-    pythonDate.slice(5, 7) - 1,
+    pythonDate.slice(5, 7),
     pythonDate.slice(8, 10),
   );
-  const numOfEmptyDates = 6 - date.getDay();
+  const firstDayInNextMonth = getFirstDateInMonth(date);
+  const lastDay = new Date(
+    firstDayInNextMonth.getFullYear(),
+    firstDayInNextMonth.getMonth(),
+    0,
+  );
+  const numOfEmptyDates = 6 - lastDay.getDay();
   return Array(numOfEmptyDates).fill(0);
 };

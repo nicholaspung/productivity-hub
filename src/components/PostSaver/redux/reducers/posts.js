@@ -3,6 +3,7 @@ import {
   POSTS_FETCHING_DONE,
   POSTS_FETCHING_ERROR,
   POSTS_ADD_TO_CACHE_DONE,
+  POST_SAVER_CLEAR,
 } from '../actions';
 
 const initialState = {
@@ -42,6 +43,8 @@ export default function (state = initialState, action) {
         ...state,
         posts: action.payload,
       };
+    case POST_SAVER_CLEAR:
+      return initialState;
     default:
       return state;
   }

@@ -8,6 +8,7 @@ import {
   TITLES_UPDATING_ERROR,
   TITLES_DELETING_DONE,
   TITLES_DELETING_ERROR,
+  POST_SAVER_CLEAR,
 } from '../actions';
 
 const initialState = {
@@ -69,6 +70,8 @@ export default function (state = initialState, action) {
         ...state,
         error: action.payload,
       };
+    case POST_SAVER_CLEAR:
+      return initialState;
     default:
       return state;
   }

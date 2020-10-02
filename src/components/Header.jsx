@@ -20,11 +20,21 @@ import {
   signOut,
   onAuthStateChange,
 } from '../firebase/utils';
+import { clearHabitTracker as clearHabitTrackerAction } from './HabitTracker/redux/actions';
+import { clearPostSaver as clearPostSaverAction } from './PostSaver/redux/actions';
 import { getProfile } from './User/api';
 import { Button, FilledButton } from './BaseComponents';
 import { ReactComponent as LoadingSVG } from '../assets/icons/loading.svg';
 
-const Header = ({ isLoggedIn, updateApps, loggedIn, logOut, initialLoad }) => {
+const Header = ({
+  isLoggedIn,
+  updateApps,
+  loggedIn,
+  logOut,
+  initialLoad,
+  clearHabitTracker,
+  clearPostSaver,
+}) => {
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
@@ -38,10 +48,19 @@ const Header = ({ isLoggedIn, updateApps, loggedIn, logOut, initialLoad }) => {
       },
       () => {
         logOut();
+        clearHabitTracker();
+        clearPostSaver();
       },
       () => initialLoad(),
     );
-  }, [loggedIn, logOut, updateApps, initialLoad]);
+  }, [
+    loggedIn,
+    logOut,
+    updateApps,
+    initialLoad,
+    clearHabitTracker,
+    clearPostSaver,
+  ]);
 
   //  { link: "/", label: "", icons: "" }
   const navItems = isLoggedIn
@@ -91,6 +110,8 @@ Header.propTypes = {
   loggedIn: PropTypes.func.isRequired,
   logOut: PropTypes.func.isRequired,
   initialLoad: PropTypes.func.isRequired,
+  clearHabitTracker: PropTypes.func.isRequired,
+  clearPostSaver: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -102,6 +123,8 @@ export default connect(
     loggedIn: loggedInAction,
     logOut: logOutAction,
     initialLoad: initialLoadAction,
+    clearHabitTracker: clearHabitTrackerAction,
+    clearPostSaver: clearPostSaverAction,
   },
 )(Header);
 

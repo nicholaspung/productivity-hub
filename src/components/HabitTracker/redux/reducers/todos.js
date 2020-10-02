@@ -10,6 +10,7 @@ import {
   TODOS_EDITING_ERROR,
   TODOS_REORDERING_DONE,
   TODOS_REORDERING_ERROR,
+  HABIT_TRACKER_CLEAR,
 } from '../actions';
 
 const initialState = {
@@ -82,6 +83,8 @@ export default function (state = initialState, action) {
         ...state,
         error: action.payload,
       };
+    case HABIT_TRACKER_CLEAR:
+      return initialState;
     default:
       return state;
   }

@@ -4,6 +4,7 @@ import {
   SAVED_POSTS_FETCHING_ERROR,
   SAVED_POSTS_UPDATING_DONE,
   SAVED_POSTS_UPDATING_ERROR,
+  POST_SAVER_CLEAR,
 } from '../actions';
 
 const initialState = {
@@ -43,6 +44,8 @@ export default function (state = initialState, action) {
         ...state,
         error: action.payload,
       };
+    case POST_SAVER_CLEAR:
+      return initialState;
     default:
       return state;
   }

@@ -10,6 +10,7 @@ import {
   DAILIES_DATE_RANGE_DONE,
   HABITS_DELETING_ERROR,
   HABITS_UPDATING_ERROR,
+  HABIT_TRACKER_CLEAR,
 } from '../actions';
 
 const initialState = {
@@ -84,6 +85,8 @@ export default function (state = initialState, action) {
         ...state,
         error: action.payload,
       };
+    case HABIT_TRACKER_CLEAR:
+      return { ...initialState, dailiesCache: {} };
     default:
       return state;
   }
