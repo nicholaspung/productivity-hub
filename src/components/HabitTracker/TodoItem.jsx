@@ -8,7 +8,7 @@ import {
 } from './redux/actions';
 import { getTodosTodos } from './redux/selectors';
 import ItemAction from './ItemAction';
-import { PRIORITIES, DIRECTIONS } from './constants';
+import { PRIORITIES, DIRECTIONS, displayColor } from './constants';
 import { ReactComponent as MinusSVG } from '../../assets/icons/minus.svg';
 import { ReactComponent as DoubleArrowDownSVG } from '../../assets/icons/doublearrowdown.svg';
 import { ReactComponent as DoubleArrowUpSVG } from '../../assets/icons/doublearrowup.svg';
@@ -16,25 +16,6 @@ import { ReactComponent as DeleteSVG } from '../../assets/icons/delete.svg';
 import { ReactComponent as EditSVG } from '../../assets/icons/edit.svg';
 import { ReactComponent as ArrowUpSVG } from '../../assets/icons/arrowup.svg';
 import { ReactComponent as ArrowDownSVG } from '../../assets/icons/arrowdown.svg';
-
-const displayColor = (priority) => {
-  if (priority === PRIORITIES.HIGH) {
-    return [
-      'bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700',
-      'text-red-600',
-    ];
-  }
-  if (priority === PRIORITIES.LOW) {
-    return [
-      'bg-green-600 hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green active:bg-green-700',
-      'text-green-600',
-    ];
-  }
-  return [
-    'bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700',
-    'text-indigo-600',
-  ];
-};
 
 const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
   const [edit, setEdit] = useState(false);
@@ -68,7 +49,7 @@ const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
         <label htmlFor={labelId} className="flex items-center">
           <div
             className={`flex items-center p-4 border border-transparent rounded-md transition ease-in-out duration-150 ${
-              displayColor(data.priority)[0]
+              displayColor({ priority: data.priority })[0]
             }`}
           >
             <input
@@ -77,7 +58,7 @@ const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
               checked={data.finished}
               onChange={onCheckedChange}
               className={`form-checkbox w-6 h-6 ${
-                displayColor(data.priority)[1]
+                displayColor({ priority: data.priority })[1]
               }`}
             />
           </div>

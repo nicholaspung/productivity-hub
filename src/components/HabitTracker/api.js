@@ -6,10 +6,14 @@ const dailiesUrl = '/dailies/';
 
 const transformToDateFormat = (date) => {
   let month = date.getMonth() + 1;
+  let day = date.getDate();
   if (String(month).length === 1) {
     month = `0${month}`;
   }
-  return `${date.getFullYear()}-${month}-${date.getDate()}`;
+  if (String(day).length === 1) {
+    day = `0${day}`;
+  }
+  return `${date.getFullYear()}-${month}-${day}`;
 };
 
 export const addHabit = async (habit) =>

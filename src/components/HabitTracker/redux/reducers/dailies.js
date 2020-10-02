@@ -7,6 +7,7 @@ import {
   DAILIES_CACHE_FETCHING,
   DAILIES_CACHE_DONE,
   DAILIES_CACHE_ERROR,
+  DAILIES_DATE_RANGE_DONE,
   HABITS_DELETING_ERROR,
   HABITS_UPDATING_ERROR,
 } from '../actions';
@@ -14,7 +15,7 @@ import {
 const initialState = {
   dailies: [],
   dailiesCache: {},
-  dateRange: {},
+  dateRangeCache: {},
   loading: false,
   error: {},
 };
@@ -55,14 +56,18 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
-        dailiesCache: action.payload[0],
-        dateRange: action.payload[1],
+        dailiesCache: action.payload,
       };
     case DAILIES_CACHE_ERROR:
       return {
         ...state,
         loading: false,
         error: action.payload,
+      };
+    case DAILIES_DATE_RANGE_DONE:
+      return {
+        ...state,
+        dateRangeCache: action.payload,
       };
     case DAILIES_TOGGLE_ERROR:
       return {
