@@ -1,19 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const EmptyItem = ({ length, loading }) =>
-  !length &&
-  !loading && (
-    <li>Your data has loaded and there is nothing for you to see.</li>
-  );
+const EmptyItem = ({ length, loading, error, message }) => (
+  <>
+    {error.message && (
+      <li className="list-none bg-red-600 text-white rounded-md">
+        {error.message}
+      </li>
+    )}
+    {!length && !loading && !Object.keys(error).length && (
+      <li className="list-none">{message}</li>
+    )}
+  </>
+);
 
 EmptyItem.propTypes = {
   length: PropTypes.number,
   loading: PropTypes.bool,
+  error: PropTypes.object,
+  message: PropTypes.string,
 };
 EmptyItem.defaultProps = {
   length: 0,
   loading: false,
+  error: {},
+  message: 'Your data has loaded and there is nothing for you to see.',
 };
 
 export default EmptyItem;

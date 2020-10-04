@@ -8,17 +8,22 @@ import {
   getTodos as getTodosAction,
   addTodo as addTodoAction,
 } from './redux/actions';
-import { getTodosTodos, getTodosLoadingStatus } from './redux/selectors';
+import {
+  getTodosTodos,
+  getTodosLoadingStatus,
+  getTodosError,
+} from './redux/selectors';
 import { DisplayContainer, DisplayContainerCard } from '../BaseComponents';
 import { FILTERS } from './constants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
+import EmptyItem from '../BaseComponents/EmptyItem';
 
 const getFilterFunction = (filter) => {
   if (filter === FILTERS.ACTIVE) return (item) => !item.finished;
   return (item) => item.finished;
 };
 
-const TodoList = ({ todos, getTodos, loading, addTodo, classes }) => {
+const TodoList = ({ todos, getTodos, loading, addTodo, classes, error }) => {
   const [filter, setFilter] = useState(FILTERS.ACTIVE);
 
   useEffect(() => {
@@ -61,6 +66,12 @@ const TodoList = ({ todos, getTodos, loading, addTodo, classes }) => {
           property="name"
           classes="mt-2"
         />
+        <EmptyItem
+          length={todos.filter(getFilterFunction(filter)).length}
+          loading={loading}
+          error={error}
+          message="You have no todos for this category."
+        />
         <ItemList
           data={todos}
           Component={TodoItem}
@@ -78,6 +89,7 @@ TodoList.propTypes = {
   loading: PropTypes.bool,
   addTodo: PropTypes.func.isRequired,
   classes: PropTypes.string,
+  error: PropTypes.object.isRequired,
 };
 
 TodoList.defaultProps = {
@@ -90,6 +102,7 @@ export default connect(
   (state) => ({
     todos: getTodosTodos(state),
     loading: getTodosLoadingStatus(state),
+    error: getTodosError(state),
   }),
   { getTodos: getTodosAction, addTodo: addTodoAction },
 )(TodoList);

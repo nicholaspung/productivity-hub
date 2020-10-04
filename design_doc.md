@@ -127,9 +127,9 @@ Habit Tracker
 - Daily Habits
 
   [x] Show habits for today
-  [] Show habits for week
-  [] Show habits for month
-  [] Show habits for year
+  [x] Show habits for week
+  [x] Show habits for month
+  [x] Show habits for year
   [x] Finish habits
   [x] Unfinish habits
 
@@ -160,9 +160,3 @@ Users
   [x] Delete account
   [x] Add services
   [x] Delete services
-
-To Dos
-
-- Adding error components
-  [x] Adding loading components
-- Organized code to be production grade

@@ -8,10 +8,15 @@ import {
   addHabit as addHabitAction,
   createDailiesForToday as createDailiesForTodayAction,
 } from './redux/actions';
-import { getDailiesDailies, getDailiesLoadingStatus } from './redux/selectors';
+import {
+  getDailiesDailies,
+  getDailiesLoadingStatus,
+  getDailiesError,
+} from './redux/selectors';
 import { DisplayContainer, DisplayContainerCard } from '../BaseComponents';
 import { FILTERS } from './constants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
+import EmptyItem from '../BaseComponents/EmptyItem';
 
 const getFilterFunction = (filter) => {
   if (filter === FILTERS.UNFINISHED) {
@@ -29,6 +34,7 @@ const DailyList = ({
   addHabit,
   createDailiesForToday,
   classes,
+  error,
 }) => {
   const [filter, setFilter] = useState(FILTERS.UNFINISHED);
   useEffect(() => {
@@ -78,6 +84,12 @@ const DailyList = ({
           property="name"
           classes="mt-2"
         />
+        <EmptyItem
+          length={dailies.filter(getFilterFunction(filter)).length}
+          loading={loading}
+          error={error}
+          message="You have no habits for this category."
+        />
         <ItemList
           data={dailies}
           Component={DailyItem}
@@ -95,6 +107,7 @@ DailyList.propTypes = {
   addHabit: PropTypes.func.isRequired,
   createDailiesForToday: PropTypes.func.isRequired,
   classes: PropTypes.string,
+  error: PropTypes.object.isRequired,
 };
 DailyList.defaultProps = {
   classes: '',
@@ -106,6 +119,7 @@ export default connect(
   (state) => ({
     dailies: getDailiesDailies(state),
     loading: getDailiesLoadingStatus(state),
+    error: getDailiesError(state),
   }),
   {
     addHabit: addHabitAction,

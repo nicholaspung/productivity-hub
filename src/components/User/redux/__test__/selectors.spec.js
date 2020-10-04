@@ -22,7 +22,7 @@ describe('#UserSelectors', () => {
       },
       apps: 'HABIT_TRACKER',
       loading: true,
-      error: {},
+      error: { message: 'error' },
     },
   };
   it('#getUserState', () => {
@@ -60,4 +60,16 @@ describe('#UserSelectors', () => {
   expect(selectors.isUserLoading(state2)).toEqual(
     Boolean(state2.users.loading),
   );
+  it('#getUserError', () => {
+    expect(selectors.getUserError(state1)).toEqual(state1.users.error);
+    expect(selectors.getUserError(state2)).toEqual(state2.users.error);
+  });
+  it('#hasError', () => {
+    expect(selectors.hasError(state1)).toEqual(
+      Boolean(Object.keys(state1.users.error).length),
+    );
+    expect(selectors.hasError(state2)).toEqual(
+      Boolean(Object.keys(state2.users.error).length),
+    );
+  });
 });

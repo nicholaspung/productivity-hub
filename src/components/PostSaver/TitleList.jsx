@@ -5,7 +5,11 @@ import {
   getTitles as getTitlesAction,
   addTitle as addTitleAction,
 } from './redux/actions';
-import { getTitlesTitles, getTitlesLoading } from './redux/selectors';
+import {
+  getTitlesTitles,
+  getTitlesLoading,
+  getTitlesError,
+} from './redux/selectors';
 import Title from './Title';
 import AddItem from '../BaseComponents/AddItem';
 import {
@@ -24,7 +28,14 @@ const FILTER_OPTIONS = {
   NONE: 'NONE',
 };
 
-const TitleList = ({ titles, loading, getTitles, classes, addTitle }) => {
+const TitleList = ({
+  titles,
+  loading,
+  getTitles,
+  classes,
+  addTitle,
+  error,
+}) => {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState(FILTER_OPTIONS.NONE);
   useEffect(() => {
@@ -90,7 +101,7 @@ const TitleList = ({ titles, loading, getTitles, classes, addTitle }) => {
         </label>
       </div>
       <ul className={`${overflowDisplayContainer} h-screen`}>
-        <EmptyItem length={titles.length} loading={loading} />
+        <EmptyItem length={titles.length} loading={loading} error={error} />
         {titles
           .sort((a, b) => {
             const aTitle = a.title.toLowerCase();
@@ -130,6 +141,7 @@ TitleList.propTypes = {
   getTitles: PropTypes.func.isRequired,
   classes: PropTypes.string,
   addTitle: PropTypes.func.isRequired,
+  error: PropTypes.object.isRequired,
 };
 TitleList.defaultProps = {
   classes: '',
@@ -141,6 +153,7 @@ export default connect(
   (state) => ({
     titles: getTitlesTitles(state),
     loading: getTitlesLoading(state),
+    error: getTitlesError(state),
   }),
   {
     getTitles: getTitlesAction,

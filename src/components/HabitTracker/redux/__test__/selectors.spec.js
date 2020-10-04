@@ -26,7 +26,7 @@ describe('#HabitTrackerSelectors', () => {
     todos: {
       todos: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }],
       loading: false,
-      error: {},
+      error: { message: 'err' },
     },
   };
   it('#getDailiesState', () => {
@@ -60,6 +60,10 @@ describe('#HabitTrackerSelectors', () => {
     expect(selectors.getDailiesDateRangeCache(state2)).toEqual(
       state2.dailies.dateRangeCache,
     );
+  });
+  it('#getDailiesError', () => {
+    expect(selectors.getDailiesError(state1)).toEqual(state1.dailies.error);
+    expect(selectors.getDailiesError(state2)).toEqual(state2.dailies.error);
   });
   it('#getTodosState', () => {
     expect(selectors.getTodosState(state1)).toEqual(state1.todos);

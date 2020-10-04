@@ -13,7 +13,7 @@ import {
   HABIT_TRACKER_CLEAR,
 } from '../actions';
 
-const initialState = {
+export const initialState = {
   todos: [],
   loading: false,
   error: {},

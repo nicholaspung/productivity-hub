@@ -8,9 +8,11 @@ import HabitTracker from './HabitTracker';
 import PostSaver from './PostSaver';
 import Profile from './User/Profile';
 import { Main } from './BaseComponents';
+import Banner from './Banner';
 
 const App = () => (
   <>
+    <Banner />
     <Header />
     <Main>
       <Switch>

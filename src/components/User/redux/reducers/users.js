@@ -9,7 +9,7 @@ import {
   APPS_UPDATING_ERROR,
 } from '../actions';
 
-const initialState = {
+export const initialState = {
   info: {
     uid: '',
     isAnonymous: false,

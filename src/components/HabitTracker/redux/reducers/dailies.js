@@ -13,7 +13,7 @@ import {
   HABIT_TRACKER_CLEAR,
 } from '../actions';
 
-const initialState = {
+export const initialState = {
   dailies: [],
   dailiesCache: {},
   dateRangeCache: {},
@@ -47,6 +47,11 @@ export default function (state = initialState, action) {
         dailies: action.payload,
         error: {},
       };
+    case DAILIES_TOGGLE_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
     case DAILIES_CACHE_FETCHING:
       return {
         ...state,
@@ -70,11 +75,7 @@ export default function (state = initialState, action) {
         ...state,
         dateRangeCache: action.payload,
       };
-    case DAILIES_TOGGLE_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-      };
+
     case HABITS_UPDATING_ERROR:
       return {
         ...state,

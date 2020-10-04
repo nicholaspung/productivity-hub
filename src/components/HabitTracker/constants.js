@@ -59,6 +59,12 @@ export const SHORT_WEEK_NAMES = [
   'Sat',
 ];
 
+export const DATE_RANGES = {
+  WEEK: 'WEEK',
+  MONTH: 'MONTH',
+  YEAR: 'YEAR',
+};
+
 export const displayColor = ({ priority, percentage }) => {
   if (priority === PRIORITIES.HIGH || percentage <= 0.7) {
     return [

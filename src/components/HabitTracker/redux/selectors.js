@@ -6,6 +6,7 @@ export const getDailiesDailiesCache = (store) =>
   getDailiesState(store).dailiesCache;
 export const getDailiesDateRangeCache = (store) =>
   getDailiesState(store).dateRangeCache;
+export const getDailiesError = (store) => getDailiesState(store).error;
 
 export const getTodosState = (store) => store.todos;
 export const getTodosTodos = (store) => getTodosState(store).todos;

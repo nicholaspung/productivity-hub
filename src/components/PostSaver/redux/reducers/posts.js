@@ -6,7 +6,7 @@ import {
   POST_SAVER_CLEAR,
 } from '../actions';
 
-const initialState = {
+export const initialState = {
   fetchedPosts: {
     count: 0,
     next: '',

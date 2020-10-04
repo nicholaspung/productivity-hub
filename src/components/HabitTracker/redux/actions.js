@@ -1,3 +1,8 @@
+import { DATE_RANGES } from '../constants';
+import {
+  helperReplaceObjectInArray,
+  helperRemoveObjectFromArray,
+} from '../../../utils';
 import {
   getDailiesForToday as getDailiesForTodayAPI,
   getTodos as getTodosAPI,
@@ -51,29 +56,25 @@ export const DAILIES_DATE_RANGE_DONE = 'DAILIES_DATE_RANGE_DONE';
 
 export const toggleDaily = (daily) => async (dispatch, getState) => {
   dispatch({ type: DAILIES_TOGGLE });
-  const { dailies } = getState();
-  const { dailies: dailiesDailies, dailiesCache } = dailies;
-  const dailiesCopy = [...dailiesDailies];
-  const dailiesCacheCopy = { ...dailiesCache };
   try {
     const { data } = await toggleDailyAPI(daily);
-    dailiesCopy[dailiesDailies.findIndex((el) => el.id === data.id)] = data;
+    const { dailies } = getState();
+    const dailiesCacheCopy = { ...dailies.dailiesCache };
     const currentDate = dailiesCacheCopy[daily.date];
     currentDate[currentDate.findIndex((el) => el.id === daily.id)] = data;
     dailiesCacheCopy[daily.date] = currentDate;
     dispatch({ type: DAILIES_CACHE_DONE, payload: dailiesCacheCopy });
+    const dailiesCopy = helperReplaceObjectInArray(dailies, 'dailies', data);
     return dispatch({ type: DAILIES_TOGGLE_DONE, payload: dailiesCopy });
   } catch (err) {
     return dispatch({ type: DAILIES_TOGGLE_ERROR, payload: err });
   }
 };
-
 export const createDailiesForToday = () => async (dispatch, getState) => {
   dispatch({ type: DAILIES_FETCHING });
-  const { dailies } = getState();
   try {
     const { data } = await createDailiesForTodayAPI();
-
+    const { dailies } = getState();
     if (!Object.keys(dailies.dailiesCache).length) {
       dispatch({ type: DAILIES_CACHE_FETCHING });
       const { dailiesCache: dateObj } = dailies;
@@ -90,7 +91,6 @@ export const createDailiesForToday = () => async (dispatch, getState) => {
       });
       dispatch({ type: DAILIES_CACHE_DONE, payload: dateObj });
     }
-
     data.sort((a, b) => {
       if (a.habit.order > b.habit.order) return 1;
       if (a.habit.order < b.habit.order) return -1;
@@ -101,20 +101,17 @@ export const createDailiesForToday = () => async (dispatch, getState) => {
     return dispatch({ type: DAILIES_FETCHING_ERROR, payload: err });
   }
 };
-
 export const getDailiesForToday = () => async (dispatch, getState) => {
   dispatch({ type: DAILIES_FETCHING });
-  const { dailies } = getState();
   try {
     const { data } = await getDailiesForTodayAPI();
-
+    const { dailies } = getState();
     const { dailiesCache: dateObj } = dailies;
     data.forEach((daily) => {
       const index = dateObj[daily.date].findIndex((el) => el.id === daily.id);
       dateObj[daily.date][index] = daily;
     });
     dispatch({ type: DAILIES_CACHE_DONE, payload: dateObj });
-
     data.sort((a, b) => {
       if (a.habit.order > b.habit.order) return 1;
       if (a.habit.order < b.habit.order) return -1;
@@ -125,18 +122,11 @@ export const getDailiesForToday = () => async (dispatch, getState) => {
     return dispatch({ type: DAILIES_FETCHING_ERROR, payload: err });
   }
 };
-
-const DATE_RANGES = {
-  WEEK: 'WEEK',
-  MONTH: 'MONTH',
-  YEAR: 'YEAR',
-};
 const getDailiesForDateRange = (apiCall, dateRange, date) => async (
   dispatch,
   getState,
 ) => {
   dispatch({ type: DAILIES_CACHE_FETCHING });
-  const { dailies } = getState();
   try {
     let data;
     if (date) {
@@ -146,6 +136,7 @@ const getDailiesForDateRange = (apiCall, dateRange, date) => async (
       const response = await apiCall();
       data = response.data;
     }
+    const { dailies } = getState();
     const { dailiesCache: dateObj, dateRangeCache } = dailies;
     data.forEach((daily) => {
       if (dateObj[daily.date]) {
@@ -156,7 +147,6 @@ const getDailiesForDateRange = (apiCall, dateRange, date) => async (
         dateObj[daily.date] = [daily];
       }
     });
-
     if (dateRange) {
       dispatch({ type: DAILIES_DATE_RANGE_FETCHING });
       const fetchedDateRange = { ...dateRangeCache, [dateRange]: true };
@@ -167,16 +157,12 @@ const getDailiesForDateRange = (apiCall, dateRange, date) => async (
     return dispatch({ type: DAILIES_CACHE_ERROR, payload: err });
   }
 };
-
 export const getDailiesForWeek = (date) =>
   getDailiesForDateRange(getDailiesForWeekAPI, DATE_RANGES.WEEK, date);
-
 export const getDailiesForMonth = (date) =>
   getDailiesForDateRange(getDailiesForMonthAPI, DATE_RANGES.MONTH, date);
-
 export const getDailiesForYear = (date) =>
   getDailiesForDateRange(getDailiesForYearAPI, DATE_RANGES.YEAR, date);
-
 export const addHabit = (habit) => async (dispatch) => {
   dispatch({ type: HABITS_UPDATING });
   try {
@@ -187,7 +173,6 @@ export const addHabit = (habit) => async (dispatch) => {
     return dispatch({ type: HABITS_UPDATING_ERROR, payload: err });
   }
 };
-
 export const editHabit = (id, habit) => async (dispatch) => {
   dispatch({ type: HABITS_UPDATING });
   try {
@@ -198,7 +183,6 @@ export const editHabit = (id, habit) => async (dispatch) => {
     return dispatch({ type: HABITS_UPDATING_ERROR, payload: err });
   }
 };
-
 export const reorderHabits = (firstId, secondId) => async (dispatch) => {
   dispatch({ type: HABITS_UPDATING });
   try {
@@ -209,7 +193,6 @@ export const reorderHabits = (firstId, secondId) => async (dispatch) => {
     return dispatch({ type: HABITS_UPDATING_ERROR, payload: err });
   }
 };
-
 export const deleteHabit = (id) => async (dispatch) => {
   dispatch({ type: HABITS_DELETING });
   try {
@@ -220,13 +203,11 @@ export const deleteHabit = (id) => async (dispatch) => {
     return dispatch({ type: HABITS_DELETING_ERROR, payload: err });
   }
 };
-
 const todosSortFunction = (a, b) => {
   if (a.order > b.order) return 1;
   if (a.order < b.order) return -1;
   return 0;
 };
-
 export const getTodos = () => async (dispatch) => {
   dispatch({ type: TODOS_FETCHING });
   try {
@@ -237,7 +218,6 @@ export const getTodos = () => async (dispatch) => {
     return dispatch({ type: TODOS_FETCHING_ERROR, payload: err });
   }
 };
-
 export const addTodo = (todo) => async (dispatch, getState) => {
   dispatch({ type: TODOS_ADDING });
   const { todos } = getState();
@@ -251,42 +231,37 @@ export const addTodo = (todo) => async (dispatch, getState) => {
     return dispatch({ type: TODOS_ADDING_ERROR, payload: err });
   }
 };
-
 export const editTodo = (id, todo) => async (dispatch, getState) => {
   dispatch({ type: TODOS_EDITING });
   const { todos } = getState();
   try {
     const { data } = await editTodoAPI(id, todo);
-    const todosCopy = [...todos.todos];
-    todosCopy[todos.todos.findIndex((el) => el.id === data.id)] = data;
+    const todosCopy = helperReplaceObjectInArray(todos, 'todos', data);
     return dispatch({ type: TODOS_EDITING_DONE, payload: todosCopy });
   } catch (err) {
     return dispatch({ type: TODOS_EDITING_ERROR, payload: err });
   }
 };
-
 export const deleteTodo = (id) => async (dispatch, getState) => {
   dispatch({ type: TODOS_DELETING });
-  const { todos } = getState();
-  const idIndex = todos.todos.findIndex((el) => el.id === id);
   try {
     await deleteTodoAPI(id);
-    const todosCopy = [...todos.todos];
-    todosCopy.splice(idIndex, 1);
+    const { todos } = getState();
+    const idIndex = todos.todos.findIndex((el) => el.id === id);
+    const todosCopy = helperRemoveObjectFromArray(todos, idIndex);
     return dispatch({ type: TODOS_DELETING_DONE, payload: todosCopy });
   } catch (err) {
-    return dispatch({ type: TODOS_DELETING_ERROR });
+    return dispatch({ type: TODOS_DELETING_ERROR, payload: err });
   }
 };
-
 export const reorderTodos = (firstId, secondId) => async (
   dispatch,
   getState,
 ) => {
   dispatch({ type: TODOS_REORDERING });
-  const { todos } = getState();
   try {
     const { data } = await reorderTodosAPI(firstId, secondId);
+    const { todos } = getState();
     const todosCopy = [...todos.todos];
     data.forEach((todo) => {
       const index = todosCopy.findIndex((el) => el.id === todo.id);
@@ -298,6 +273,5 @@ export const reorderTodos = (firstId, secondId) => async (
     return dispatch({ type: TODOS_REORDERING_ERROR, payload: err });
   }
 };
-
 export const HABIT_TRACKER_CLEAR = 'HABIT_TRACKER_CLEAR';
 export const clearHabitTracker = () => ({ type: HABIT_TRACKER_CLEAR });

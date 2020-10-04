@@ -1,4 +1,4 @@
-import { updateProfile, deleteUser as deleteUserAPI } from '../api';
+import { updateProfile, deleteUser as deleteUserAPI, getProfile } from '../api';
 
 export const USER_LOGGED_IN = 'USER_LOGGED_IN';
 export const USER_LOADING = 'USER_LOADING';
@@ -18,21 +18,39 @@ export const logIn = (callback) => async (dispatch) => {
   dispatch({ type: USER_LOADING });
   await callback();
 };
-export const loggedIn = (authUser) => ({
-  type: USER_LOGGED_IN,
-  payload: authUser,
-});
-export const logOut = () => ({ type: USER_LOGGED_OUT });
 
 export const updateApps = (apps) => ({
   type: APPS_UPDATING_DONE,
   payload: apps,
 });
+
+export const helperLoggedIn = (authUser, data) => {
+  const { apps, user } = data;
+  const updatedAuthUser = { ...authUser, user };
+  return { updatedAuthUser, apps };
+};
+export const loggedIn = (authUser) => async (dispatch) => {
+  try {
+    const { data } = await getProfile();
+    const { updatedAuthUser, apps } = helperLoggedIn(authUser, data);
+    dispatch({
+      type: USER_LOGGED_IN,
+      payload: updatedAuthUser,
+    });
+    return dispatch(updateApps(apps));
+  } catch (err) {
+    return dispatch({ type: USER_LOADING_ERROR, payload: err });
+  }
+};
+export const logOut = () => ({ type: USER_LOGGED_OUT });
+
 export const addApp = (id, newApps) => async (dispatch) => {
   dispatch({ type: APPS_UPDATING });
   try {
-    const { data } = await updateProfile(id, { apps: newApps });
-    return dispatch(updateApps(data.apps));
+    const {
+      data: { apps },
+    } = await updateProfile(id, { apps: newApps });
+    return dispatch(updateApps(apps));
   } catch (err) {
     return dispatch({ type: APPS_UPDATING_ERROR, payload: err });
   }

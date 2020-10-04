@@ -5,7 +5,11 @@ import {
   getPosts as getPostsAction,
   getRefreshedPosts as getRefreshedPostsAction,
 } from './redux/actions';
-import { getPostsFetchedPosts, getPostsLoading } from './redux/selectors';
+import {
+  getPostsFetchedPosts,
+  getPostsLoading,
+  getPostsError,
+} from './redux/selectors';
 import {
   FilledButton,
   smallerFilledButtonClassName,
@@ -25,6 +29,7 @@ const AllPosts = ({
   loading,
   getRefreshedPosts,
   classes,
+  error,
 }) => {
   useEffect(() => {
     getPosts();
@@ -40,7 +45,11 @@ const AllPosts = ({
       {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
       <h1 className="text-2xl font-bold text-center">All Posts</h1>
       <ul className={`${overflowDisplayContainer} h-screen`}>
-        <EmptyItem length={postsObj.results.length} loading={loading} />
+        <EmptyItem
+          length={postsObj.results.length}
+          loading={loading}
+          error={error}
+        />
         {postsObj.results.map((result) => (
           <li key={result.id} className="flex items-center p-2">
             <a
@@ -85,6 +94,7 @@ AllPosts.propTypes = {
   loading: PropTypes.bool,
   getRefreshedPosts: PropTypes.func.isRequired,
   classes: PropTypes.string,
+  error: PropTypes.object.isRequired,
 };
 
 AllPosts.defaultProps = {
@@ -96,6 +106,7 @@ export default connect(
   (state) => ({
     postsObj: getPostsFetchedPosts(state),
     loading: getPostsLoading(state),
+    error: getPostsError(state),
   }),
   {
     getPosts: getPostsAction,

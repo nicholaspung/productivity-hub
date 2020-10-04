@@ -1,4 +1,8 @@
 import {
+  helperReplaceObjectInArray,
+  helperRemoveObjectFromArray,
+} from '../../../utils';
+import {
   getPosts as getPostsAPI,
   getTitles as getTitlesAPI,
   addTitle as addTitleAPI,
@@ -35,18 +39,15 @@ export const SAVED_POSTS_UPDATING_ERROR = 'SAVED_POSTS_UPDATING_ERROR';
 export const getPosts = (newUrl) => async (dispatch, getState) => {
   let lastTwoStrings;
   let url;
-  const { posts } = getState();
-
   if (newUrl) {
     url = newUrl;
   }
-
   if (url) {
     lastTwoStrings = url.slice(url.length - 2, url.length);
   } else {
     lastTwoStrings = 's/';
   }
-
+  const { posts } = getState();
   // If cached
   if (posts.posts[lastTwoStrings]) {
     return dispatch({
@@ -54,37 +55,30 @@ export const getPosts = (newUrl) => async (dispatch, getState) => {
       payload: posts.posts[lastTwoStrings],
     });
   }
-
   dispatch({ type: POSTS_FETCHING });
   try {
     const { data } = await getPostsAPI(url);
     dispatch({ type: POSTS_ADD_TO_CACHE });
-
     posts.posts[lastTwoStrings] = data;
-
     dispatch({ type: POSTS_ADD_TO_CACHE_DONE, payload: posts.posts });
     return dispatch({ type: POSTS_FETCHING_DONE, payload: data });
   } catch (err) {
     return dispatch({ type: POSTS_FETCHING_ERROR, payload: err });
   }
 };
-
 export const getRefreshedPosts = () => async (dispatch) => {
   dispatch({ type: POSTS_FETCHING });
-
   try {
     const { data } = await getPostsAPI();
     const posts = {
       's/': data,
     };
-
     dispatch({ type: POSTS_ADD_TO_CACHE_DONE, payload: posts });
     return dispatch({ type: POSTS_FETCHING_DONE, payload: data });
   } catch (err) {
     return dispatch({ type: POSTS_FETCHING_ERROR, payload: err });
   }
 };
-
 export const getTitles = () => async (dispatch) => {
   dispatch({ type: TITLES_FETCHING });
   try {
@@ -94,12 +88,11 @@ export const getTitles = () => async (dispatch) => {
     return dispatch({ type: TITLES_FETCHING_ERROR, payload: err });
   }
 };
-
 export const addTitle = (title) => async (dispatch, getState) => {
   dispatch({ type: TITLES_ADDING });
-  const { titles } = getState();
   try {
     const { data } = await addTitleAPI(title);
+    const { titles } = getState();
     return dispatch({
       type: TITLES_ADDING_DONE,
       payload: [...titles.titles, data],
@@ -108,35 +101,29 @@ export const addTitle = (title) => async (dispatch, getState) => {
     return dispatch({ type: TITLES_ADDING_ERROR, payload: err });
   }
 };
-
 export const updateTitle = (id, title) => async (dispatch, getState) => {
   dispatch({ type: TITLES_UPDATING });
-  const { titles } = getState();
-
   try {
     const { data } = await updateTitleAPI(id, title);
-    const titlesCopy = [...titles.titles];
-    titlesCopy[titles.titles.findIndex((el) => el.id === data.id)] = data;
+    const { titles } = getState();
+    const titlesCopy = helperReplaceObjectInArray(titles, 'titles', data);
     return dispatch({ type: TITLES_UPDATING_DONE, payload: titlesCopy });
   } catch (err) {
     return dispatch({ type: TITLES_UPDATING_ERROR, payload: err });
   }
 };
-
 export const deleteTitle = (id) => async (dispatch, getState) => {
   dispatch({ type: TITLES_DELETING });
-  const { titles } = getState();
-  const idIndex = titles.titles.findIndex((el) => el.id === id);
   try {
     await deleteTitleAPI(id);
-    const titlesCopy = [...titles.titles];
-    titlesCopy.splice(idIndex, 1);
+    const { titles } = getState();
+    const idIndex = titles.titles.findIndex((el) => el.id === id);
+    const titlesCopy = helperRemoveObjectFromArray(titles.titles, idIndex);
     return dispatch({ type: TITLES_DELETING_DONE, payload: titlesCopy });
   } catch (err) {
     return dispatch({ type: TITLES_DELETING_ERROR, payload: err });
   }
 };
-
 export const getSavedPosts = () => async (dispatch) => {
   dispatch({ type: SAVED_POSTS_FETCHING });
   try {
@@ -147,15 +134,17 @@ export const getSavedPosts = () => async (dispatch) => {
     return dispatch({ type: SAVED_POSTS_FETCHING_ERROR, payload: err });
   }
 };
-
+// Removes the saved post from being displayed
 export const updateSavedPost = (id) => async (dispatch, getState) => {
   dispatch({ type: SAVED_POSTS_UPDATING });
-  const { savedPosts } = getState();
-  const idIndex = savedPosts.savedPosts.findIndex((el) => el.id === id);
   try {
     await updateSavedPostAPI(id);
-    const savedPostsCopy = [...savedPosts.savedPosts];
-    savedPostsCopy.splice(idIndex, 1);
+    const { savedPosts } = getState();
+    const idIndex = savedPosts.savedPosts.findIndex((el) => el.id === id);
+    const savedPostsCopy = helperRemoveObjectFromArray(
+      savedPosts.savedPosts,
+      idIndex,
+    );
     return dispatch({
       type: SAVED_POSTS_UPDATING_DONE,
       payload: savedPostsCopy,
@@ -164,6 +153,5 @@ export const updateSavedPost = (id) => async (dispatch, getState) => {
     return dispatch({ type: SAVED_POSTS_UPDATING_ERROR, payload: err });
   }
 };
-
 export const POST_SAVER_CLEAR = 'POST_SAVER_CLEAR';
 export const clearPostSaver = () => ({ type: POST_SAVER_CLEAR });

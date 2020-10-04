@@ -13,6 +13,7 @@ import {
 import {
   isLoggedIn as isLoggedInSelector,
   isUserLoading as isUserLoadingSelector,
+  hasError as hasErrorSelector,
 } from './User/redux/selectors';
 import {
   signInWithGoogle,
@@ -22,7 +23,6 @@ import {
 } from '../firebase/utils';
 import { clearHabitTracker as clearHabitTrackerAction } from './HabitTracker/redux/actions';
 import { clearPostSaver as clearPostSaverAction } from './PostSaver/redux/actions';
-import { getProfile } from './User/api';
 import { Button, FilledButton } from './BaseComponents';
 import { ReactComponent as LoadingSVG } from '../assets/icons/loading.svg';
 
@@ -34,17 +34,16 @@ const Header = ({
   initialLoad,
   clearHabitTracker,
   clearPostSaver,
+  hasError,
+  logIn,
+  isUserLoading,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     onAuthStateChange(
       async (authUser) => {
-        const { data } = await getProfile();
-        const { apps, user: userId } = data;
-        const updatedAuthUser = { ...authUser, userId };
-        loggedIn(updatedAuthUser);
-        updateApps(apps);
+        loggedIn(authUser);
       },
       () => {
         logOut();
@@ -67,23 +66,26 @@ const Header = ({
     ? [
         { link: '/habit-tracker', label: 'Habit Tracker', icons: '' },
         { link: '/post-saver', label: 'Post Saver', icons: '' },
-        { link: '/profile', label: 'Profile', icons: '' },
       ]
     : [];
-  const navSubItems = [];
+  const navSubItems = isLoggedIn
+    ? [{ link: '/profile', label: 'Profile', icons: '' }]
+    : [];
 
   return (
     <header className="relative bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
-          <div className="lg:w-0 lg:flex-1">
-            <div className="flex">
-              <LogoComponent />
-            </div>
-          </div>
+          <LogoComponent />
           <MenuButton onClickAction={() => setShowMenu(!showMenu)} />
           <NavItems data={navItems} />
-          <UserActions />
+          {!hasError && (
+            <UserActions
+              logIn={logIn}
+              isLoggedIn={isLoggedIn}
+              isUserLoading={isUserLoading}
+            />
+          )}
         </div>
       </div>
 
@@ -95,7 +97,18 @@ const Header = ({
                 onClickAction={() => setShowMenu(!showMenu)}
                 data={navItems}
               />
-              <BottomMobileNavItems data={navSubItems} />
+              <BottomMobileNavItems
+                data={navSubItems}
+                onClickAction={() => setShowMenu(!showMenu)}
+              >
+                {!hasError && (
+                  <MobileUserActions
+                    logIn={logIn}
+                    isLoggedIn={isLoggedIn}
+                    isUserLoading={isUserLoading}
+                  />
+                )}
+              </BottomMobileNavItems>
             </div>
           </div>
         </div>
@@ -112,11 +125,16 @@ Header.propTypes = {
   initialLoad: PropTypes.func.isRequired,
   clearHabitTracker: PropTypes.func.isRequired,
   clearPostSaver: PropTypes.func.isRequired,
+  hasError: PropTypes.bool.isRequired,
+  logIn: PropTypes.func.isRequired,
+  isUserLoading: PropTypes.bool.isRequired,
 };
 
 export default connect(
   (state) => ({
     isLoggedIn: isLoggedInSelector(state),
+    hasError: hasErrorSelector(state),
+    isUserLoading: isUserLoadingSelector(state),
   }),
   {
     updateApps: updateAppsAction,
@@ -125,13 +143,22 @@ export default connect(
     initialLoad: initialLoadAction,
     clearHabitTracker: clearHabitTrackerAction,
     clearPostSaver: clearPostSaverAction,
+    logIn: logInAction,
   },
 )(Header);
 
 const LogoComponent = () => (
-  <Link to="/">
-    <img className="h-16 w-auto sm:h-20" src={Logo} alt="Productivity Hub" />
-  </Link>
+  <div className="lg:w-0 lg:flex-1">
+    <div className="flex">
+      <Link to="/">
+        <img
+          className="h-16 w-auto sm:h-20"
+          src={Logo}
+          alt="Productivity Hub"
+        />
+      </Link>
+    </div>
+  </div>
 );
 
 const MenuButton = ({ onClickAction }) => (
@@ -243,35 +270,39 @@ TopMobileNavItems.defaultProps = {
   data: [],
 };
 
-const BottomMobileNavItems = ({ data = [] }) => (
+const BottomMobileNavItems = ({ data = [], children, onClickAction }) => (
   <div className="py-6 px-5 space-y-6">
     <div className="grid grid-cols-2 gap-y-4 gap-x-8">
       {data.map((item) => (
-        <a
-          href={item.link}
+        <Link
+          key={item.link}
+          to={item.link}
+          onClick={onClickAction}
           className="text-base leading-6 font-medium text-gray-900 hover:text-gray-700 transition ease-in-out duration-150"
         >
           {item.label}
-        </a>
+        </Link>
       ))}
     </div>
-    <MobileUserActions />
+    {children}
   </div>
 );
 BottomMobileNavItems.propTypes = {
   data: PropTypes.array,
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.element,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
+  onClickAction: PropTypes.func.isRequired,
 };
 BottomMobileNavItems.defaultProps = {
   data: [],
+  children: '',
 };
 
-const UserActions = connect(
-  (state) => ({
-    isLoggedIn: isLoggedInSelector(state),
-    isUserLoading: isUserLoadingSelector(state),
-  }),
-  { logIn: logInAction },
-)(({ logIn, isLoggedIn, isUserLoading }) => (
+const UserActions = ({ logIn, isLoggedIn, isUserLoading }) => (
   <div className="hidden md:flex items-center justify-end space-x-8 md:flex-1 lg:w-0">
     {isUserLoading && (
       <LoadingSVG className="w-6 h-auto animate-spin absolute" />
@@ -289,15 +320,14 @@ const UserActions = connect(
     )}
     {isLoggedIn && <FilledButton action={signOut}>Sign out</FilledButton>}
   </div>
-));
+);
+UserActions.propTypes = {
+  logIn: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  isUserLoading: PropTypes.bool.isRequired,
+};
 
-const MobileUserActions = connect(
-  (state) => ({
-    isLoggedIn: isLoggedInSelector(state),
-    isUserLoading: isUserLoadingSelector(state),
-  }),
-  { logIn: logInAction },
-)(({ logIn, isLoggedIn, isUserLoading }) => (
+const MobileUserActions = ({ logIn, isLoggedIn, isUserLoading }) => (
   <>
     {isUserLoading && (
       <div className="flex justify-center">
@@ -338,4 +368,9 @@ const MobileUserActions = connect(
       )}
     </div>
   </>
-));
+);
+MobileUserActions.propTypes = {
+  logIn: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  isUserLoading: PropTypes.bool.isRequired,
+};

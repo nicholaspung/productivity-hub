@@ -105,17 +105,8 @@ export const createFrontEmptyDates = (pythonDate) => {
 };
 
 export const createBackEmptyDates = (pythonDate) => {
-  const date = new Date(
-    pythonDate.slice(0, 4),
-    pythonDate.slice(5, 7),
-    pythonDate.slice(8, 10),
-  );
-  const firstDayInNextMonth = getFirstDateInMonth(date);
-  const lastDay = new Date(
-    firstDayInNextMonth.getFullYear(),
-    firstDayInNextMonth.getMonth(),
-    0,
-  );
+  const date = new Date(pythonDate.slice(0, 4), pythonDate.slice(5, 7), 1);
+  const lastDay = new Date(date.getFullYear(), date.getMonth(), 0);
   const numOfEmptyDates = 6 - lastDay.getDay();
   return Array(numOfEmptyDates).fill(0);
 };

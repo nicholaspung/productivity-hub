@@ -11,7 +11,7 @@ import {
   POST_SAVER_CLEAR,
 } from '../actions';
 
-const initialState = {
+export const initialState = {
   titles: [],
   loading: false,
   error: {},

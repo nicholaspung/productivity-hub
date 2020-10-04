@@ -8,6 +8,7 @@ import {
 import {
   getSavedPostsSavedPosts,
   getSavedPostsLoading,
+  getSavedPostsError,
 } from './redux/selectors';
 import {
   FilledButton,
@@ -26,6 +27,7 @@ const SavedPostList = ({
   getSavedPosts,
   updateSavedPost,
   classes,
+  error,
 }) => {
   useEffect(() => {
     if (!savedPosts.length) {
@@ -43,7 +45,7 @@ const SavedPostList = ({
       {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
       <h1 className="text-2xl font-bold text-center">Saved Post List</h1>
       <ul className={overflowDisplayContainer}>
-        <EmptyItem length={savedPosts.length} loading={loading} />
+        <EmptyItem length={savedPosts.length} loading={loading} error={error} />
         {savedPosts
           .sort((a, b) => {
             const aTitle = a.title.toLowerCase();
@@ -95,6 +97,7 @@ SavedPostList.propTypes = {
   getSavedPosts: PropTypes.func.isRequired,
   updateSavedPost: PropTypes.func.isRequired,
   classes: PropTypes.string,
+  error: PropTypes.object.isRequired,
 };
 SavedPostList.defaultProps = {
   classes: '',
@@ -106,6 +109,7 @@ export default connect(
   (state) => ({
     savedPosts: getSavedPostsSavedPosts(state),
     loading: getSavedPostsLoading(state),
+    error: getSavedPostsError(state),
   }),
   {
     getSavedPosts: getSavedPostsAction,
