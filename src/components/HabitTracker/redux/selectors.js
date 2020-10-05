@@ -1,9 +1,13 @@
+import { getDateTransform, getYesterday } from '../utils';
+
 export const getDailiesState = (store) => store.dailies;
 export const getDailiesDailies = (store) => getDailiesState(store).dailies;
 export const getDailiesLoadingStatus = (store) =>
   getDailiesState(store).loading;
 export const getDailiesDailiesCache = (store) =>
   getDailiesState(store).dailiesCache;
+export const getDailiesDailiesCacheForDate = (store, date) =>
+  getDailiesDailiesCache(store)[getDateTransform(getYesterday(date))] || [];
 export const getDailiesDateRangeCache = (store) =>
   getDailiesState(store).dateRangeCache;
 export const getDailiesError = (store) => getDailiesState(store).error;

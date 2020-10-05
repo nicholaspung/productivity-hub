@@ -9,9 +9,15 @@ import PostSaver from './PostSaver';
 import Profile from './User/Profile';
 import { Main } from './BaseComponents';
 import Banner from './Banner';
+import Helmet from './BaseComponents/Helmet';
 
 const App = () => (
   <>
+    <Helmet
+      title="Welcome! | myexperiment.life"
+      name="Homepage"
+      content="A collection of tools to help you live your best life."
+    />
     <Banner />
     <Header />
     <Main>

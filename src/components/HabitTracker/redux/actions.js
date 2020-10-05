@@ -101,10 +101,13 @@ export const createDailiesForToday = () => async (dispatch, getState) => {
     return dispatch({ type: DAILIES_FETCHING_ERROR, payload: err });
   }
 };
-export const getDailiesForToday = () => async (dispatch, getState) => {
+export const getDailiesForToday = (date = new Date()) => async (
+  dispatch,
+  getState,
+) => {
   dispatch({ type: DAILIES_FETCHING });
   try {
-    const { data } = await getDailiesForTodayAPI();
+    const { data } = await getDailiesForTodayAPI(date);
     const { dailies } = getState();
     const { dailiesCache: dateObj } = dailies;
     data.forEach((daily) => {
@@ -157,6 +160,8 @@ const getDailiesForDateRange = (apiCall, dateRange, date) => async (
     return dispatch({ type: DAILIES_CACHE_ERROR, payload: err });
   }
 };
+export const getDailiesForDay = (date) =>
+  getDailiesForDateRange(getDailiesForTodayAPI, '', date);
 export const getDailiesForWeek = (date) =>
   getDailiesForDateRange(getDailiesForWeekAPI, DATE_RANGES.WEEK, date);
 export const getDailiesForMonth = (date) =>

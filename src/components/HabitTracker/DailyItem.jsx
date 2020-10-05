@@ -24,6 +24,7 @@ const DailyItem = ({
   deleteHabit,
   dailies,
   toggleDaily,
+  hideOptions,
 }) => {
   const [edit, setEdit] = useState(false);
   const onCheckedChange = () => {
@@ -67,47 +68,54 @@ const DailyItem = ({
           </div>
           <div className="flex flex-col px-4">
             <span className="font-semibold">{data.habit.name}</span>
-            <span className="text-xs">{data.habit.description}</span>
+            {!hideOptions && (
+              <span className="text-xs">{data.habit.description}</span>
+            )}
           </div>
         </label>
       </div>
-      <div className="flex flex-col items-end w-16">
-        <button onClick={() => setEdit(true)} type="button">
-          <EditSVG className="w-4 h-auto" title="Edit habit" />
-        </button>
-        {edit && (
-          <ItemAction
-            data={data.habit}
-            labelName="Edit Habit"
-            actionFunction={editHabit}
-            displayFunction={() => setEdit(!edit)}
-          />
-        )}
-        {!data.habit.archived && (
-          <button onClick={onArchiveHabit} type="button">
-            <ArchiveSVG className="w-4 h-auto" title="Archive habit" />
+      {!hideOptions && (
+        <div className="flex flex-col items-end w-16">
+          <button onClick={() => setEdit(true)} type="button">
+            <EditSVG className="w-4 h-auto" title="Edit habit" />
           </button>
-        )}
-        {data.habit.archived && (
-          <button onClick={onUnarchiveHabit} type="button">
-            <UnarchiveSVG className="w-4 h-auto" title="Unarchive habit" />
-          </button>
-        )}
-        <div>
-          <button onClick={() => onReorderHabits(DIRECTIONS.UP)} type="button">
-            <ArrowUpSVG className="w-4 h-auto" title="Move habit up" />
-          </button>
-          <button
-            onClick={() => onReorderHabits(DIRECTIONS.DOWN)}
-            type="button"
-          >
-            <ArrowDownSVG className="w-4 h-auto" title="Move habit down" />
+          {edit && (
+            <ItemAction
+              data={data.habit}
+              labelName="Edit Habit"
+              actionFunction={editHabit}
+              displayFunction={() => setEdit(!edit)}
+            />
+          )}
+          {!data.habit.archived && (
+            <button onClick={onArchiveHabit} type="button">
+              <ArchiveSVG className="w-4 h-auto" title="Archive habit" />
+            </button>
+          )}
+          {data.habit.archived && (
+            <button onClick={onUnarchiveHabit} type="button">
+              <UnarchiveSVG className="w-4 h-auto" title="Unarchive habit" />
+            </button>
+          )}
+          <div>
+            <button
+              onClick={() => onReorderHabits(DIRECTIONS.UP)}
+              type="button"
+            >
+              <ArrowUpSVG className="w-4 h-auto" title="Move habit up" />
+            </button>
+            <button
+              onClick={() => onReorderHabits(DIRECTIONS.DOWN)}
+              type="button"
+            >
+              <ArrowDownSVG className="w-4 h-auto" title="Move habit down" />
+            </button>
+          </div>
+          <button onClick={onDeleteHabit} type="button">
+            <DeleteSVG className="w-4 h-auto" title="Delete habit" />
           </button>
         </div>
-        <button onClick={onDeleteHabit} type="button">
-          <DeleteSVG className="w-4 h-auto" title="Delete habit" />
-        </button>
-      </div>
+      )}
     </li>
   );
 };
@@ -119,6 +127,10 @@ DailyItem.propTypes = {
   deleteHabit: PropTypes.func.isRequired,
   dailies: PropTypes.array.isRequired,
   toggleDaily: PropTypes.func.isRequired,
+  hideOptions: PropTypes.bool,
+};
+DailyItem.defaultProps = {
+  hideOptions: false,
 };
 
 export default connect((state) => ({ dailies: getDailiesDailies(state) }), {

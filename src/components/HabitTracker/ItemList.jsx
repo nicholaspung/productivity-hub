@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EmptyItem from '../BaseComponents/EmptyItem';
 
-const ItemList = ({ data, Component, filterFunction, loading }) => (
+const ItemList = ({ data, Component, filterFunction, loading, ...rest }) => (
   <ul>
     <EmptyItem length={data.length} loading={loading} />
     {data.filter(filterFunction).map((item) => (
-      <Component data={item} key={item.id} />
+      <Component data={item} key={item.id} {...rest} />
     ))}
   </ul>
 );

@@ -84,7 +84,9 @@ const Header = ({
               logIn={logIn}
               isLoggedIn={isLoggedIn}
               isUserLoading={isUserLoading}
-            />
+            >
+              <NavItems data={navSubItems} />
+            </UserActions>
           )}
         </div>
       </div>
@@ -302,8 +304,9 @@ BottomMobileNavItems.defaultProps = {
   children: '',
 };
 
-const UserActions = ({ logIn, isLoggedIn, isUserLoading }) => (
+const UserActions = ({ logIn, isLoggedIn, isUserLoading, children }) => (
   <div className="hidden md:flex items-center justify-end space-x-8 md:flex-1 lg:w-0">
+    {children}
     {isUserLoading && (
       <LoadingSVG className="w-6 h-auto animate-spin absolute" />
     )}
@@ -325,6 +328,15 @@ UserActions.propTypes = {
   logIn: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   isUserLoading: PropTypes.bool.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.element,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
+};
+UserActions.defaultProps = {
+  children: '',
 };
 
 const MobileUserActions = ({ logIn, isLoggedIn, isUserLoading }) => (

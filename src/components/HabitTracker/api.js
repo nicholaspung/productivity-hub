@@ -52,8 +52,10 @@ export const toggleDaily = async (daily) =>
 export const createDailiesForToday = async () =>
   (await axiosWithAuth()).post(dailiesUrl);
 
-export const getDailiesForToday = async () =>
-  (await axiosWithAuth()).get(dailiesUrl);
+export const getDailiesForToday = async (date = new Date()) =>
+  (await axiosWithAuth()).get(
+    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=day`,
+  );
 
 export const getDailiesForWeek = async (date = new Date()) =>
   (await axiosWithAuth()).get(

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getUserInfo, getUserApps } from './redux/selectors';
 import { addApp as addAppAction } from './redux/actions';
 import { DisplayContainerCard, Button, FilledButton } from '../BaseComponents';
+import Helmet from '../BaseComponents/Helmet';
 import DeleteAccount from './DeleteAccount';
 
 const APPS = ['HABIT_TRACKER', 'POST_SAVER'];
@@ -28,6 +29,11 @@ const Profile = ({ userInfo, apps, addApp }) => {
 
   return (
     <>
+      <Helmet
+        title="Your Profile"
+        name="Profile page"
+        content="This is where you see your account data."
+      />
       <DisplayContainerCard>
         <h1 className="text-3xl font-bold">Profile</h1>
         <p>

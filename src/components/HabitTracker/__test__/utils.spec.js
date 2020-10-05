@@ -143,4 +143,10 @@ describe('#HabitTrackerUtils', () => {
     const date2 = '2020-09-15';
     expect(utils.createBackEmptyDates(date2).length).toEqual(3);
   });
+  it('#getYesterday', () => {
+    const date1 = new Date(2019, 0, 5);
+    expect(utils.getYesterday(date1)).toEqual(new Date(2019, 0, 4));
+    const date2 = new Date(2020, 10, 4);
+    expect(utils.getYesterday(date2)).toEqual(new Date(2020, 10, 3));
+  });
 });

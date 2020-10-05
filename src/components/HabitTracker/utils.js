@@ -110,3 +110,8 @@ export const createBackEmptyDates = (pythonDate) => {
   const numOfEmptyDates = 6 - lastDay.getDay();
   return Array(numOfEmptyDates).fill(0);
 };
+
+export const getYesterday = () => {
+  const today = new Date();
+  return new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+};
