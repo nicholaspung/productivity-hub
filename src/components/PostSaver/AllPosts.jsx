@@ -26,9 +26,9 @@ import { ReactComponent as ArrowRightSVG } from '../../assets/icons/arrowright.s
 const AllPosts = ({
   getPosts,
   postsObj,
-  loading,
+  loading = false,
   getRefreshedPosts,
-  classes,
+  classes = '',
   error,
 }) => {
   useEffect(() => {
@@ -95,11 +95,6 @@ AllPosts.propTypes = {
   getRefreshedPosts: PropTypes.func.isRequired,
   classes: PropTypes.string,
   error: PropTypes.object.isRequired,
-};
-
-AllPosts.defaultProps = {
-  classes: '',
-  loading: false,
 };
 
 export default connect(

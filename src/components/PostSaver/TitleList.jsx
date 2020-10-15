@@ -29,10 +29,10 @@ const FILTER_OPTIONS = {
 };
 
 const TitleList = ({
-  titles,
-  loading,
+  titles = [],
+  loading = false,
   getTitles,
-  classes,
+  classes = '',
   addTitle,
   error,
 }) => {
@@ -142,11 +142,6 @@ TitleList.propTypes = {
   classes: PropTypes.string,
   addTitle: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
-};
-TitleList.defaultProps = {
-  classes: '',
-  loading: false,
-  titles: [],
 };
 
 export default connect(

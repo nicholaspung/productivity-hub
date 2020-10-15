@@ -15,6 +15,8 @@ Note: to be used in conjunction with [productivity-hub-api](https://github.com/n
 - Firebase Authentication
 - React Router
 - Jest
+- GitHub Actions
+- Firebase Hosting
 
 ## Environment Variables
 

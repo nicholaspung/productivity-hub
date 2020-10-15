@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { VIEWS, getDayInfo } from './utils';
 import { SHORT_MONTH_NAMES, displayColor } from './constants';
 
-const CalendarDay = ({ dailiesCache, day, labelView }) => {
+const CalendarDay = ({ dailiesCache, day, labelView = '' }) => {
   let finishedLength = 0;
   let totalLength = 0;
   let percentageLabel = 0;
@@ -40,9 +40,6 @@ CalendarDay.propTypes = {
   dailiesCache: PropTypes.object.isRequired,
   day: PropTypes.string.isRequired,
   labelView: PropTypes.string,
-};
-CalendarDay.defaultProps = {
-  labelView: '',
 };
 
 export default CalendarDay;

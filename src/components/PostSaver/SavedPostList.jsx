@@ -22,11 +22,11 @@ import { ReactComponent as RefreshSVG } from '../../assets/icons/refresh.svg';
 import { ReactComponent as CancelSVG } from '../../assets/icons/cancel.svg';
 
 const SavedPostList = ({
-  savedPosts,
-  loading,
+  savedPosts = [],
+  loading = false,
   getSavedPosts,
   updateSavedPost,
-  classes,
+  classes = '',
   error,
 }) => {
   useEffect(() => {
@@ -98,11 +98,6 @@ SavedPostList.propTypes = {
   updateSavedPost: PropTypes.func.isRequired,
   classes: PropTypes.string,
   error: PropTypes.object.isRequired,
-};
-SavedPostList.defaultProps = {
-  classes: '',
-  loading: false,
-  savedPosts: [],
 };
 
 export default connect(

@@ -233,9 +233,6 @@ const NavItems = ({ data = [] }) => (
 NavItems.propTypes = {
   data: PropTypes.array,
 };
-NavItems.defaultProps = {
-  data: [],
-};
 
 const TopMobileNavItems = ({ data = [], onClickAction }) => (
   <div className="pt-5 pb-6 px-5 space-y-6">
@@ -268,11 +265,8 @@ TopMobileNavItems.propTypes = {
   data: PropTypes.array,
   onClickAction: PropTypes.func.isRequired,
 };
-TopMobileNavItems.defaultProps = {
-  data: [],
-};
 
-const BottomMobileNavItems = ({ data = [], children, onClickAction }) => (
+const BottomMobileNavItems = ({ data = [], children = '', onClickAction }) => (
   <div className="py-6 px-5 space-y-6">
     <div className="grid grid-cols-2 gap-y-4 gap-x-8">
       {data.map((item) => (
@@ -299,12 +293,8 @@ BottomMobileNavItems.propTypes = {
   ]),
   onClickAction: PropTypes.func.isRequired,
 };
-BottomMobileNavItems.defaultProps = {
-  data: [],
-  children: '',
-};
 
-const UserActions = ({ logIn, isLoggedIn, isUserLoading, children }) => (
+const UserActions = ({ logIn, isLoggedIn, isUserLoading, children = '' }) => (
   <div className="hidden md:flex items-center justify-end space-x-8 md:flex-1 lg:w-0">
     {children}
     {isUserLoading && (
@@ -334,9 +324,6 @@ UserActions.propTypes = {
     PropTypes.func,
     PropTypes.string,
   ]),
-};
-UserActions.defaultProps = {
-  children: '',
 };
 
 const MobileUserActions = ({ logIn, isLoggedIn, isUserLoading }) => (

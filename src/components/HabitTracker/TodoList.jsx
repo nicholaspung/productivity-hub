@@ -23,7 +23,14 @@ const getFilterFunction = (filter) => {
   return (item) => item.finished;
 };
 
-const TodoList = ({ todos, getTodos, loading, addTodo, classes, error }) => {
+const TodoList = ({
+  todos = [],
+  getTodos,
+  loading = false,
+  addTodo,
+  classes = '',
+  error,
+}) => {
   const [filter, setFilter] = useState(FILTERS.ACTIVE);
 
   useEffect(() => {
@@ -90,12 +97,6 @@ TodoList.propTypes = {
   addTodo: PropTypes.func.isRequired,
   classes: PropTypes.string,
   error: PropTypes.object.isRequired,
-};
-
-TodoList.defaultProps = {
-  classes: '',
-  loading: false,
-  todos: [],
 };
 
 export default connect(

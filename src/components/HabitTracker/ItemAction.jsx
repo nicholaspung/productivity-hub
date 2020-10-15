@@ -7,7 +7,12 @@ import {
   FilledButton,
 } from '../BaseComponents';
 
-const ItemAction = ({ data, actionFunction, displayFunction, labelName }) => {
+const ItemAction = ({
+  data,
+  actionFunction,
+  displayFunction = () => {},
+  labelName = '',
+}) => {
   const [name, setName] = useState(data.name || '');
   const [description, setDescription] = useState(data.description || '');
 
@@ -77,10 +82,6 @@ ItemAction.propTypes = {
   actionFunction: PropTypes.func.isRequired,
   displayFunction: PropTypes.func,
   labelName: PropTypes.string,
-};
-ItemAction.defaultProps = {
-  displayFunction: () => {},
-  labelName: '',
 };
 
 export default ItemAction;

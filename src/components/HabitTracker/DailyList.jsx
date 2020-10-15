@@ -29,11 +29,11 @@ const getFilterFunction = (filter) => {
 };
 
 const DailyList = ({
-  dailies,
-  loading,
+  dailies = [],
+  loading = false,
   addHabit,
   createDailiesForToday,
-  classes,
+  classes = '',
   error,
 }) => {
   const [filter, setFilter] = useState(FILTERS.UNFINISHED);
@@ -108,11 +108,6 @@ DailyList.propTypes = {
   createDailiesForToday: PropTypes.func.isRequired,
   classes: PropTypes.string,
   error: PropTypes.object.isRequired,
-};
-DailyList.defaultProps = {
-  classes: '',
-  dailies: [],
-  loading: false,
 };
 
 export default connect(

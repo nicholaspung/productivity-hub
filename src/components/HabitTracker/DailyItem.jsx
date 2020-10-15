@@ -24,7 +24,7 @@ const DailyItem = ({
   deleteHabit,
   dailies,
   toggleDaily,
-  hideOptions,
+  hideOptions = false,
 }) => {
   const [edit, setEdit] = useState(false);
   const onCheckedChange = () => {
@@ -128,9 +128,6 @@ DailyItem.propTypes = {
   dailies: PropTypes.array.isRequired,
   toggleDaily: PropTypes.func.isRequired,
   hideOptions: PropTypes.bool,
-};
-DailyItem.defaultProps = {
-  hideOptions: false,
 };
 
 export default connect((state) => ({ dailies: getDailiesDailies(state) }), {

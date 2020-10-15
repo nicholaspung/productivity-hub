@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EmptyItem from '../BaseComponents/EmptyItem';
 
-const ItemList = ({ data, Component, filterFunction, loading, ...rest }) => (
+const ItemList = ({
+  data = [],
+  Component,
+  filterFunction = (item) => item,
+  loading = false,
+  ...rest
+}) => (
   <ul>
     <EmptyItem length={data.length} loading={loading} />
     {data.filter(filterFunction).map((item) => (
@@ -16,11 +22,6 @@ ItemList.propTypes = {
   Component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
   filterFunction: PropTypes.func,
   loading: PropTypes.bool,
-};
-ItemList.defaultProps = {
-  data: [],
-  filterFunction: (item) => item,
-  loading: false,
 };
 
 export default ItemList;

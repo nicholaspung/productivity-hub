@@ -5,11 +5,11 @@ import { ReactComponent as SaveSVG } from '../../assets/icons/save.svg';
 
 const AddItem = ({
   addItem,
-  labelTitle,
-  labelButton,
-  placeholder,
-  property,
-  classes,
+  labelTitle = '',
+  labelButton = '',
+  placeholder = '',
+  property = '',
+  classes = '',
 }) => {
   const [newItem, setNewItem] = useState('');
   const onAddItem = (event) => {
@@ -49,14 +49,6 @@ AddItem.propTypes = {
   placeholder: PropTypes.string,
   property: PropTypes.string,
   classes: PropTypes.string,
-};
-
-AddItem.defaultProps = {
-  labelTitle: '',
-  labelButton: '',
-  placeholder: '',
-  property: '',
-  classes: '',
 };
 
 export default AddItem;

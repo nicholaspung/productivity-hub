@@ -22,6 +22,7 @@
     "import/prefer-default-export": "warn",
     "global-require": "warn",
     "import/no-extraneous-dependencies": "warn",
-    "react/forbid-prop-types": "warn"
+    "react/forbid-prop-types": "warn",
+    "react/require-default-props": "off"
   }
 }
