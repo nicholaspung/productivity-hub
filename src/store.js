@@ -14,6 +14,6 @@ const combinedReducers = combineReducers({
 export default createStore(
   combinedReducers,
   process.env.NODE_ENV === 'production'
-    ? composeWithDevTools(applyMiddleware(thunk))
-    : applyMiddleware(thunk),
+    ? applyMiddleware(thunk)
+    : composeWithDevTools(applyMiddleware(thunk)),
 );
