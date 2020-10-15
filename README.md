@@ -47,3 +47,13 @@ See the project page [here](https://github.com/nicholaspung/productivity-hub/pro
 1. Add your `FIREBASE_TOKEN=` in .env file after logging into your Firebase account
 2. Follow instructions on how to connect with Firebase CLI
 3. You're done!
+
+## Using GitHub Actions as your CI/CD
+
+1. Add the environment variables in your GitHub project secrets
+   - To locate, go to your project repository, click on 'Settings' and find 'Secrets'
+2. Add the environment variables in the .env.sample with the values
+   - Since this is a front-end application, you can also put the values directly in the correct spot
+   - Usable of .env is only to make it easier to understand which values need to be changed easily for different deployments
+
+Note: If you're using GitHub actions, in .env, `FIREBASE_TOKEN=` need not be used. `FIREBASE_TOKEN=` is used for `npm run firebase-deploy`
