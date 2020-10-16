@@ -3,7 +3,7 @@ import { getIdToken } from './firebase/utils';
 
 const baseUrl =
   process.env.NODE_ENV === 'production'
-    ? process.env.API_ROUTE
+    ? process.env.REACT_APP_API_ROUTE
     : 'http://127.0.0.1:8000/api';
 
 export const axiosWithAuth = async () => {
