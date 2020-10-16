@@ -46,40 +46,42 @@ const SavedPostList = ({
       <h1 className="text-2xl font-bold text-center">Saved Post List</h1>
       <ul className={overflowDisplayContainer}>
         <EmptyItem length={savedPosts.length} loading={loading} error={error} />
-        {savedPosts
-          .sort((a, b) => {
-            const aTitle = a.title.toLowerCase();
-            const bTitle = b.title.toLowerCase();
-            if (aTitle < bTitle) {
-              return -1;
-            }
-            if (aTitle > bTitle) {
-              return 1;
-            }
-            return 0;
-          })
-          .map((savedPost) => (
-            <li
-              key={savedPost.id}
-              className="flex justify-between items-center p-2"
-            >
-              <a
-                href={savedPost.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => updateSavedPost(savedPost.id)}
-              >
-                {savedPost.title}
-              </a>
-              <button
-                className={smallerFilledButtonClassName}
-                onClick={() => updateSavedPost(savedPost.id)}
-                type="button"
-              >
-                <CancelSVG className="w-4 h-auto" title="Remove" />
-              </button>
-            </li>
-          ))}
+        {savedPosts.length
+          ? savedPosts
+              .sort((a, b) => {
+                const aTitle = a.title.toLowerCase();
+                const bTitle = b.title.toLowerCase();
+                if (aTitle < bTitle) {
+                  return -1;
+                }
+                if (aTitle > bTitle) {
+                  return 1;
+                }
+                return 0;
+              })
+              .map((savedPost) => (
+                <li
+                  key={savedPost.id}
+                  className="flex justify-between items-center p-2"
+                >
+                  <a
+                    href={savedPost.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => updateSavedPost(savedPost.id)}
+                  >
+                    {savedPost.title}
+                  </a>
+                  <button
+                    className={smallerFilledButtonClassName}
+                    onClick={() => updateSavedPost(savedPost.id)}
+                    type="button"
+                  >
+                    <CancelSVG className="w-4 h-auto" title="Remove" />
+                  </button>
+                </li>
+              ))
+          : null}
       </ul>
       <p className="py-4">
         <strong>Note:</strong>

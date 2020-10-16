@@ -102,34 +102,34 @@ const TitleList = ({
       </div>
       <ul className={`${overflowDisplayContainer} h-screen`}>
         <EmptyItem length={titles.length} loading={loading} error={error} />
-        {titles
-          .sort((a, b) => {
-            const aTitle = a.title.toLowerCase();
-            const bTitle = b.title.toLowerCase();
-            if (filter === FILTER_OPTIONS['A-Z']) {
-              if (aTitle < bTitle) {
-                return -1;
-              }
-              if (aTitle > bTitle) {
-                return 1;
-              }
-              return 0;
-            }
-            if (filter === FILTER_OPTIONS['Z-A']) {
-              if (aTitle > bTitle) {
-                return -1;
-              }
-              if (aTitle < bTitle) {
-                return 1;
-              }
-              return 0;
-            }
-            return 0;
-          })
-          .filter((title) => title.title.toLowerCase().includes(search))
-          .map((title) => (
-            <Title data={title} key={title.id} />
-          ))}
+        {titles.length
+          ? titles
+              .sort((a, b) => {
+                const aTitle = a.title.toLowerCase();
+                const bTitle = b.title.toLowerCase();
+                if (filter === FILTER_OPTIONS['A-Z']) {
+                  if (aTitle < bTitle) {
+                    return -1;
+                  }
+                  if (aTitle > bTitle) {
+                    return 1;
+                  }
+                  return 0;
+                }
+                if (filter === FILTER_OPTIONS['Z-A']) {
+                  if (aTitle > bTitle) {
+                    return -1;
+                  }
+                  if (aTitle < bTitle) {
+                    return 1;
+                  }
+                  return 0;
+                }
+                return 0;
+              })
+              .filter((title) => title.title.toLowerCase().includes(search))
+              .map((title) => <Title data={title} key={title.id} />)
+          : null}
       </ul>
     </div>
   );

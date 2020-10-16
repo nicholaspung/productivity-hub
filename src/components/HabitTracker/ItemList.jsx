@@ -11,9 +11,11 @@ const ItemList = ({
 }) => (
   <ul>
     <EmptyItem length={data.length} loading={loading} />
-    {data.filter(filterFunction).map((item) => (
-      <Component data={item} key={item.id} {...rest} />
-    ))}
+    {data.length
+      ? data
+          .filter(filterFunction)
+          .map((item) => <Component data={item} key={item.id} {...rest} />)
+      : null}
   </ul>
 );
 

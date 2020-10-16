@@ -25,7 +25,7 @@ import { ReactComponent as ArrowRightSVG } from '../../assets/icons/arrowright.s
 
 const AllPosts = ({
   getPosts,
-  postsObj,
+  postsObj = {},
   loading = false,
   getRefreshedPosts,
   classes = '',
@@ -34,6 +34,8 @@ const AllPosts = ({
   useEffect(() => {
     getPosts();
   }, [getPosts]);
+
+  const postObjLength = postsObj.results ? postsObj.results.length : 0;
 
   return (
     <div className={`${fixedDisplayContainer} ${classes || ''}`}>
@@ -45,24 +47,22 @@ const AllPosts = ({
       {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
       <h1 className="text-2xl font-bold text-center">All Posts</h1>
       <ul className={`${overflowDisplayContainer} h-screen`}>
-        <EmptyItem
-          length={postsObj.results.length}
-          loading={loading}
-          error={error}
-        />
-        {postsObj.results.map((result) => (
-          <li key={result.id} className="flex items-center p-2">
-            <a
-              href={result.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={smallerFilledButtonClassName}
-            >
-              <ExternalLinkSVG className="w-4 h-auto" title="Link" />
-            </a>
-            <span className="pl-1">{result.title}</span>
-          </li>
-        ))}
+        <EmptyItem length={postObjLength} loading={loading} error={error} />
+        {postObjLength
+          ? postsObj.results.map((result) => (
+              <li key={result.id} className="flex items-center p-2">
+                <a
+                  href={result.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={smallerFilledButtonClassName}
+                >
+                  <ExternalLinkSVG className="w-4 h-auto" title="Link" />
+                </a>
+                <span className="pl-1">{result.title}</span>
+              </li>
+            ))
+          : null}
       </ul>
       <div className="flex justify-end">
         {postsObj.previous && (
