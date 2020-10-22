@@ -253,7 +253,7 @@ export const deleteTodo = (id) => async (dispatch, getState) => {
     await deleteTodoAPI(id);
     const { todos } = getState();
     const idIndex = todos.todos.findIndex((el) => el.id === id);
-    const todosCopy = helperRemoveObjectFromArray(todos, idIndex);
+    const todosCopy = helperRemoveObjectFromArray(todos.todos, idIndex);
     return dispatch({ type: TODOS_DELETING_DONE, payload: todosCopy });
   } catch (err) {
     return dispatch({ type: TODOS_DELETING_ERROR, payload: err });

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VIEWS, getDayInfo } from './utils';
+import { VIEWS, getDayInfo, getJavascriptDateTransform } from './utils';
 import { SHORT_MONTH_NAMES, displayColor } from './constants';
 
 const CalendarDay = ({ dailiesCache, day, labelView = '' }) => {
@@ -8,9 +8,11 @@ const CalendarDay = ({ dailiesCache, day, labelView = '' }) => {
   let totalLength = 0;
   let percentageLabel = 0;
   if (dailiesCache[day]) {
-    const dayInfo = getDayInfo(dailiesCache[day]);
-    [finishedLength, totalLength, percentageLabel] = dayInfo;
+    [finishedLength, totalLength, percentageLabel] = getDayInfo(
+      dailiesCache[day],
+    );
   }
+  const isPreviousDay = getJavascriptDateTransform(day) < new Date();
   return (
     <li className="m-2">
       {labelView === VIEWS.WEEK.label && (
@@ -22,7 +24,9 @@ const CalendarDay = ({ dailiesCache, day, labelView = '' }) => {
       )}
       <div
         className={`w-8 h-8 md:w-16 md:h-16 md:flex md:flex-col md:items-end md:justify-end rounded-md border-2 ${
-          totalLength && displayColor({ percentage: percentageLabel })[0]
+          // totalLength && displayColor({ percentage: percentageLabel })[0]
+          (isPreviousDay || totalLength) &&
+          displayColor({ percentage: percentageLabel })[0]
         }`}
       >
         {dailiesCache[day] && (

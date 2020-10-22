@@ -83,6 +83,8 @@ export const getDateTransform = (date) => {
   }
   return `${date.getFullYear()}-${month}-${day}`;
 };
+export const getJavascriptDateTransform = (date) =>
+  new Date(date.slice(0, 4), date.slice(5, 7) - 1, date.slice(8, 10));
 
 export const getArrayWithDates = (date, arrayFunction, firstDateFunction) => {
   const day = firstDateFunction(date);
