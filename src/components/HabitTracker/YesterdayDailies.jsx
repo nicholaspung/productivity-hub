@@ -26,6 +26,10 @@ const YesterdayDailies = ({ yesterday, getDailiesForDay, loading, error }) => {
   }, []);
 
   const visibleFilter = (item) => !item.archived;
+  const closePreviousDayDailies = () => {
+    localStorage.setItem('first-load-of-day', todayString);
+    setShowYesterday(false);
+  };
   return (
     showYesterday && (
       <Modal>
@@ -55,12 +59,7 @@ const YesterdayDailies = ({ yesterday, getDailiesForDay, loading, error }) => {
               hideOptions
             />
           </div>
-          <FilledButton
-            action={() => {
-              localStorage.setItem('first-load-of-day', todayString);
-              setShowYesterday(false);
-            }}
-          >
+          <FilledButton action={closePreviousDayDailies}>
             Start a new day!
           </FilledButton>
         </div>

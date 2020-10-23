@@ -45,12 +45,20 @@ export const deleteTodo = async (id) =>
   (await axiosWithAuth()).delete(`${todoUrl}${id}/`);
 
 export const toggleDaily = async (daily) =>
-  (await axiosWithAuth()).put(`${dailiesUrl}${daily.id}/`, {
-    finished: !daily.finished,
-  });
+  (await axiosWithAuth()).put(
+    `${dailiesUrl}${daily.id}/?date=${daily.date}&timeframe=day`,
+    {
+      finished: !daily.finished,
+    },
+  );
 
 export const createDailiesForToday = async () =>
   (await axiosWithAuth()).post(dailiesUrl);
+
+// export const createDailiesForToday = async () =>
+//   (await axiosWithAuth()).post(
+//     `${dailiesUrl}?date=${transformToDateFormat(new Date())}`,
+//   );
 
 export const getDailiesForToday = async (date = new Date()) =>
   (await axiosWithAuth()).get(
@@ -71,6 +79,3 @@ export const getDailiesForYear = async (date = new Date()) =>
   (await axiosWithAuth()).get(
     `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=year`,
   );
-
-export const toggleDailies = async (id, daily) =>
-  (await axiosWithAuth()).put(`${dailiesUrl}${id}/`, daily);
