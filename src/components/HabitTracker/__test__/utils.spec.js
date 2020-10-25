@@ -149,4 +149,6 @@ describe('#HabitTrackerUtils', () => {
     const date2 = new Date(2020, 10, 4);
     expect(utils.getYesterday(date2)).toEqual(new Date(2020, 10, 3));
   });
+  it('#sortDailies', () => {});
+  it('#transformDailiesForCache', () => {});
 });

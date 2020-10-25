@@ -6,7 +6,7 @@ import DailyItem from './DailyItem';
 import AddItem from '../BaseComponents/AddItem';
 import {
   addHabit as addHabitAction,
-  createDailiesForToday as createDailiesForTodayAction,
+  createDailiesForDay as createDailiesForDayAction,
 } from './redux/actions';
 import {
   getDailiesDailies,
@@ -32,17 +32,17 @@ const DailyList = ({
   dailies = [],
   loading = false,
   addHabit,
-  createDailiesForToday,
+  createDailiesForDay,
   classes = '',
   error,
 }) => {
   const [filter, setFilter] = useState(FILTERS.UNFINISHED);
   useEffect(() => {
     if (!dailies.length) {
-      createDailiesForToday();
+      createDailiesForDay();
     }
     // eslint-disable-next-line
-  }, [createDailiesForToday]);
+  }, [createDailiesForDay]);
   return (
     <DisplayContainer classes={classes || ''}>
       <div className="flex justify-between items-end">
@@ -105,7 +105,7 @@ DailyList.propTypes = {
   dailies: PropTypes.array,
   loading: PropTypes.bool,
   addHabit: PropTypes.func.isRequired,
-  createDailiesForToday: PropTypes.func.isRequired,
+  createDailiesForDay: PropTypes.func.isRequired,
   classes: PropTypes.string,
   error: PropTypes.object.isRequired,
 };
@@ -118,6 +118,6 @@ export default connect(
   }),
   {
     addHabit: addHabitAction,
-    createDailiesForToday: createDailiesForTodayAction,
+    createDailiesForDay: createDailiesForDayAction,
   },
 )(DailyList);

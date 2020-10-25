@@ -52,15 +52,12 @@ export const toggleDaily = async (daily) =>
     },
   );
 
-export const createDailiesForToday = async () =>
-  (await axiosWithAuth()).post(dailiesUrl);
+export const createDailiesForDay = async (date = new Date()) =>
+  (await axiosWithAuth()).post(
+    `${dailiesUrl}?date=${transformToDateFormat(date)}`,
+  );
 
-// export const createDailiesForToday = async () =>
-//   (await axiosWithAuth()).post(
-//     `${dailiesUrl}?date=${transformToDateFormat(new Date())}`,
-//   );
-
-export const getDailiesForToday = async (date = new Date()) =>
+export const getDailiesForDay = async (date = new Date()) =>
   (await axiosWithAuth()).get(
     `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=day`,
   );

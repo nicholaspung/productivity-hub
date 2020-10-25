@@ -10,18 +10,23 @@ import {
   getDailiesLoadingStatus,
   getDailiesError,
 } from './redux/selectors';
-import { getDailiesForDay as getDailiesForDayAction } from './redux/actions';
+import { createDailiesForDay as createDailiesForDayAction } from './redux/actions';
 import { getYesterday } from './utils';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 
-const YesterdayDailies = ({ yesterday, getDailiesForDay, loading, error }) => {
+const YesterdayDailies = ({
+  yesterday,
+  createDailiesForDay,
+  loading,
+  error,
+}) => {
   const todayString = new Date().toLocaleDateString();
   const [showYesterday, setShowYesterday] = useState(
     localStorage.getItem('first-load-of-day') !== todayString,
   );
 
   useEffect(() => {
-    getDailiesForDay(getYesterday());
+    createDailiesForDay(getYesterday());
     // eslint-disable-next-line
   }, []);
 
@@ -70,7 +75,7 @@ const YesterdayDailies = ({ yesterday, getDailiesForDay, loading, error }) => {
 
 YesterdayDailies.propTypes = {
   yesterday: PropTypes.array.isRequired,
-  getDailiesForDay: PropTypes.func.isRequired,
+  createDailiesForDay: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.object.isRequired,
 };
@@ -82,6 +87,6 @@ export default connect(
     error: getDailiesError(state),
   }),
   {
-    getDailiesForDay: getDailiesForDayAction,
+    createDailiesForDay: createDailiesForDayAction,
   },
 )(YesterdayDailies);

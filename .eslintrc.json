@@ -24,6 +24,7 @@
     "import/no-extraneous-dependencies": "warn",
     "react/forbid-prop-types": "warn",
     "react/require-default-props": "off",
-    "react/jsx-indent": "warn"
+    "react/jsx-indent": "warn",
+    "function-paren-newline": "warn"
   }
 }

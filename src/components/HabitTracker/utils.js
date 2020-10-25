@@ -1,5 +1,26 @@
 import { DIRECTIONS } from './constants';
 
+// Date utils
+export const getDateTransform = (date) => {
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+  if (String(month).length === 1) {
+    month = `0${month}`;
+  }
+  if (String(day).length === 1) {
+    day = `0${day}`;
+  }
+  return `${date.getFullYear()}-${month}-${day}`;
+};
+export const getJavascriptDateTransform = (date) =>
+  new Date(date.slice(0, 4), date.slice(5, 7) - 1, date.slice(8, 10));
+
+export const getYesterday = () => {
+  const today = new Date();
+  return new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+};
+
+// Calendar Utils
 export const getDaysInMonth = (date) =>
   new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 export const isLeapYear = (year) => {
@@ -72,29 +93,6 @@ export const getDayInfo = (array) => {
   return [finishedLength, array.length, finishedLength / array.length];
 };
 
-export const getDateTransform = (date) => {
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
-  if (String(month).length === 1) {
-    month = `0${month}`;
-  }
-  if (String(day).length === 1) {
-    day = `0${day}`;
-  }
-  return `${date.getFullYear()}-${month}-${day}`;
-};
-export const getJavascriptDateTransform = (date) =>
-  new Date(date.slice(0, 4), date.slice(5, 7) - 1, date.slice(8, 10));
-
-export const getArrayWithDates = (date, arrayFunction, firstDateFunction) => {
-  const day = firstDateFunction(date);
-  return arrayFunction(date).map((x, i) =>
-    getDateTransform(
-      new Date(day.getFullYear(), day.getMonth(), day.getDate() + i),
-    ),
-  );
-};
-
 export const createFrontEmptyDates = (pythonDate) => {
   const date = new Date(
     pythonDate.slice(0, 4),
@@ -113,7 +111,36 @@ export const createBackEmptyDates = (pythonDate) => {
   return Array(numOfEmptyDates).fill(0);
 };
 
-export const getYesterday = () => {
-  const today = new Date();
-  return new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+export const getArrayWithDates = (date, arrayFunction, firstDateFunction) => {
+  const day = firstDateFunction(date);
+  return arrayFunction(date).map((x, i) =>
+    getDateTransform(
+      new Date(day.getFullYear(), day.getMonth(), day.getDate() + i),
+    ),
+  );
+};
+
+// Dailies utils
+export const sortDailies = (a, b) => {
+  if (a.habit.order > b.habit.order) return 1;
+  if (a.habit.order < b.habit.order) return -1;
+  return 0;
+};
+export const transformDailiesForCache = (dateObj, data) => {
+  const dateObjCopy = { ...dateObj };
+  data.forEach((daily) => {
+    if (dateObjCopy[daily.date]) {
+      const index = dateObjCopy[daily.date].findIndex(
+        (el) => el.id === daily.id,
+      );
+      if (index === -1) {
+        dateObjCopy[daily.date].push(daily);
+      } else {
+        dateObjCopy[daily.date][index] = daily;
+      }
+    } else {
+      dateObjCopy[daily.date] = [daily];
+    }
+  });
+  return dateObjCopy;
 };
