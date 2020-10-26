@@ -54,7 +54,7 @@ const YesterdayDailies = ({
               length={yesterday.filter(visibleFilter).length}
               loading={loading}
               error={error}
-              message="You have no habits for this category."
+              message="You have no habits."
             />
             <ItemList
               data={yesterday}

@@ -16,6 +16,8 @@ const transformToDateFormat = (date) => {
   return `${date.getFullYear()}-${month}-${day}`;
 };
 
+export const getHabits = async () => (await axiosWithAuth()).get(habitUrl);
+
 export const addHabit = async (habit) =>
   (await axiosWithAuth()).post(habitUrl, habit);
 

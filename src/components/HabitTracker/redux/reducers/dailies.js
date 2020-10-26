@@ -8,7 +8,11 @@ import {
   DAILIES_CACHE_DONE,
   DAILIES_CACHE_ERROR,
   DAILIES_DATE_RANGE_DONE,
+  HABITS_FETCHING,
+  HABITS_FETCHING_DONE,
+  HABITS_FETCHING_ERROR,
   HABITS_DELETING_ERROR,
+  HABITS_UPDATING_DONE,
   HABITS_UPDATING_ERROR,
   HABIT_TRACKER_CLEAR,
 } from '../actions';
@@ -17,6 +21,7 @@ export const initialState = {
   dailies: [],
   dailiesCache: {},
   dateRangeCache: {},
+  habits: [],
   loading: false,
   error: {},
 };
@@ -75,7 +80,30 @@ export default function (state = initialState, action) {
         ...state,
         dateRangeCache: action.payload,
       };
-
+    case HABITS_FETCHING:
+      return {
+        ...state,
+        loading: true,
+        error: {},
+      };
+    case HABITS_FETCHING_DONE:
+      return {
+        ...state,
+        loading: false,
+        habits: action.payload,
+      };
+    case HABITS_FETCHING_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case HABITS_UPDATING_DONE:
+      return {
+        ...state,
+        habits: action.payload,
+        loading: false,
+      };
     case HABITS_UPDATING_ERROR:
       return {
         ...state,

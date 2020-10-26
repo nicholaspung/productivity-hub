@@ -9,8 +9,8 @@ const EmptyItem = ({
 }) => (
   <>
     {error.message && (
-      <li className="list-none bg-red-600 text-white rounded-md">
-        {error.message}
+      <li className="list-none bg-red-600 text-white rounded-md p-2">
+        Something went wrong. Try refreshing again.
       </li>
     )}
     {!length && !loading && !Object.keys(error).length && (

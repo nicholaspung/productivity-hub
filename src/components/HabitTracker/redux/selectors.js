@@ -16,3 +16,5 @@ export const getTodosState = (store) => store.todos;
 export const getTodosTodos = (store) => getTodosState(store).todos;
 export const getTodosLoadingStatus = (store) => getTodosState(store).loading;
 export const getTodosError = (store) => getTodosState(store).error;
+
+export const getDailiesHabits = (store) => getDailiesState(store).habits;

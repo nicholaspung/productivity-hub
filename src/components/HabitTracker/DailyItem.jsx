@@ -25,6 +25,7 @@ const DailyItem = ({
   dailies,
   toggleDaily,
   hideOptions = false,
+  hideInput = false,
 }) => {
   const [edit, setEdit] = useState(false);
   const onCheckedChange = () => {
@@ -58,13 +59,15 @@ const DailyItem = ({
       <div>
         <label htmlFor={labelId} className="flex items-center">
           <div className="flex items-center p-4 border border-transparent rounded-md bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
-            <input
-              id={labelId}
-              type="checkbox"
-              checked={data.finished}
-              onChange={onCheckedChange}
-              className="form-checkbox text-indigo-600 w-6 h-6"
-            />
+            {!hideInput && (
+              <input
+                id={labelId}
+                type="checkbox"
+                checked={data.finished}
+                onChange={onCheckedChange}
+                className="form-checkbox text-indigo-600 w-6 h-6"
+              />
+            )}
           </div>
           <div className="flex flex-col px-4">
             <span className="font-semibold">{data.habit.name}</span>
@@ -128,6 +131,7 @@ DailyItem.propTypes = {
   dailies: PropTypes.array.isRequired,
   toggleDaily: PropTypes.func.isRequired,
   hideOptions: PropTypes.bool,
+  hideInput: PropTypes.bool,
 };
 
 export default connect((state) => ({ dailies: getDailiesDailies(state) }), {

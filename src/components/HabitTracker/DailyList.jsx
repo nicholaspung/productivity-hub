@@ -3,17 +3,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ItemList from './ItemList';
 import DailyItem from './DailyItem';
+import HabitList from './HabitList';
 import AddItem from '../BaseComponents/AddItem';
 import {
   addHabit as addHabitAction,
   createDailiesForDay as createDailiesForDayAction,
+  getHabits as getHabitsAction,
 } from './redux/actions';
 import {
   getDailiesDailies,
   getDailiesLoadingStatus,
   getDailiesError,
 } from './redux/selectors';
-import { DisplayContainer, DisplayContainerCard } from '../BaseComponents';
+import {
+  DisplayContainer,
+  DisplayContainerCard,
+  smallerFilledButtonClassName,
+} from '../BaseComponents';
 import { FILTERS } from './constants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
@@ -35,8 +41,10 @@ const DailyList = ({
   createDailiesForDay,
   classes = '',
   error,
+  getHabits,
 }) => {
   const [filter, setFilter] = useState(FILTERS.UNFINISHED);
+  const [showHabits, setShowHabits] = useState(false);
   useEffect(() => {
     if (!dailies.length) {
       createDailiesForDay();
@@ -74,7 +82,21 @@ const DailyList = ({
         </div>
       </div>
 
+      {showHabits && <HabitList closeHabits={() => setShowHabits(false)} />}
+
       <DisplayContainerCard>
+        {!loading && (
+          <div className="h-0">
+            <button
+              type="button"
+              onClick={() => setShowHabits(true)}
+              className={`${smallerFilledButtonClassName} relative`}
+              style={{ top: '-10px', left: '-10px' }}
+            >
+              See Habits
+            </button>
+          </div>
+        )}
         {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
         <AddItem
           addItem={addHabit}
@@ -108,6 +130,7 @@ DailyList.propTypes = {
   createDailiesForDay: PropTypes.func.isRequired,
   classes: PropTypes.string,
   error: PropTypes.object.isRequired,
+  getHabits: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -119,5 +142,6 @@ export default connect(
   {
     addHabit: addHabitAction,
     createDailiesForDay: createDailiesForDayAction,
+    getHabits: getHabitsAction,
   },
 )(DailyList);

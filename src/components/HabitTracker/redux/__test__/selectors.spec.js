@@ -85,4 +85,5 @@ describe('#HabitTrackerSelectors', () => {
     expect(selectors.getTodosError(state1)).toEqual(state1.todos.error);
     expect(selectors.getTodosError(state2)).toEqual(state2.todos.error);
   });
+  it('#getDailiesHabits', () => {});
 });

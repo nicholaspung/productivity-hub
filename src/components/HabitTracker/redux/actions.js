@@ -3,7 +3,7 @@ import {
   helperReplaceObjectInArray,
   helperRemoveObjectFromArray,
 } from '../../../utils';
-import { sortDailies, transformDailiesForCache } from '../utils';
+import { sortTodos, sortDailies, transformDailiesForCache } from '../utils';
 import {
   getDailiesForDay as getDailiesForDayAPI,
   getTodos as getTodosAPI,
@@ -20,8 +20,12 @@ import {
   getDailiesForWeek as getDailiesForWeekAPI,
   getDailiesForMonth as getDailiesForMonthAPI,
   getDailiesForYear as getDailiesForYearAPI,
+  getHabits as getHabitsAPI,
 } from '../api';
 
+export const HABITS_FETCHING = 'HABITS_FETCHING';
+export const HABITS_FETCHING_DONE = 'HABITS_FETCHING_DONE';
+export const HABITS_FETCHING_ERROR = 'HABITS_FETCHING_ERROR';
 export const HABITS_UPDATING = 'HABITS_UPDATING';
 export const HABITS_UPDATING_DONE = 'HABITS_UPDATING_DONE';
 export const HABITS_UPDATING_ERROR = 'HABITS_UPDATING_ERROR';
@@ -54,6 +58,7 @@ export const DAILIES_CACHE_DONE = 'DAILIES_CACHE_DONE';
 export const DAILIES_CACHE_ERROR = 'DAILIES_CACHE_ERROR';
 export const DAILIES_DATE_RANGE_FETCHING = 'DAILIES_DATE_RANGE_FETCHING';
 export const DAILIES_DATE_RANGE_DONE = 'DAILIES_DATE_RANGE_DONE';
+export const HABIT_TRACKER_CLEAR = 'HABIT_TRACKER_CLEAR';
 
 export const toggleDaily = (daily) => async (dispatch, getState) => {
   dispatch({ type: DAILIES_TOGGLE });
@@ -136,6 +141,15 @@ export const getDailiesForMonth = (date) =>
   getDailiesForDateRange(getDailiesForMonthAPI, DATE_RANGES.MONTH, date);
 export const getDailiesForYear = (date) =>
   getDailiesForDateRange(getDailiesForYearAPI, DATE_RANGES.YEAR, date);
+export const getHabits = () => async (dispatch) => {
+  dispatch({ type: HABITS_FETCHING });
+  try {
+    const { data } = await getHabitsAPI();
+    return dispatch({ type: HABITS_FETCHING_DONE, payload: data });
+  } catch (err) {
+    return dispatch({ type: HABITS_FETCHING_ERROR, payload: err });
+  }
+};
 export const addHabit = (habit) => async (dispatch) => {
   dispatch({ type: HABITS_UPDATING });
   try {
@@ -176,16 +190,11 @@ export const deleteHabit = (id) => async (dispatch) => {
     return dispatch({ type: HABITS_DELETING_ERROR, payload: err });
   }
 };
-const todosSortFunction = (a, b) => {
-  if (a.order > b.order) return 1;
-  if (a.order < b.order) return -1;
-  return 0;
-};
 export const getTodos = () => async (dispatch) => {
   dispatch({ type: TODOS_FETCHING });
   try {
     const { data } = await getTodosAPI();
-    data.sort(todosSortFunction);
+    data.sort(sortTodos);
     return dispatch({ type: TODOS_FETCHING_DONE, payload: data });
   } catch (err) {
     return dispatch({ type: TODOS_FETCHING_ERROR, payload: err });
@@ -240,11 +249,10 @@ export const reorderTodos = (firstId, secondId) => async (
       const index = todosCopy.findIndex((el) => el.id === todo.id);
       todosCopy[index] = todo;
     });
-    todosCopy.sort(todosSortFunction);
+    todosCopy.sort(sortTodos);
     return dispatch({ type: TODOS_REORDERING_DONE, payload: todosCopy });
   } catch (err) {
     return dispatch({ type: TODOS_REORDERING_ERROR, payload: err });
   }
 };
-export const HABIT_TRACKER_CLEAR = 'HABIT_TRACKER_CLEAR';
 export const clearHabitTracker = () => ({ type: HABIT_TRACKER_CLEAR });
