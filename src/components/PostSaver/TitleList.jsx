@@ -100,7 +100,7 @@ const TitleList = ({
           </div>
         </label>
       </div>
-      <ul className={`${overflowDisplayContainer} h-screen`}>
+      <ul className={overflowDisplayContainer}>
         <EmptyItem length={titles.length} loading={loading} error={error} />
         {titles.length
           ? titles

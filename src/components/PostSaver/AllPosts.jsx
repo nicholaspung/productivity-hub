@@ -46,7 +46,7 @@ const AllPosts = ({
       </div>
       {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
       <h1 className="text-2xl font-bold text-center">All Posts</h1>
-      <ul className={`${overflowDisplayContainer} h-screen`}>
+      <ul className={overflowDisplayContainer}>
         <EmptyItem length={postObjLength} loading={loading} error={error} />
         {postObjLength
           ? postsObj.results.map((result) => (

@@ -8,7 +8,6 @@ import AddItem from '../BaseComponents/AddItem';
 import {
   addHabit as addHabitAction,
   createDailiesForDay as createDailiesForDayAction,
-  getHabits as getHabitsAction,
 } from './redux/actions';
 import {
   getDailiesDailies,
@@ -41,7 +40,6 @@ const DailyList = ({
   createDailiesForDay,
   classes = '',
   error,
-  getHabits,
 }) => {
   const [filter, setFilter] = useState(FILTERS.UNFINISHED);
   const [showHabits, setShowHabits] = useState(false);
@@ -130,7 +128,6 @@ DailyList.propTypes = {
   createDailiesForDay: PropTypes.func.isRequired,
   classes: PropTypes.string,
   error: PropTypes.object.isRequired,
-  getHabits: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -142,6 +139,5 @@ export default connect(
   {
     addHabit: addHabitAction,
     createDailiesForDay: createDailiesForDayAction,
-    getHabits: getHabitsAction,
   },
 )(DailyList);

@@ -121,7 +121,7 @@ export const getArrayWithDates = (date, arrayFunction, firstDateFunction) => {
 };
 
 // Dailies utils
-export const sortTodos = (a, b) => {
+export const sortTodosOrHabits = (a, b) => {
   if (a.order > b.order) return 1;
   if (a.order < b.order) return -1;
   return 0;

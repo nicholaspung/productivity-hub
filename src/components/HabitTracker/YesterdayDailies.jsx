@@ -26,7 +26,9 @@ const YesterdayDailies = ({
   );
 
   useEffect(() => {
-    createDailiesForDay(getYesterday());
+    if (showYesterday) {
+      createDailiesForDay(getYesterday());
+    }
     // eslint-disable-next-line
   }, []);
 

@@ -111,4 +111,4 @@ export const fixedDisplayContainer =
   'mb-4 p-4 sm:px-6 rounded-md border-2 border-gray-200';
 
 export const overflowDisplayContainer =
-  'my-2 overflow-auto p-4 rounded-md border-2 border-gray-200';
+  'my-2 overflow-auto p-4 rounded-md border-2 border-gray-200 h-screen';

@@ -13,7 +13,13 @@ import {
 } from './redux/selectors';
 import { getHabits as getHabitsAction } from './redux/actions';
 
-const HabitList = ({ loading, closeHabits, habits, error, getHabits }) => {
+const HabitList = ({
+  loading = false,
+  closeHabits,
+  habits = [],
+  error,
+  getHabits,
+}) => {
   useEffect(() => {
     if (!habits.length) {
       getHabits();
@@ -24,7 +30,7 @@ const HabitList = ({ loading, closeHabits, habits, error, getHabits }) => {
   return (
     <Modal>
       <div className="w-full text-center p-4">
-        <div className="h-0 text-left">
+        <div className="h-0 text-right">
           <button
             type="button"
             className={`${smallerFilledButtonClassName} relative`}
@@ -46,22 +52,26 @@ const HabitList = ({ loading, closeHabits, habits, error, getHabits }) => {
             error={error}
             message="You have no habits."
           />
-          <h2 className="font-bold">Active</h2>
-          <ItemList
-            data={transformedHabits}
-            Component={DailyItem}
-            filterFunction={(habit) => !habit.archived}
-            loading={loading}
-            hideInput
-          />
-          <h2 className="font-bold">Archived</h2>
-          <ItemList
-            data={transformedHabits}
-            Component={DailyItem}
-            filterFunction={(habit) => habit.archived}
-            loading={loading}
-            hideInput
-          />
+          {habits.length ? (
+            <>
+              <h2 className="font-bold">Active</h2>
+              <ItemList
+                data={transformedHabits}
+                Component={DailyItem}
+                filterFunction={(data) => !data.habit.archived}
+                loading={loading}
+                hideInput
+              />
+              <h2 className="font-bold">Archived</h2>
+              <ItemList
+                data={transformedHabits}
+                Component={DailyItem}
+                filterFunction={(data) => data.habit.archived}
+                loading={loading}
+                hideInput
+              />
+            </>
+          ) : null}
         </div>
       </div>
     </Modal>

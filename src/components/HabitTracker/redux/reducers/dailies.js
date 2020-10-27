@@ -11,7 +11,9 @@ import {
   HABITS_FETCHING,
   HABITS_FETCHING_DONE,
   HABITS_FETCHING_ERROR,
+  HABITS_DELETING_DONE,
   HABITS_DELETING_ERROR,
+  HABITS_UPDATING,
   HABITS_UPDATING_DONE,
   HABITS_UPDATING_ERROR,
   HABIT_TRACKER_CLEAR,
@@ -98,6 +100,12 @@ export default function (state = initialState, action) {
         loading: false,
         error: action.payload,
       };
+    case HABITS_UPDATING:
+      return {
+        ...state,
+        loading: true,
+        error: {},
+      };
     case HABITS_UPDATING_DONE:
       return {
         ...state,
@@ -108,6 +116,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         error: action.payload,
+        loading: false,
+      };
+    case HABITS_DELETING_DONE:
+      return {
+        ...state,
+        habits: action.payload,
+        loading: false,
       };
     case HABITS_DELETING_ERROR:
       return {

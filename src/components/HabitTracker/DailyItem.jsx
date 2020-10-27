@@ -9,7 +9,7 @@ import {
 } from './redux/actions';
 import { getDailiesDailies } from './redux/selectors';
 import ItemAction from './ItemAction';
-import { DIRECTIONS } from './constants';
+import { DIRECTIONS, displayColor } from './constants';
 import { ReactComponent as EditSVG } from '../../assets/icons/edit.svg';
 import { ReactComponent as ArchiveSVG } from '../../assets/icons/archive.svg';
 import { ReactComponent as ArrowUpSVG } from '../../assets/icons/arrowup.svg';
@@ -58,7 +58,11 @@ const DailyItem = ({
     <li className="p-1 border-t-2 border-gray-200 flex justify-between items-center">
       <div>
         <label htmlFor={labelId} className="flex items-center">
-          <div className="flex items-center p-4 border border-transparent rounded-md bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
+          <div
+            className={`flex items-center p-4 border border-transparent rounded-md transition ease-in-out duration-150 ${displayColor(
+              { archived: data.habit.archived },
+            )}`}
+          >
             {!hideInput && (
               <input
                 id={labelId}
@@ -67,6 +71,22 @@ const DailyItem = ({
                 onChange={onCheckedChange}
                 className="form-checkbox text-indigo-600 w-6 h-6"
               />
+            )}
+            {hideInput && !data.habit.archived && (
+              <button onClick={onArchiveHabit} type="button">
+                <ArchiveSVG
+                  className="w-4 h-auto text-white"
+                  title="Archive habit"
+                />
+              </button>
+            )}
+            {hideInput && data.habit.archived && (
+              <button onClick={onUnarchiveHabit} type="button">
+                <UnarchiveSVG
+                  className="w-4 h-auto text-white"
+                  title="Unarchive habit"
+                />
+              </button>
             )}
           </div>
           <div className="flex flex-col px-4">
@@ -79,9 +99,11 @@ const DailyItem = ({
       </div>
       {!hideOptions && (
         <div className="flex flex-col items-end w-16">
-          <button onClick={() => setEdit(true)} type="button">
-            <EditSVG className="w-4 h-auto" title="Edit habit" />
-          </button>
+          {!hideInput && (
+            <button onClick={() => setEdit(true)} type="button">
+              <EditSVG className="w-4 h-auto" title="Edit habit" />
+            </button>
+          )}
           {edit && (
             <ItemAction
               data={data.habit}
@@ -90,12 +112,12 @@ const DailyItem = ({
               displayFunction={() => setEdit(!edit)}
             />
           )}
-          {!data.habit.archived && (
+          {!hideInput && !data.habit.archived && (
             <button onClick={onArchiveHabit} type="button">
               <ArchiveSVG className="w-4 h-auto" title="Archive habit" />
             </button>
           )}
-          {data.habit.archived && (
+          {!hideInput && data.habit.archived && (
             <button onClick={onUnarchiveHabit} type="button">
               <UnarchiveSVG className="w-4 h-auto" title="Unarchive habit" />
             </button>
