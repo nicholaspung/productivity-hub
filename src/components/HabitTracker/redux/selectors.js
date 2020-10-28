@@ -1,4 +1,8 @@
-import { getDateTransform, getYesterday } from '../utils';
+import {
+  getDateTransform,
+  getYesterday,
+  pythonDateToJavascriptDate,
+} from '../utils';
 
 export const getDailiesState = (store) => store.dailies;
 export const getDailiesDailies = (store) => getDailiesState(store).dailies;
@@ -18,3 +22,13 @@ export const getTodosLoadingStatus = (store) => getTodosState(store).loading;
 export const getTodosError = (store) => getTodosState(store).error;
 
 export const getDailiesHabits = (store) => getDailiesState(store).habits;
+
+export const getEarliestHabitDate = (store) =>
+  getDailiesDailies(store).length &&
+  getDailiesDailies(store).reduce((acc, curr) => {
+    if (!curr.habit) return acc;
+    if (pythonDateToJavascriptDate(curr.habit.date_created) < acc) {
+      return pythonDateToJavascriptDate(curr.habit.date_created);
+    }
+    return acc;
+  }, new Date());

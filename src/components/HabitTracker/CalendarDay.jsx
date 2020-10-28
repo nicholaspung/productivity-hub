@@ -1,9 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { VIEWS, getDayInfo, getJavascriptDateTransform } from './utils';
 import { SHORT_MONTH_NAMES, displayColor } from './constants';
+import { getEarliestHabitDate } from './redux/selectors';
 
-const CalendarDay = ({ dailiesCache, day, labelView = '' }) => {
+const CalendarDay = ({
+  dailiesCache,
+  day,
+  labelView = '',
+  earliestHabitDate,
+}) => {
   let finishedLength = 0;
   let totalLength = 0;
   let percentageLabel = 0;
@@ -12,7 +19,9 @@ const CalendarDay = ({ dailiesCache, day, labelView = '' }) => {
       dailiesCache[day],
     );
   }
-  const isPreviousDay = getJavascriptDateTransform(day) < new Date();
+  const isActiveHabit =
+    getJavascriptDateTransform(day) < new Date() &&
+    getJavascriptDateTransform(day) > earliestHabitDate;
   return (
     <li className="m-2">
       {labelView === VIEWS.WEEK.label && (
@@ -25,7 +34,7 @@ const CalendarDay = ({ dailiesCache, day, labelView = '' }) => {
       <div
         className={`w-8 h-8 md:w-16 md:h-16 md:flex md:flex-col md:items-end md:justify-end rounded-md border-2 ${
           // totalLength && displayColor({ percentage: percentageLabel })[0]
-          (isPreviousDay || totalLength) &&
+          (isActiveHabit || totalLength) &&
           displayColor({ percentage: percentageLabel })[0]
         }`}
       >
@@ -44,6 +53,12 @@ CalendarDay.propTypes = {
   dailiesCache: PropTypes.object.isRequired,
   day: PropTypes.string.isRequired,
   labelView: PropTypes.string,
+  earliestHabitDate: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.number,
+  ]).isRequired,
 };
 
-export default CalendarDay;
+export default connect((state) => ({
+  earliestHabitDate: getEarliestHabitDate(state),
+}))(CalendarDay);
