@@ -64,7 +64,13 @@ const TodoList = ({
         </div>
       </div>
       <DisplayContainerCard>
-        {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
+        {loading && (
+          <div className="h-0 flex justify-end ">
+            <div className="relative bottom-3 right-3">
+              <LoadingSVG className="w-6 h-auto animate-spin absolute" />
+            </div>
+          </div>
+        )}
         <AddItem
           addItem={addTodo}
           labelTitle="Add a todo"

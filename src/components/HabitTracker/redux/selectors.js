@@ -24,7 +24,6 @@ export const getTodosError = (store) => getTodosState(store).error;
 export const getDailiesHabits = (store) => getDailiesState(store).habits;
 
 export const getEarliestHabitDate = (store) =>
-  getDailiesDailies(store).length &&
   getDailiesDailies(store).reduce((acc, curr) => {
     if (!curr.habit) return acc;
     if (pythonDateToJavascriptDate(curr.habit.date_created) < acc) {

@@ -33,7 +33,6 @@ const CalendarDay = ({
       )}
       <div
         className={`w-8 h-8 md:w-16 md:h-16 md:flex md:flex-col md:items-end md:justify-end rounded-md border-2 ${
-          // totalLength && displayColor({ percentage: percentageLabel })[0]
           (isActiveHabit || totalLength) &&
           displayColor({ percentage: percentageLabel })[0]
         }`}

@@ -25,12 +25,12 @@ import EmptyItem from '../BaseComponents/EmptyItem';
 
 const getFilterFunction = (filter) => {
   if (filter === FILTERS.UNFINISHED) {
-    return (item) => !item.archived && !item.finished;
+    return (item) => !item.habit.archived && !item.finished;
   }
   if (filter === FILTERS.FINISHED) {
-    return (item) => !item.archived && item.finished;
+    return (item) => !item.habit.archived && item.finished;
   }
-  return (item) => !item.archived;
+  return (item) => !item.habit.archived;
 };
 
 const DailyList = ({
@@ -88,14 +88,19 @@ const DailyList = ({
             <button
               type="button"
               onClick={() => setShowHabits(true)}
-              className={`${smallerFilledButtonClassName} relative`}
-              style={{ top: '-10px', left: '-10px' }}
+              className={`${smallerFilledButtonClassName} relative bottom-3 right-3`}
             >
               See Habits
             </button>
           </div>
         )}
-        {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
+        {loading && (
+          <div className="h-0 flex justify-end ">
+            <div className="relative bottom-3 right-3">
+              <LoadingSVG className="w-6 h-auto animate-spin absolute" />
+            </div>
+          </div>
+        )}
         <AddItem
           addItem={addHabit}
           labelTitle="Add a habit"
