@@ -13,7 +13,6 @@ import {
 import {
   FilledButton,
   smallerFilledButtonClassName,
-  fixedDisplayContainer,
   overflowDisplayContainer,
 } from '../BaseComponents';
 import EmptyItem from '../BaseComponents/EmptyItem';
@@ -36,7 +35,7 @@ const SavedPostList = ({
     // eslint-disable-next-line
   }, [getSavedPosts]);
   return (
-    <div className={`${fixedDisplayContainer} ${classes || ''}`}>
+    <div className={`${classes || ''}`}>
       <div className="h-0 text-right">
         <FilledButton action={getSavedPosts}>
           <RefreshSVG className="w-4 h-auto" />

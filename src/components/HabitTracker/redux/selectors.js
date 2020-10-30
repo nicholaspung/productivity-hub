@@ -1,7 +1,7 @@
 import {
   getDateTransform,
   getYesterday,
-  pythonDateToJavascriptDate,
+  ISOStringToJavascriptDate,
 } from '../utils';
 
 export const getDailiesState = (store) => store.dailies;
@@ -26,8 +26,8 @@ export const getDailiesHabits = (store) => getDailiesState(store).habits;
 export const getEarliestHabitDate = (store) =>
   getDailiesDailies(store).reduce((acc, curr) => {
     if (!curr.habit) return acc;
-    if (pythonDateToJavascriptDate(curr.habit.date_created) < acc) {
-      return pythonDateToJavascriptDate(curr.habit.date_created);
+    if (ISOStringToJavascriptDate(curr.habit.date_created) < acc) {
+      return ISOStringToJavascriptDate(curr.habit.date_created);
     }
     return acc;
   }, new Date());

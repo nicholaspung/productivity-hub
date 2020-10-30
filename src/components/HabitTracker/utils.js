@@ -12,17 +12,17 @@ export const getDateTransform = (date) => {
   }
   return `${date.getFullYear()}-${month}-${day}`;
 };
-export const getJavascriptDateTransform = (date) => new Date(date.slice(0, 4), date.slice(5, 7) - 1, date.slice(8, 10));
+export const getJavascriptDateTransform = (date) =>
+  new Date(date.slice(0, 4), date.slice(5, 7) - 1, date.slice(8, 10));
 
-export const getYesterday = () => {
-  const today = new Date();
-  return new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
-};
+export const getYesterday = (date = new Date()) =>
+  new Date(date.getFullYear(), date.getMonth(), date.getDate() - 1);
 
-export const pythonDateToJavascriptDate = (date) => new Date(Date.parse(date));
+export const ISOStringToJavascriptDate = (date) => new Date(Date.parse(date));
 
 // Calendar Utils
-export const getDaysInMonth = (date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+export const getDaysInMonth = (date) =>
+  new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 export const isLeapYear = (year) => {
   if (year % 100 === 0 && year % 400 !== 0) return false;
   return year % 4 === 0;
@@ -44,7 +44,8 @@ export const getFirstDateInWeek = (date) => {
     date.getDate() - daysToSunday,
   );
 };
-export const getFirstDateInMonth = (date) => new Date(date.getFullYear(), date.getMonth(), 1);
+export const getFirstDateInMonth = (date) =>
+  new Date(date.getFullYear(), date.getMonth(), 1);
 export const getFirstDateInYear = (date) => new Date(date.getFullYear(), 0, 1);
 
 export const VIEWS = {
@@ -112,9 +113,11 @@ export const createBackEmptyDates = (pythonDate) => {
 
 export const getArrayWithDates = (date, arrayFunction, firstDateFunction) => {
   const day = firstDateFunction(date);
-  return arrayFunction(date).map((x, i) => getDateTransform(
-    new Date(day.getFullYear(), day.getMonth(), day.getDate() + i),
-  ));
+  return arrayFunction(date).map((x, i) =>
+    getDateTransform(
+      new Date(day.getFullYear(), day.getMonth(), day.getDate() + i),
+    ),
+  );
 };
 
 // Dailies utils

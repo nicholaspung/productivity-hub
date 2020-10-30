@@ -92,7 +92,9 @@ const DailyItem = ({
           <div className="flex flex-col px-4">
             <span className="font-semibold">{data.habit.name}</span>
             {!hideOptions && (
-              <span className="text-xs">{data.habit.description}</span>
+              <span className="text-xs whitespace-pre-line">
+                {data.habit.description}
+              </span>
             )}
           </div>
         </label>

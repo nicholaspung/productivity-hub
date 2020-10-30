@@ -85,5 +85,10 @@ describe('#HabitTrackerSelectors', () => {
     expect(selectors.getTodosError(state1)).toEqual(state1.todos.error);
     expect(selectors.getTodosError(state2)).toEqual(state2.todos.error);
   });
-  it('#getDailiesHabits', () => {});
+  it('#getDailiesHabits', () => {
+    expect(true).toEqual(false);
+  });
+  it('#getEarliestHabitDate', () => {
+    expect(true).toEqual(false);
+  });
 });

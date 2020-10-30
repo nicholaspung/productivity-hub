@@ -15,7 +15,6 @@ import AddItem from '../BaseComponents/AddItem';
 import {
   FilledButton,
   formInputClassName,
-  fixedDisplayContainer,
   overflowDisplayContainer,
 } from '../BaseComponents';
 import EmptyItem from '../BaseComponents/EmptyItem';
@@ -46,7 +45,7 @@ const TitleList = ({
   }, [getTitles]);
 
   return (
-    <div className={`${fixedDisplayContainer} ${classes || ''}`}>
+    <div className={`${classes || ''}`}>
       {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
       <h1 className="text-2xl font-bold text-center">Titles</h1>
       <AddItem

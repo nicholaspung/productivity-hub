@@ -13,7 +13,6 @@ import {
 import {
   FilledButton,
   smallerFilledButtonClassName,
-  fixedDisplayContainer,
   overflowDisplayContainer,
 } from '../BaseComponents';
 import EmptyItem from '../BaseComponents/EmptyItem';
@@ -38,7 +37,7 @@ const AllPosts = ({
   const postObjLength = postsObj.results ? postsObj.results.length : 0;
 
   return (
-    <div className={`${fixedDisplayContainer} ${classes || ''}`}>
+    <div className={`${classes || ''}`}>
       <div className="h-0 text-right">
         <FilledButton action={getRefreshedPosts}>
           <RefreshSVG className="w-4 h-auto" />

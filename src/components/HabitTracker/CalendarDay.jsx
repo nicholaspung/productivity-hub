@@ -25,14 +25,14 @@ const CalendarDay = ({
   return (
     <li className="m-2">
       {labelView === VIEWS.WEEK.label && (
-        <p className="text-center hidden md:block">
+        <p className="text-center hidden sm:block">
           {`${SHORT_MONTH_NAMES[Number(day.slice(5, 7)) - 1]} ${Number(
             day.slice(8),
           )}`}
         </p>
       )}
       <div
-        className={`w-8 h-8 md:w-16 md:h-16 md:flex md:flex-col md:items-end md:justify-end rounded-md border-2 ${
+        className={`w-8 h-8 sm:w-16 sm:h-16 sm:flex sm:flex-col sm:items-end sm:justify-end rounded-sm border-2 ${
           (isActiveHabit || totalLength) &&
           displayColor({ percentage: percentageLabel })[0]
         }`}

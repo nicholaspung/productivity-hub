@@ -149,6 +149,37 @@ describe('#HabitTrackerUtils', () => {
     const date2 = new Date(2020, 10, 4);
     expect(utils.getYesterday(date2)).toEqual(new Date(2020, 10, 3));
   });
-  it('#sortDailies', () => {});
-  it('#transformDailiesForCache', () => {});
+  it('#sortDailies', () => {
+    const dailies = [
+      { habit: { order: 1 } },
+      { habit: { order: 2 } },
+      { habit: { order: 0 } },
+    ];
+    expect(dailies.sort(utils.sortDailies)).toEqual([
+      { habit: { order: 0 } },
+      { habit: { order: 1 } },
+      { habit: { order: 2 } },
+    ]);
+  });
+  it('#sortTodosOrHabits', () => {
+    const todos = [{ order: 2 }, { order: 0 }, { order: 1 }];
+    expect(todos.sort(utils.sortTodosOrHabits)).toEqual([
+      { order: 0 },
+      { order: 1 },
+      { order: 2 },
+    ]);
+  });
+  it('#getJavascriptDateTransform', () => {
+    const date = '2020-10-02';
+    expect(utils.getJavascriptDateTransform(date)).toEqual(
+      new Date(2020, 9, 2),
+    );
+  });
+  it('#ISOStringToJavascriptDate', () => {
+    const date = new Date(2019, 11, 20);
+    expect(utils.ISOStringToJavascriptDate(date.toISOString())).toEqual(date);
+  });
+  it('#transformDailiesForCache', () => {
+    expect(true).toEqual(false);
+  });
 });

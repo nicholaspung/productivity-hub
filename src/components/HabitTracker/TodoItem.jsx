@@ -17,7 +17,9 @@ import { ReactComponent as EditSVG } from '../../assets/icons/edit.svg';
 import { ReactComponent as ArrowUpSVG } from '../../assets/icons/arrowup.svg';
 import { ReactComponent as ArrowDownSVG } from '../../assets/icons/arrowdown.svg';
 
-const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
+const TodoItem = ({
+  data, editTodo, deleteTodo, reorderTodos, todos,
+}) => {
   const [edit, setEdit] = useState(false);
 
   const onCheckedChange = async () => {
@@ -64,7 +66,7 @@ const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
           </div>
           <div className="flex flex-col px-4">
             <span className="font-semibold">{data.name}</span>
-            <span className="text-xs">{data.description}</span>
+            <span className="text-xs whitespace-pre-line">{data.description}</span>
           </div>
         </label>
       </div>

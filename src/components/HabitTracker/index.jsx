@@ -26,9 +26,9 @@ const HabitTracker = ({ loading }) => (
       <h1 className="text-3xl font-bold text-center pt-4">Habit Tracker</h1>
     </div>
     <Calendar />
-    <div className="flex flex-wrap justify-around">
-      <DailyList classes="flex-1" />
-      <TodoList classes="flex-1" />
+    <div className="flex flex-wrap md:flex-no-wrap justify-around">
+      <DailyList classes="md:flex-1 w-full px-4 mb-4" />
+      <TodoList classes="md:flex-1 w-full px-4 mb-4" />
     </div>
   </>
 );

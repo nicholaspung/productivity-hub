@@ -13,7 +13,6 @@ import {
   getTodosLoadingStatus,
   getTodosError,
 } from './redux/selectors';
-import { DisplayContainer, DisplayContainerCard } from '../BaseComponents';
 import { FILTERS } from './constants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
@@ -41,8 +40,8 @@ const TodoList = ({
   }, [getTodos]);
 
   return (
-    <DisplayContainer classes={classes || ''}>
-      <div className="flex justify-between items-end">
+    <div className={classes || ''}>
+      <div className="flex justify-between items-center">
         <h1 className="text-3xl px-5 font-bold">Todos</h1>
         <div>
           <button
@@ -63,7 +62,7 @@ const TodoList = ({
           </button>
         </div>
       </div>
-      <DisplayContainerCard>
+      <div className="p-4 rounded-md border-2 border-gray-200">
         {loading && (
           <div className="h-0 flex justify-end ">
             <div className="relative bottom-3 right-3">
@@ -91,8 +90,8 @@ const TodoList = ({
           filterFunction={getFilterFunction(filter)}
           loading={loading}
         />
-      </DisplayContainerCard>
-    </DisplayContainer>
+      </div>
+    </div>
   );
 };
 
