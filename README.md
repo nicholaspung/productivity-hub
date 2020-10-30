@@ -1,5 +1,7 @@
 # Productivity Hub
 
+![Productivity Hub Landing Page](/resources/landing_page.png)
+
 Client side application to house productivity tools:
 
 - A habit tracker
@@ -47,7 +49,7 @@ See the project page [here](https://github.com/nicholaspung/productivity-hub/pro
 ## Deploying to Firebase Hosting
 
 1. Add your `FIREBASE_TOKEN=` in .env file after logging into your Firebase account
-2. Follow instructions on how to connect with Firebase CLI
+2. Follow instructions on how to connect with Firebase CLI on their official documentation
 3. You're done!
 
 ## Using GitHub Actions as your CI/CD

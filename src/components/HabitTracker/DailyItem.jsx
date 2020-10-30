@@ -57,8 +57,9 @@ const DailyItem = ({
   return (
     <li className="p-1 border-t-2 border-gray-200 flex justify-between items-center">
       <div>
-        <label htmlFor={labelId} className="flex items-center">
-          <div
+        <div className="flex items-center">
+          <label
+            htmlFor={labelId}
             className={`flex items-center p-4 border border-transparent rounded-md transition ease-in-out duration-150 ${displayColor(
               { archived: data.habit.archived },
             )}`}
@@ -88,7 +89,7 @@ const DailyItem = ({
                 />
               </button>
             )}
-          </div>
+          </label>
           <div className="flex flex-col px-4">
             <span className="font-semibold">{data.habit.name}</span>
             {!hideOptions && (
@@ -97,7 +98,7 @@ const DailyItem = ({
               </span>
             )}
           </div>
-        </label>
+        </div>
       </div>
       {!hideOptions && (
         <div className="flex flex-col items-end w-16">

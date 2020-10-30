@@ -1,8 +1,4 @@
-import {
-  getDateTransform,
-  getYesterday,
-  ISOStringToJavascriptDate,
-} from '../utils';
+import { getDateTransform, ISOStringToJavascriptDate } from '../utils';
 
 export const getDailiesState = (store) => store.dailies;
 export const getDailiesDailies = (store) => getDailiesState(store).dailies;
@@ -11,7 +7,7 @@ export const getDailiesLoadingStatus = (store) =>
 export const getDailiesDailiesCache = (store) =>
   getDailiesState(store).dailiesCache;
 export const getDailiesDailiesCacheForDate = (store, date) =>
-  getDailiesDailiesCache(store)[getDateTransform(getYesterday(date))] || [];
+  getDailiesDailiesCache(store)[getDateTransform(date)] || [];
 export const getDailiesDateRangeCache = (store) =>
   getDailiesState(store).dateRangeCache;
 export const getDailiesError = (store) => getDailiesState(store).error;
