@@ -6,6 +6,7 @@ describe('#HabitTrackerSelectors', () => {
       dailies: [],
       dailiesCache: {},
       dateRangeCache: {},
+      habits: [],
       loading: false,
       error: {},
     },
@@ -17,9 +18,14 @@ describe('#HabitTrackerSelectors', () => {
   };
   const state2 = {
     dailies: {
-      dailies: [{ id: 1 }, { id: 2 }, { id: 3 }],
+      dailies: [
+        { id: 1, habit: { date_created: new Date(2020, 5, 14).toISOString() } },
+        { id: 2, habit: { date_created: new Date(2020, 5, 10).toISOString() } },
+        { id: 3, habit: { date_created: new Date(2020, 5, 7).toISOString() } },
+      ],
       dailiesCache: { '2020-10-02': [{ id: 1 }] },
       dateRangeCache: { WEEK: true },
+      habits: [],
       loading: false,
       error: {},
     },
@@ -86,9 +92,21 @@ describe('#HabitTrackerSelectors', () => {
     expect(selectors.getTodosError(state2)).toEqual(state2.todos.error);
   });
   it('#getDailiesHabits', () => {
-    expect(true).toEqual(false);
+    expect(selectors.getDailiesHabits(state1)).toEqual(state1.dailies.habits);
+    expect(selectors.getDailiesHabits(state2)).toEqual(state2.dailies.habits);
   });
   it('#getEarliestHabitDate', () => {
-    expect(true).toEqual(false);
+    expect(selectors.getEarliestHabitDate(state1)).toEqual(new Date());
+    expect(selectors.getEarliestHabitDate(state2)).toEqual(
+      new Date(2020, 5, 7),
+    );
+  });
+  it('#getDailiesDailiesCacheForDate', () => {
+    expect(selectors.getDailiesDailiesCacheForDate(state1, new Date())).toEqual(
+      [],
+    );
+    expect(
+      selectors.getDailiesDailiesCacheForDate(state2, new Date(2020, 9, 2)),
+    ).toEqual(state2.dailies.dailiesCache['2020-10-02']);
   });
 });

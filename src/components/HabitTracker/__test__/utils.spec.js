@@ -180,6 +180,16 @@ describe('#HabitTrackerUtils', () => {
     expect(utils.ISOStringToJavascriptDate(date.toISOString())).toEqual(date);
   });
   it('#transformDailiesForCache', () => {
-    expect(true).toEqual(false);
+    expect(
+      utils.transformDailiesForCache({}, [
+        { date: '2020-10-02', id: 1 },
+        { date: '2020-10-03', id: 2 },
+        { date: '2020-10-04', id: 3 },
+      ]),
+    ).toEqual({
+      '2020-10-02': [{ date: '2020-10-02', id: 1 }],
+      '2020-10-03': [{ date: '2020-10-03', id: 2 }],
+      '2020-10-04': [{ date: '2020-10-04', id: 3 }],
+    });
   });
 });

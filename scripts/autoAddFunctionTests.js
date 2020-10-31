@@ -22,11 +22,16 @@ const astFromFile = (filePath) => {
 const grabExportedFunctionNames = (filePath) => {
   const ast = astFromFile(filePath);
 
-  const exportedBodyDeclarations = ast.program.body
+  return ast.program.body
     .filter((d) => d.type === 'ExportNamedDeclaration')
-    .map((d) => d.declaration.declarations[0].id.name);
-  return exportedBodyDeclarations;
+    .flatMap((e) => e.declaration.declarations)
+    .filter((f) => f.init.type === 'ArrowFunctionExpression' && f.id.name)
+    .flatMap((g) => g.id.name);
 };
+
+const createFailingTestCode = (functionName) => `it('#${functionName}', () => {
+  expect(true).toEqual(false);
+});`;
 
 const insertFunctionsToTestFile = (filePath, functionNames) => {
   const filePathArray = filePath.split('/');
@@ -54,11 +59,28 @@ const insertFunctionsToTestFile = (filePath, functionNames) => {
               .value.split('#')[1],
         ),
     );
-  console.log(functionNames);
-  console.log(alreadyInsertedFunctionNames);
+
+  const filePathStream = fs.createWriteStream(correspondingTestFile, {
+    flags: 'a',
+  });
+  functionNames.forEach((name) => {
+    if (!alreadyInsertedFunctionNames.includes(name)) {
+      try {
+        filePathStream.write(createFailingTestCode(name));
+        console.log(
+          `Failing test for "${name}" in "${filePath}" added to test file: "${correspondingTestFile}"`,
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  });
+  filePathStream.end();
 };
 
 filePaths.forEach((path) => {
   const names = grabExportedFunctionNames(path);
   insertFunctionsToTestFile(path, names);
 });
+
+console.log('Finished checking tracked files.');
