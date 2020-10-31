@@ -61,3 +61,10 @@ See the project page [here](https://github.com/nicholaspung/productivity-hub/pro
    - Usable of .env is only to make it easier to understand which values need to be changed easily for different deployments
 
 Note: If you're using GitHub actions, in .env, `FIREBASE_TOKEN=` need not be used. `FIREBASE_TOKEN=` is used for `npm run firebase-deploy`
+
+## Using scripts
+
+`generate-test-files`: A script to generate test files in the `__test__` directory. Follows a specific file structure in order to generate the tests. If file structure deviates from general pattern, script won't work
+
+- `File` that needs tests must be in the same directory as its corresponding `__test__` where `File.spec` is housed
+- Currently only allows a single `describe` block in `.spec` file in order to function

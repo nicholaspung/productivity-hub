@@ -53,13 +53,14 @@ describe('#UserSelectors', () => {
       Boolean(state2.users.info.isAnonymous),
     );
   });
-  it('#isUserLoading', () => {});
-  expect(selectors.isUserLoading(state1)).toEqual(
-    Boolean(state1.users.loading),
-  );
-  expect(selectors.isUserLoading(state2)).toEqual(
-    Boolean(state2.users.loading),
-  );
+  it('#isUserLoading', () => {
+    expect(selectors.isUserLoading(state1)).toEqual(
+      Boolean(state1.users.loading),
+    );
+    expect(selectors.isUserLoading(state2)).toEqual(
+      Boolean(state2.users.loading),
+    );
+  });
   it('#getUserError', () => {
     expect(selectors.getUserError(state1)).toEqual(state1.users.error);
     expect(selectors.getUserError(state2)).toEqual(state2.users.error);

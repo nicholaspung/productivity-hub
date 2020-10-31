@@ -26,7 +26,8 @@
     "eject": "react-scripts eject",
     "build:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
     "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
-    "firebase-deploy": "npm run build:css && react-scripts build && firebase deploy --only hosting"
+    "firebase-deploy": "npm run build:css && react-scripts build && firebase deploy --only hosting",
+    "generate-test-files": "node scripts/autoAddFunctionTests.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -44,6 +45,8 @@
     ]
   },
   "devDependencies": {
+    "@babel/parser": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
     "@tailwindcss/custom-forms": "^0.2.1",
     "autoprefixer": "^9.8.6",
     "eslint-config-airbnb": "^18.2.0",
