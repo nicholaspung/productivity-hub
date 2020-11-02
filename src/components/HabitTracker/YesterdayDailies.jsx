@@ -13,6 +13,7 @@ import {
 import { createDailiesForDay as createDailiesForDayAction } from './redux/actions';
 import { getYesterday } from './utils';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
+import { sortDailies } from './utils.js';
 
 const YesterdayDailies = ({
   yesterday,
@@ -37,6 +38,7 @@ const YesterdayDailies = ({
     localStorage.setItem('first-load-of-day', todayString);
     setShowYesterday(false);
   };
+  yesterday.sort(sortDailies);
   return (
     showYesterday && (
       <Modal>

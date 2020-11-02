@@ -17,9 +17,7 @@ import { ReactComponent as EditSVG } from '../../assets/icons/edit.svg';
 import { ReactComponent as ArrowUpSVG } from '../../assets/icons/arrowup.svg';
 import { ReactComponent as ArrowDownSVG } from '../../assets/icons/arrowdown.svg';
 
-const TodoItem = ({
-  data, editTodo, deleteTodo, reorderTodos, todos,
-}) => {
+const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
   const [edit, setEdit] = useState(false);
 
   const onCheckedChange = async () => {
@@ -48,8 +46,9 @@ const TodoItem = ({
   return (
     <li className="p-1 border-t-2 border-gray-200 flex justify-between items-center">
       <div>
-        <label htmlFor={labelId} className="flex items-center">
-          <div
+        <div className="flex items-center">
+          <label
+            htmlFor={labelId}
             className={`flex items-center p-4 border border-transparent rounded-md transition ease-in-out duration-150 ${
               displayColor({ priority: data.priority })[0]
             }`}
@@ -63,12 +62,14 @@ const TodoItem = ({
                 displayColor({ priority: data.priority })[1]
               }`}
             />
-          </div>
+          </label>
           <div className="flex flex-col px-4">
             <span className="font-semibold">{data.name}</span>
-            <span className="text-xs whitespace-pre-line">{data.description}</span>
+            <span className="text-xs whitespace-pre-line">
+              {data.description}
+            </span>
           </div>
-        </label>
+        </div>
       </div>
       <div className="flex flex-col items-end w-16">
         <button onClick={() => setEdit(!edit)} type="button">
