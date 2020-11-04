@@ -7,3 +7,4 @@ export const isUserLoading = (store) => Boolean(getUserState(store).loading);
 export const getUserError = (store) => getUserState(store).error;
 export const hasError = (store) =>
   Boolean(Object.keys(getUserState(store).error).length);
+export const getUserAnalytics = (store) => getUserState(store).userAnalytics;

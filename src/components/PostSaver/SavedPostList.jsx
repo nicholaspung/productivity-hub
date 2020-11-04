@@ -16,6 +16,8 @@ import {
   overflowDisplayContainer,
 } from '../BaseComponents';
 import EmptyItem from '../BaseComponents/EmptyItem';
+import { trackSpecificEventsFromUser } from '../../api';
+import { userAnalyticLabels } from '../constants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import { ReactComponent as RefreshSVG } from '../../assets/icons/refresh.svg';
 import { ReactComponent as CancelSVG } from '../../assets/icons/cancel.svg';
@@ -37,7 +39,12 @@ const SavedPostList = ({
   return (
     <div className={`${classes || ''}`}>
       <div className="h-0 text-right">
-        <FilledButton action={getSavedPosts}>
+        <FilledButton
+          action={() => {
+            getSavedPosts();
+            trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_REFRESH);
+          }}
+        >
           <RefreshSVG className="w-4 h-auto" />
         </FilledButton>
       </div>
@@ -67,7 +74,12 @@ const SavedPostList = ({
                     href={savedPost.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => updateSavedPost(savedPost.id)}
+                    onClick={() => {
+                      updateSavedPost(savedPost.id);
+                      trackSpecificEventsFromUser(
+                        userAnalyticLabels.SAVED_POST_TITLE,
+                      );
+                    }}
                   >
                     {savedPost.title}
                   </a>

@@ -21,6 +21,8 @@ import {
   signOut,
   onAuthStateChange,
 } from '../firebase/utils';
+import { createUserAnalytics, trackSpecificEventsFromUser } from '../api';
+import { userAnalyticLabels } from './constants';
 import { clearHabitTracker as clearHabitTrackerAction } from './HabitTracker/redux/actions';
 import { clearPostSaver as clearPostSaverAction } from './PostSaver/redux/actions';
 import { Button, FilledButton } from './BaseComponents';
@@ -43,7 +45,8 @@ const Header = ({
   useEffect(() => {
     onAuthStateChange(
       async (authUser) => {
-        loggedIn(authUser);
+        await loggedIn(authUser);
+        await createUserAnalytics();
       },
       () => {
         logOut();
@@ -223,6 +226,11 @@ const NavItems = ({ data = [] }) => (
       <Link
         key={item.label}
         to={item.link}
+        onClick={() => {
+          if (item.label === 'Post Saver') {
+            trackSpecificEventsFromUser(userAnalyticLabels.POST_SAVER_NAV);
+          }
+        }}
         className="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
       >
         {item.label}

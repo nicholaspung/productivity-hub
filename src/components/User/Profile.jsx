@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getUserInfo, getUserApps } from './redux/selectors';
-import { addApp as addAppAction } from './redux/actions';
+import { getUserInfo, getUserApps, getUserAnalytics } from './redux/selectors';
+import {
+  addApp as addAppAction,
+  getUserAnalytics as getUserAnalyticsAction,
+} from './redux/actions';
 import { DisplayContainerCard, Button, FilledButton } from '../BaseComponents';
 import Helmet from '../BaseComponents/Helmet';
 import DeleteAccount from './DeleteAccount';
 
 const APPS = ['HABIT_TRACKER', 'POST_SAVER'];
 
-const Profile = ({ userInfo, apps, addApp }) => {
+const Profile = ({
+  userInfo,
+  apps,
+  addApp,
+  userAnalytics,
+  getUserAnalytics,
+}) => {
   const defaultApps = apps.split(',');
 
   const [userApps, setUserApps] = useState(defaultApps);
+
+  useEffect(() => {
+    getUserAnalytics();
+  }, [getUserAnalytics]);
 
   const onCheckboxChange = (event, app) => {
     let userAppsCopy = [...userApps];
@@ -26,6 +39,44 @@ const Profile = ({ userInfo, apps, addApp }) => {
   };
   const onProfileCancel = () => setUserApps(defaultApps);
   const onProfileSave = () => addApp(userInfo.userId, userApps.join(','));
+
+  const userAnalyticDates = userAnalytics.reduce((acc, curr) => {
+    if (!acc.includes(curr.date)) {
+      return [...acc, curr.date];
+    }
+    return acc;
+  }, []);
+  const userAnalyticsWithFrequenciesForDate = userAnalytics.reduce(
+    (acc, curr) => {
+      // If label is not found
+      const labelIndex = acc.findIndex((el) => el.label === curr.label);
+      if (labelIndex === -1) {
+        return [
+          ...acc,
+          {
+            id: curr.id,
+            label: curr.label,
+            action: curr.action,
+            frequencies: [
+              {
+                date: curr.date,
+                frequency: curr.frequency,
+              },
+            ],
+          },
+        ];
+      }
+      // If label is found
+      acc[labelIndex].frequencies.push({
+        date: curr.date,
+        frequency: curr.frequency,
+      });
+      return acc;
+    },
+    [],
+  ); // [{label, action, frequencies: [{date, frequency}, {date, frequency}]}]
+  const displayDateTransform = (dateStr) =>
+    `${dateStr.slice(5, 7)}/${dateStr.slice(8, 10)}`;
 
   return (
     <>
@@ -41,6 +92,30 @@ const Profile = ({ userInfo, apps, addApp }) => {
           {userInfo.uid.slice(0, 10)}
           ...
         </p>
+      </DisplayContainerCard>
+      <DisplayContainerCard>
+        <table>
+          <thead>
+            <tr>
+              <th>Label/Date</th>
+              {userAnalyticDates.map((date) => (
+                <th key={date}>{displayDateTransform(date)}</th>
+              ))}
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {userAnalyticsWithFrequenciesForDate.map((analytic) => (
+              <tr key={analytic.id}>
+                <td>{analytic.label}</td>
+                {analytic.frequencies.map((frequencyObj) => (
+                  <td key={frequencyObj.date}>{frequencyObj.frequency}</td>
+                ))}
+                <td>{analytic.action}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </DisplayContainerCard>
       <DisplayContainerCard>
         <h2 className="text-2xl font-bold">Tools</h2>
@@ -85,11 +160,14 @@ Profile.propTypes = {
   userInfo: PropTypes.object.isRequired,
   apps: PropTypes.string.isRequired,
   addApp: PropTypes.func.isRequired,
+  userAnalytics: PropTypes.array.isRequired,
+  getUserAnalytics: PropTypes.func.isRequired,
 };
 export default connect(
   (state) => ({
     userInfo: getUserInfo(state),
     apps: getUserApps(state),
+    userAnalytics: getUserAnalytics(state),
   }),
-  { addApp: addAppAction },
+  { addApp: addAppAction, getUserAnalytics: getUserAnalyticsAction },
 )(Profile);

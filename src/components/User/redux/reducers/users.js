@@ -7,6 +7,8 @@ import {
   USER_DELETING_ERROR,
   APPS_UPDATING_DONE,
   APPS_UPDATING_ERROR,
+  USER_ANALYTICS_DONE,
+  USER_ANALYTICS_ERROR,
 } from '../actions';
 
 export const initialState = {
@@ -16,6 +18,7 @@ export const initialState = {
     userId: undefined,
   },
   apps: '',
+  userAnalytics: [],
   loading: true,
   error: {},
 };
@@ -61,6 +64,17 @@ export default function (state = initialState, action) {
         apps: action.payload,
       };
     case APPS_UPDATING_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case USER_ANALYTICS_DONE:
+      return {
+        ...state,
+        userAnalytics: action.payload,
+        error: {},
+      };
+    case USER_ANALYTICS_ERROR:
       return {
         ...state,
         error: action.payload,

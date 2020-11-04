@@ -16,6 +16,8 @@ import {
   overflowDisplayContainer,
 } from '../BaseComponents';
 import EmptyItem from '../BaseComponents/EmptyItem';
+import { trackSpecificEventsFromUser } from '../../api';
+import { userAnalyticLabels } from '../constants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import { ReactComponent as RefreshSVG } from '../../assets/icons/refresh.svg';
 import { ReactComponent as ExternalLinkSVG } from '../../assets/icons/externallink.svg';
@@ -39,7 +41,12 @@ const AllPosts = ({
   return (
     <div className={`${classes || ''}`}>
       <div className="h-0 text-right">
-        <FilledButton action={getRefreshedPosts}>
+        <FilledButton
+          action={() => {
+            getRefreshedPosts();
+            trackSpecificEventsFromUser(userAnalyticLabels.ALL_POST_REFRESH);
+          }}
+        >
           <RefreshSVG className="w-4 h-auto" />
         </FilledButton>
       </div>
@@ -55,6 +62,11 @@ const AllPosts = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   className={smallerFilledButtonClassName}
+                  onClick={() => {
+                    trackSpecificEventsFromUser(
+                      userAnalyticLabels.ALL_POST_TITLE,
+                    );
+                  }}
                 >
                   <ExternalLinkSVG className="w-4 h-auto" title="Link" />
                 </a>
