@@ -17,7 +17,15 @@ import { ReactComponent as EditSVG } from '../../assets/icons/edit.svg';
 import { ReactComponent as ArrowUpSVG } from '../../assets/icons/arrowup.svg';
 import { ReactComponent as ArrowDownSVG } from '../../assets/icons/arrowdown.svg';
 
-const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
+const TodoItem = ({
+  data,
+  editTodo,
+  deleteTodo,
+  reorderTodos,
+  todos,
+  firstItem,
+  lastItem,
+}) => {
   const [edit, setEdit] = useState(false);
 
   const onCheckedChange = async () => {
@@ -26,8 +34,10 @@ const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
   const onSetPriorityTodo = (priority) => {
     editTodo(data.id, { priority, name: data.name });
   };
-  const onReorderTodo = (direction) => {
-    const filteredTodos = todos.filter((item) => !item.finished);
+  const onReorderTodo = (direction, priority) => {
+    const filteredTodos = todos.filter(
+      (item) => !item.finished && item.priority === priority,
+    );
     const currentIdx = filteredTodos.findIndex((el) => el.id === data.id);
     if (direction === DIRECTIONS.UP) {
       if (currentIdx - 1 < 0) return;
@@ -110,12 +120,22 @@ const TodoItem = ({ data, editTodo, deleteTodo, reorderTodos, todos }) => {
           </button>
         </div>
         <div>
-          <button onClick={() => onReorderTodo(DIRECTIONS.UP)} type="button">
-            <ArrowUpSVG className="w-4 h-auto" title="Move todo up" />
-          </button>
-          <button onClick={() => onReorderTodo(DIRECTIONS.DOWN)} type="button">
-            <ArrowDownSVG className="w-4 h-auto" title="Move todo down" />
-          </button>
+          {!firstItem && (
+            <button
+              onClick={() => onReorderTodo(DIRECTIONS.UP, data.priority)}
+              type="button"
+            >
+              <ArrowUpSVG className="w-4 h-auto" title="Move todo up" />
+            </button>
+          )}
+          {!lastItem && (
+            <button
+              onClick={() => onReorderTodo(DIRECTIONS.DOWN, data.priority)}
+              type="button"
+            >
+              <ArrowDownSVG className="w-4 h-auto" title="Move todo down" />
+            </button>
+          )}
         </div>
         <button onClick={onDeleteTodo} type="button">
           <DeleteSVG className="w-4 h-auto" title="Delete todo" />
@@ -131,6 +151,8 @@ TodoItem.propTypes = {
   deleteTodo: PropTypes.func.isRequired,
   reorderTodos: PropTypes.func.isRequired,
   todos: PropTypes.array.isRequired,
+  firstItem: PropTypes.bool.isRequired,
+  lastItem: PropTypes.bool.isRequired,
 };
 
 export default connect(

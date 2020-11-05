@@ -26,6 +26,8 @@ const DailyItem = ({
   toggleDaily,
   hideOptions = false,
   hideInput = false,
+  firstItem,
+  lastItem,
 }) => {
   const [edit, setEdit] = useState(false);
   const onCheckedChange = () => {
@@ -126,18 +128,22 @@ const DailyItem = ({
             </button>
           )}
           <div>
-            <button
-              onClick={() => onReorderHabits(DIRECTIONS.UP)}
-              type="button"
-            >
-              <ArrowUpSVG className="w-4 h-auto" title="Move habit up" />
-            </button>
-            <button
-              onClick={() => onReorderHabits(DIRECTIONS.DOWN)}
-              type="button"
-            >
-              <ArrowDownSVG className="w-4 h-auto" title="Move habit down" />
-            </button>
+            {!firstItem && (
+              <button
+                onClick={() => onReorderHabits(DIRECTIONS.UP)}
+                type="button"
+              >
+                <ArrowUpSVG className="w-4 h-auto" title="Move habit up" />
+              </button>
+            )}
+            {!lastItem && (
+              <button
+                onClick={() => onReorderHabits(DIRECTIONS.DOWN)}
+                type="button"
+              >
+                <ArrowDownSVG className="w-4 h-auto" title="Move habit down" />
+              </button>
+            )}
           </div>
           <button onClick={onDeleteHabit} type="button">
             <DeleteSVG className="w-4 h-auto" title="Delete habit" />
@@ -157,6 +163,8 @@ DailyItem.propTypes = {
   toggleDaily: PropTypes.func.isRequired,
   hideOptions: PropTypes.bool,
   hideInput: PropTypes.bool,
+  firstItem: PropTypes.bool.isRequired,
+  lastItem: PropTypes.bool.isRequired,
 };
 
 export default connect((state) => ({ dailies: getDailiesDailies(state) }), {

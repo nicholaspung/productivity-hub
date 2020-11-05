@@ -36,6 +36,14 @@ const SavedPostList = ({
     }
     // eslint-disable-next-line
   }, [getSavedPosts]);
+
+  const trackSavedPostTitle = (e, savedPost) => {
+    if (e.type === 'click') {
+      updateSavedPost(savedPost.id);
+    }
+    trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_TITLE);
+  };
+
   return (
     <div className={`${classes || ''}`}>
       <div className="h-0 text-right">
@@ -74,12 +82,8 @@ const SavedPostList = ({
                     href={savedPost.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => {
-                      updateSavedPost(savedPost.id);
-                      trackSpecificEventsFromUser(
-                        userAnalyticLabels.SAVED_POST_TITLE,
-                      );
-                    }}
+                    onClick={(e) => trackSavedPostTitle(e, savedPost)}
+                    onContextMenu={(e) => trackSavedPostTitle(e, savedPost)}
                   >
                     {savedPost.title}
                   </a>

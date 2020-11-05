@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getUserInfo, getUserApps, getUserAnalytics } from './redux/selectors';
+import {
+  getUserInfo,
+  getUserApps,
+  getUserAnalytics as getUserAnalyticsSelector,
+} from './redux/selectors';
 import {
   addApp as addAppAction,
   getUserAnalytics as getUserAnalyticsAction,
@@ -75,8 +79,14 @@ const Profile = ({
     },
     [],
   ); // [{label, action, frequencies: [{date, frequency}, {date, frequency}]}]
-  const displayDateTransform = (dateStr) =>
-    `${dateStr.slice(5, 7)}/${dateStr.slice(8, 10)}`;
+  const displayDateTransform = (dateStr, shortFlag = false) => {
+    const month = dateStr[5] === '0' ? dateStr[6] : dateStr.slice(5, 7);
+    const day = dateStr[8] === '0' ? dateStr[9] : dateStr.slice(8, 10);
+    if (shortFlag) {
+      return day;
+    }
+    return `${month}/${day}`;
+  };
 
   return (
     <>
@@ -93,25 +103,29 @@ const Profile = ({
           ...
         </p>
       </DisplayContainerCard>
-      <DisplayContainerCard>
-        <table>
+      <DisplayContainerCard classes="hidden md:block">
+        <table className="w-full">
           <thead>
             <tr>
-              <th>Label/Date</th>
+              <th className="text-left underline">Label/Date</th>
               {userAnalyticDates.map((date) => (
-                <th key={date}>{displayDateTransform(date)}</th>
+                <th key={date} className="text-center underline">
+                  {displayDateTransform(date)}
+                </th>
               ))}
-              <th>Action</th>
+              <th className="text-right underline">Action</th>
             </tr>
           </thead>
           <tbody>
             {userAnalyticsWithFrequenciesForDate.map((analytic) => (
               <tr key={analytic.id}>
-                <td>{analytic.label}</td>
+                <td className="text-left">{analytic.label}</td>
                 {analytic.frequencies.map((frequencyObj) => (
-                  <td key={frequencyObj.date}>{frequencyObj.frequency}</td>
+                  <td key={frequencyObj.date} className="text-center">
+                    {frequencyObj.frequency}
+                  </td>
                 ))}
-                <td>{analytic.action}</td>
+                <td className="text-right">{analytic.action}</td>
               </tr>
             ))}
           </tbody>
@@ -167,7 +181,7 @@ export default connect(
   (state) => ({
     userInfo: getUserInfo(state),
     apps: getUserApps(state),
-    userAnalytics: getUserAnalytics(state),
+    userAnalytics: getUserAnalyticsSelector(state),
   }),
   { addApp: addAppAction, getUserAnalytics: getUserAnalyticsAction },
 )(Profile);

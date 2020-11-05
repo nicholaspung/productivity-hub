@@ -13,7 +13,7 @@ import {
   getTodosLoadingStatus,
   getTodosError,
 } from './redux/selectors';
-import { FILTERS } from './constants';
+import { FILTERS, PRIORITIES } from './constants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
 
@@ -38,6 +38,22 @@ const TodoList = ({
     }
     // eslint-disable-next-line
   }, [getTodos]);
+
+  const sortedTodosForPriority = (todos) => {
+    const lowPriority = [];
+    const noPriority = [];
+    const highPriority = [];
+    todos.forEach((todo) => {
+      if (todo.priority === PRIORITIES.LOW) {
+        lowPriority.push(todo);
+      } else if (todo.priority === PRIORITIES.NONE) {
+        noPriority.push(todo);
+      } else {
+        highPriority.push(todo);
+      }
+    });
+    return [...highPriority, ...noPriority, ...lowPriority];
+  };
 
   return (
     <div className={classes || ''}>
@@ -85,7 +101,7 @@ const TodoList = ({
           message="You have no todos for this category."
         />
         <ItemList
-          data={todos}
+          data={sortedTodosForPriority(todos)}
           Component={TodoItem}
           filterFunction={getFilterFunction(filter)}
           loading={loading}

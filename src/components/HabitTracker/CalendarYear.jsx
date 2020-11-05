@@ -21,7 +21,7 @@ const CalendarYear = ({ dailiesCache, display }) => {
       <p className="text-xl font-bold m-4 w-full text-center">
         {display[0].slice(0, 4)}
       </p>
-      <div className="flex flex-wrap justify-around">
+      <div className="flex flex-wrap justify-around items-start">
         <CalendarMonth
           display={display.slice(0, jan)}
           dailiesCache={dailiesCache}

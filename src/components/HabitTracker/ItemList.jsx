@@ -6,15 +6,24 @@ const ItemList = ({
   Component,
   filterFunction = (item) => item,
   ...rest
-}) => (
-  <ul>
-    {data.length
-      ? data
-          .filter(filterFunction)
-          .map((item) => <Component data={item} key={item.id} {...rest} />)
-      : null}
-  </ul>
-);
+}) => {
+  const filteredData = data.filter(filterFunction);
+  return (
+    <ul>
+      {data.length
+        ? filteredData.map((item, index) => (
+            <Component
+              data={item}
+              key={item.id}
+              {...rest}
+              firstItem={index === 0}
+              lastItem={index === filteredData.length - 1}
+            />
+          ))
+        : null}
+    </ul>
+  );
+};
 
 ItemList.propTypes = {
   data: PropTypes.array,

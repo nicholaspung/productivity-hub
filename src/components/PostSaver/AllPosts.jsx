@@ -37,6 +37,9 @@ const AllPosts = ({
   }, [getPosts]);
 
   const postObjLength = postsObj.results ? postsObj.results.length : 0;
+  const trackAllPostTitle = () => {
+    trackSpecificEventsFromUser(userAnalyticLabels.ALL_POST_TITLE);
+  };
 
   return (
     <div className={`${classes || ''}`}>
@@ -62,11 +65,8 @@ const AllPosts = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   className={smallerFilledButtonClassName}
-                  onClick={() => {
-                    trackSpecificEventsFromUser(
-                      userAnalyticLabels.ALL_POST_TITLE,
-                    );
-                  }}
+                  onClick={trackAllPostTitle}
+                  onContextMenu={trackAllPostTitle}
                 >
                   <ExternalLinkSVG className="w-4 h-auto" title="Link" />
                 </a>
