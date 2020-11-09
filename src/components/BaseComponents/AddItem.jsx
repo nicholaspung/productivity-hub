@@ -20,7 +20,7 @@ const AddItem = ({
   const onTextChange = (event) => setNewItem(event.target.value);
 
   return (
-    <form onSubmit={onAddItem} className={`p-4 ${classes}`}>
+    <form onSubmit={onAddItem} className={`p-4 ${classes}`} autoComplete="off">
       <span className="w-full uppercase text-xs">{labelTitle}</span>
       <label htmlFor={labelTitle} className="flex">
         <input

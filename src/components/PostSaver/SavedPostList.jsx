@@ -33,6 +33,7 @@ const SavedPostList = ({
   useEffect(() => {
     if (!savedPosts.length) {
       getSavedPosts();
+      trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_REFRESH);
     }
     // eslint-disable-next-line
   }, [getSavedPosts]);
@@ -74,21 +75,19 @@ const SavedPostList = ({
                 return 0;
               })
               .map((savedPost) => (
-                <li
-                  key={savedPost.id}
-                  className="flex justify-between items-center p-2"
-                >
+                <li key={savedPost.id} className="flex justify-between p-2">
                   <a
                     href={savedPost.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="flex"
                     onClick={(e) => trackSavedPostTitle(e, savedPost)}
                     onContextMenu={(e) => trackSavedPostTitle(e, savedPost)}
                   >
                     {savedPost.title}
                   </a>
                   <button
-                    className={smallerFilledButtonClassName}
+                    className={`${smallerFilledButtonClassName} ml-1`}
                     onClick={() => updateSavedPost(savedPost.id)}
                     type="button"
                   >

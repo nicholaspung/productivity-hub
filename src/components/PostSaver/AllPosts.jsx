@@ -59,12 +59,12 @@ const AllPosts = ({
         <EmptyItem length={postObjLength} loading={loading} error={error} />
         {postObjLength
           ? postsObj.results.map((result) => (
-              <li key={result.id} className="flex items-center p-2">
+              <li key={result.id} className="flex p-2">
                 <a
                   href={result.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={smallerFilledButtonClassName}
+                  className={`${smallerFilledButtonClassName} flex`}
                   onClick={trackAllPostTitle}
                   onContextMenu={trackAllPostTitle}
                 >

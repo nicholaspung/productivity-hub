@@ -39,11 +39,11 @@ const TodoList = ({
     // eslint-disable-next-line
   }, [getTodos]);
 
-  const sortedTodosForPriority = (todos) => {
+  const sortedTodosForPriority = ((todosArray) => {
     const lowPriority = [];
     const noPriority = [];
     const highPriority = [];
-    todos.forEach((todo) => {
+    todosArray.forEach((todo) => {
       if (todo.priority === PRIORITIES.LOW) {
         lowPriority.push(todo);
       } else if (todo.priority === PRIORITIES.NONE) {
@@ -52,8 +52,8 @@ const TodoList = ({
         highPriority.push(todo);
       }
     });
-    return [...highPriority, ...noPriority, ...lowPriority];
-  };
+    return [highPriority, noPriority, lowPriority];
+  })(todos);
 
   return (
     <div className={classes || ''}>
@@ -100,8 +100,23 @@ const TodoList = ({
           error={error}
           message="You have no todos for this category."
         />
+        <h2 className="font-bold pt-2">High Priority</h2>
         <ItemList
-          data={sortedTodosForPriority(todos)}
+          data={sortedTodosForPriority[0]}
+          Component={TodoItem}
+          filterFunction={getFilterFunction(filter)}
+          loading={loading}
+        />
+        <h2 className="font-bold pt-2">No Priority</h2>
+        <ItemList
+          data={sortedTodosForPriority[1]}
+          Component={TodoItem}
+          filterFunction={getFilterFunction(filter)}
+          loading={loading}
+        />
+        <h2 className="font-bold pt-2">Low Priority</h2>
+        <ItemList
+          data={sortedTodosForPriority[2]}
           Component={TodoItem}
           filterFunction={getFilterFunction(filter)}
           loading={loading}

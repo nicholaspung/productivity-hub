@@ -59,7 +59,7 @@ const TodoItem = ({
         <div className="flex items-center">
           <label
             htmlFor={labelId}
-            className={`flex items-center p-4 border border-transparent rounded-md transition ease-in-out duration-150 ${
+            className={`flex items-center p-4 border border-transparent rounded-md transition ease-in-out duration-150 cursor-pointer ${
               displayColor({ priority: data.priority })[0]
             }`}
           >
@@ -68,7 +68,7 @@ const TodoItem = ({
               type="checkbox"
               checked={data.finished}
               onChange={onCheckedChange}
-              className={`form-checkbox w-6 h-6 ${
+              className={`form-checkbox w-6 h-6 cursor-pointer ${
                 displayColor({ priority: data.priority })[1]
               }`}
             />
@@ -93,7 +93,7 @@ const TodoItem = ({
             displayFunction={() => setEdit(!edit)}
           />
         )}
-        <div>
+        <div className="flex">
           <button
             onClick={() => onSetPriorityTodo(PRIORITIES.HIGH)}
             type="button"

@@ -62,7 +62,7 @@ const DailyItem = ({
         <div className="flex items-center">
           <label
             htmlFor={labelId}
-            className={`flex items-center p-4 border border-transparent rounded-md transition ease-in-out duration-150 ${displayColor(
+            className={`flex items-center p-4 border border-transparent rounded-md transition ease-in-out duration-150 cursor-pointer ${displayColor(
               { archived: data.habit.archived },
             )}`}
           >
@@ -72,7 +72,7 @@ const DailyItem = ({
                 type="checkbox"
                 checked={data.finished}
                 onChange={onCheckedChange}
-                className="form-checkbox text-indigo-600 w-6 h-6"
+                className="form-checkbox text-indigo-600 w-6 h-6 cursor-pointer"
               />
             )}
             {hideInput && !data.habit.archived && (
