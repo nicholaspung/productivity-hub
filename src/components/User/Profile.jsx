@@ -61,24 +61,18 @@ const Profile = ({
             id: curr.id,
             label: curr.label,
             action: curr.action,
-            frequencies: [
-              {
-                date: curr.date,
-                frequency: curr.frequency,
-              },
-            ],
+            frequencies: {
+              [curr.date]: curr.frequency,
+            },
           },
         ];
       }
       // If label is found
-      acc[labelIndex].frequencies.push({
-        date: curr.date,
-        frequency: curr.frequency,
-      });
+      acc[labelIndex].frequencies[curr.date] = curr.frequency;
       return acc;
     },
     [],
-  ); // [{label, action, frequencies: [{date, frequency}, {date, frequency}]}]
+  );
   const displayDateTransform = (dateStr, shortFlag = false) => {
     const month = dateStr[5] === '0' ? dateStr[6] : dateStr.slice(5, 7);
     const day = dateStr[8] === '0' ? dateStr[9] : dateStr.slice(8, 10);
@@ -120,9 +114,9 @@ const Profile = ({
             {userAnalyticsWithFrequenciesForDate.map((analytic) => (
               <tr key={analytic.id}>
                 <td className="text-left">{analytic.label}</td>
-                {analytic.frequencies.map((frequencyObj) => (
-                  <td key={frequencyObj.date} className="text-center">
-                    {frequencyObj.frequency}
+                {Object.keys(analytic.frequencies).map((frequencyObj) => (
+                  <td key={frequencyObj} className="text-center">
+                    {analytic.frequencies[frequencyObj]}
                   </td>
                 ))}
                 <td className="text-right">{analytic.action}</td>

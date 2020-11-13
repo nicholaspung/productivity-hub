@@ -28,6 +28,12 @@ import { clearPostSaver as clearPostSaverAction } from './PostSaver/redux/action
 import { Button, FilledButton } from './BaseComponents';
 import { ReactComponent as LoadingSVG } from '../assets/icons/loading.svg';
 
+const postSaverNavAction = (item) => {
+  if (item.label === 'Post Saver') {
+    trackSpecificEventsFromUser(userAnalyticLabels.POST_SAVER_NAV);
+  }
+};
+
 const Header = ({
   isLoggedIn,
   updateApps,
@@ -227,9 +233,7 @@ const NavItems = ({ data = [] }) => (
         key={item.label}
         to={item.link}
         onClick={() => {
-          if (item.label === 'Post Saver') {
-            trackSpecificEventsFromUser(userAnalyticLabels.POST_SAVER_NAV);
-          }
+          postSaverNavAction(item);
         }}
         className="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
       >
@@ -257,7 +261,10 @@ const TopMobileNavItems = ({ data = [], onClickAction }) => (
             key={item.label}
             to={item.link}
             className="-m-3 p-3 flex items-center space-x-3 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
-            onClick={onClickAction}
+            onClick={() => {
+              postSaverNavAction(item);
+              onClickAction();
+            }}
           >
             {item.icon && item.icon}
             <div className="text-base leading-6 font-medium text-gray-900">

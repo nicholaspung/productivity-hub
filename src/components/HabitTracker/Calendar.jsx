@@ -11,6 +11,8 @@ import { VIEWS, getArrayWithDates } from './utils';
 import CalendarWeek from './CalendarWeek';
 import CalendarMonth from './CalendarMonth';
 import CalendarYear from './CalendarYear';
+import { ReactComponent as ArrowCircleDown } from '../../assets/icons/arrowCircleDown.svg';
+import { ReactComponent as ArrowCircleUp } from '../../assets/icons/arrowCircleUp.svg';
 
 const Calendar = ({ dailiesCache, getDailiesForWeek, dateRangeCache }) => {
   const [date, setDate] = useState(new Date());
@@ -28,7 +30,23 @@ const Calendar = ({ dailiesCache, getDailiesForWeek, dateRangeCache }) => {
   }, []);
   return (
     <>
-      <div className="p-4 flex flex-col items-center mb-4">
+      {view === VIEWS.YEAR && (
+        <div className="fixed bottom-0 right-0 flex p-8">
+          <a href="/habit-tracker#top-of-calendar">
+            <ArrowCircleUp
+              className="w-12 h-auto bg-white rounded-3xl"
+              title="Unarchive habit"
+            />
+          </a>
+          <a href="/habit-tracker#top-of-habits">
+            <ArrowCircleDown
+              className="w-12 h-auto bg-white rounded-3xl"
+              title="Unarchive habit"
+            />
+          </a>
+        </div>
+      )}
+      <div className="p-4 flex flex-col items-center mb-4" id="top-of-calendar">
         <CalendarHeader
           date={date}
           setDate={setDate}
