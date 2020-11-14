@@ -36,3 +36,8 @@ export const displayDateTransform = (dateStr, shortFlag = false) => {
   }
   return `${month}/${day}`;
 };
+export const helperLoggedIn = (authUser, data) => {
+  const { apps, user } = data;
+  const updatedAuthUser = { ...authUser, user };
+  return { updatedAuthUser, apps };
+};

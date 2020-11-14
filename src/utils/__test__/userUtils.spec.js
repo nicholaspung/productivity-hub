@@ -132,4 +132,21 @@ describe('#UserUtils', () => {
     expect(userUtils.displayDateTransform(dateString2)).toEqual('1/1');
     expect(userUtils.displayDateTransform(dateString2, true)).toEqual('1');
   });
+  it('#helperLoggedIn', () => {
+    const data = {
+      apps: 'HABIT_TRACKER',
+      user: 7,
+    };
+    const authUser = {
+      uid: 'uid',
+      isAnonymous: false,
+    };
+    expect(userUtils.helperLoggedIn(authUser, data)).toEqual({
+      updatedAuthUser: {
+        ...authUser,
+        user: data.user,
+      },
+      apps: data.apps,
+    });
+  });
 });

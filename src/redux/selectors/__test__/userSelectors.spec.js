@@ -11,6 +11,7 @@ describe('#UserSelectors', () => {
       apps: '',
       loading: true,
       error: {},
+      userAnalytics: [],
     },
   };
   const state2 = {
@@ -23,6 +24,10 @@ describe('#UserSelectors', () => {
       apps: 'HABIT_TRACKER',
       loading: true,
       error: { message: 'error' },
+      userAnalytics: [
+        { label: 'Label 1', threshold: 5 },
+        { label: 'Label 2', threshold: 10 },
+      ],
     },
   };
   it('#getUserState', () => {
@@ -71,6 +76,22 @@ describe('#UserSelectors', () => {
     );
     expect(selectors.hasError(state2)).toEqual(
       Boolean(Object.keys(state2.users.error).length),
+    );
+  });
+  it('#getUserAnalytics', () => {
+    expect(selectors.getUserAnalytics(state1)).toEqual(
+      state1.users.userAnalytics,
+    );
+    expect(selectors.getUserAnalytics(state2)).toEqual(
+      state2.users.userAnalytics,
+    );
+  });
+  it('#getUserAnalyticsThreshold', () => {
+    expect(selectors.getUserAnalyticsThreshold(state2, 'Label 1')).toEqual(
+      state2.users.userAnalytics[0].threshold,
+    );
+    expect(selectors.getUserAnalyticsThreshold(state2, 'Label 2')).toEqual(
+      state2.users.userAnalytics[1].threshold,
     );
   });
 });

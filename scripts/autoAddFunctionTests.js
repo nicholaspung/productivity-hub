@@ -2,11 +2,18 @@ const fs = require('fs');
 const { parse } = require('@babel/parser');
 
 const filePaths = [
-  './src/utils.js',
-  './src/components/HabitTracker/utils.js',
-  './src/components/HabitTracker/redux/selectors.js',
-  './src/components/PostSaver/redux/selectors.js',
-  './src/components/User/redux/selectors.js',
+  './src/utils/baseUtils.js',
+  './src/utils/habitTrackerUtils.js',
+  './src/utils/userUtils.js',
+  './src/redux/selectors/habitTrackerSelectors.js',
+  './src/redux/selectors/postSaverSelectors.js',
+  './src/redux/selectors/userSelectors.js',
+  './src/redux/reducers/habitTrackerReducers/dailies.js',
+  './src/redux/reducers/habitTrackerReducers/todos.js',
+  './src/redux/reducers/postSaverReducers/posts.js',
+  './src/redux/reducers/postSaverReducers/savedPosts.js',
+  './src/redux/reducers/postSaverReducers/titles.js',
+  './src/redux/reducers/userReducers/users.js',
 ];
 
 // https://astexplorer.net/

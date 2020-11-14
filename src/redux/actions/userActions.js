@@ -4,6 +4,7 @@ import {
   getProfile,
   getUserAnalytics as getUserAnalyticsAPI,
 } from '../../api/userApi';
+import { helperLoggedIn } from '../../utils/userUtils';
 
 export const USER_LOGGED_IN = 'USER_LOGGED_IN';
 export const USER_LOADING = 'USER_LOADING';
@@ -30,12 +31,6 @@ export const updateApps = (apps) => ({
   type: APPS_UPDATING_DONE,
   payload: apps,
 });
-
-export const helperLoggedIn = (authUser, data) => {
-  const { apps, user } = data;
-  const updatedAuthUser = { ...authUser, user };
-  return { updatedAuthUser, apps };
-};
 export const loggedIn = (authUser) => async (dispatch) => {
   try {
     const { data } = await getProfile();
