@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getUserError } from './User/redux/selectors';
+import { getUserError } from '../redux/selectors/userSelectors';
 
 const Banner = ({ error }) => (
   <div

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {
   updateTitle as updateTitleAction,
   deleteTitle as deleteTitleAction,
-} from './redux/actions';
+} from '../../redux/actions/postSaverActions';
 import {
   smallerFilledButtonClassName,
   smallerFormInputClassName,

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DailyList from './DailyList';
 import TodoList from './TodoList';
-import Calendar from './Calendar';
+import Calendar from './Calendar/Calendar';
 import YesterdayDailies from './YesterdayDailies';
 import Helmet from '../BaseComponents/Helmet';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
-import { getDailiesLoadingStatus } from './redux/selectors';
+import { getDailiesLoadingStatus } from '../../redux/selectors/habitTrackerSelectors';
 
 const HabitTracker = ({ loading }) => (
   <>

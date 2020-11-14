@@ -5,14 +5,19 @@ import {
   getUserInfo,
   getUserApps,
   getUserAnalytics as getUserAnalyticsSelector,
-} from './redux/selectors';
+} from '../../redux/selectors/userSelectors';
 import {
   addApp as addAppAction,
   getUserAnalytics as getUserAnalyticsAction,
-} from './redux/actions';
+} from '../../redux/actions/userActions';
 import { DisplayContainerCard, Button, FilledButton } from '../BaseComponents';
 import Helmet from '../BaseComponents/Helmet';
 import DeleteAccount from './DeleteAccount';
+import {
+  userAnalyticDates,
+  userAnalyticsWithFrequenciesForDate,
+  displayDateTransform,
+} from '../../utils/userUtils';
 
 const APPS = ['HABIT_TRACKER', 'POST_SAVER'];
 
@@ -44,44 +49,6 @@ const Profile = ({
   const onProfileCancel = () => setUserApps(defaultApps);
   const onProfileSave = () => addApp(userInfo.userId, userApps.join(','));
 
-  const userAnalyticDates = userAnalytics.reduce((acc, curr) => {
-    if (!acc.includes(curr.date)) {
-      return [...acc, curr.date];
-    }
-    return acc;
-  }, []);
-  const userAnalyticsWithFrequenciesForDate = userAnalytics.reduce(
-    (acc, curr) => {
-      // If label is not found
-      const labelIndex = acc.findIndex((el) => el.label === curr.label);
-      if (labelIndex === -1) {
-        return [
-          ...acc,
-          {
-            id: curr.id,
-            label: curr.label,
-            action: curr.action,
-            frequencies: {
-              [curr.date]: curr.frequency,
-            },
-          },
-        ];
-      }
-      // If label is found
-      acc[labelIndex].frequencies[curr.date] = curr.frequency;
-      return acc;
-    },
-    [],
-  );
-  const displayDateTransform = (dateStr, shortFlag = false) => {
-    const month = dateStr[5] === '0' ? dateStr[6] : dateStr.slice(5, 7);
-    const day = dateStr[8] === '0' ? dateStr[9] : dateStr.slice(8, 10);
-    if (shortFlag) {
-      return day;
-    }
-    return `${month}/${day}`;
-  };
-
   return (
     <>
       <Helmet
@@ -102,7 +69,7 @@ const Profile = ({
           <thead>
             <tr>
               <th className="text-left underline">Label/Date</th>
-              {userAnalyticDates.map((date) => (
+              {userAnalyticDates(userAnalytics).map((date) => (
                 <th key={date} className="text-center underline">
                   {displayDateTransform(date)}
                 </th>
@@ -111,17 +78,19 @@ const Profile = ({
             </tr>
           </thead>
           <tbody>
-            {userAnalyticsWithFrequenciesForDate.map((analytic) => (
-              <tr key={analytic.id}>
-                <td className="text-left">{analytic.label}</td>
-                {Object.keys(analytic.frequencies).map((frequencyObj) => (
-                  <td key={frequencyObj} className="text-center">
-                    {analytic.frequencies[frequencyObj]}
-                  </td>
-                ))}
-                <td className="text-right">{analytic.action}</td>
-              </tr>
-            ))}
+            {userAnalyticsWithFrequenciesForDate(userAnalytics).map(
+              (analytic) => (
+                <tr key={analytic.id}>
+                  <td className="text-left">{analytic.label}</td>
+                  {Object.keys(analytic.frequencies).map((frequencyObj) => (
+                    <td key={frequencyObj} className="text-center">
+                      {analytic.frequencies[frequencyObj]}
+                    </td>
+                  ))}
+                  <td className="text-right">{analytic.action}</td>
+                </tr>
+              ),
+            )}
           </tbody>
         </table>
       </DisplayContainerCard>

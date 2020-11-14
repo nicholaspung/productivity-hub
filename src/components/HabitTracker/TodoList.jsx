@@ -7,13 +7,13 @@ import AddItem from '../BaseComponents/AddItem';
 import {
   getTodos as getTodosAction,
   addTodo as addTodoAction,
-} from './redux/actions';
+} from '../../redux/actions/habitTrackerActions';
 import {
   getTodosTodos,
   getTodosLoadingStatus,
   getTodosError,
-} from './redux/selectors';
-import { FILTERS, PRIORITIES } from './constants';
+} from '../../redux/selectors/habitTrackerSelectors';
+import { FILTERS, PRIORITIES } from '../../constants/habitTrackerConstants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
 

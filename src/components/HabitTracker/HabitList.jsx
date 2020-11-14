@@ -10,8 +10,8 @@ import {
   getDailiesError,
   getDailiesLoadingStatus,
   getDailiesHabits,
-} from './redux/selectors';
-import { getHabits as getHabitsAction } from './redux/actions';
+} from '../../redux/selectors/habitTrackerSelectors';
+import { getHabits as getHabitsAction } from '../../redux/actions/habitTrackerActions';
 
 const HabitList = ({
   loading = false,

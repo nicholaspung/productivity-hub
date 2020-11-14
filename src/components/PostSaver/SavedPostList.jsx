@@ -4,20 +4,20 @@ import { connect } from 'react-redux';
 import {
   getSavedPosts as getSavedPostsAction,
   updateSavedPost as updateSavedPostAction,
-} from './redux/actions';
+} from '../../redux/actions/postSaverActions';
 import {
   getSavedPostsSavedPosts,
   getSavedPostsLoading,
   getSavedPostsError,
-} from './redux/selectors';
+} from '../../redux/selectors/postSaverSelectors';
 import {
   FilledButton,
   smallerFilledButtonClassName,
   overflowDisplayContainer,
 } from '../BaseComponents';
 import EmptyItem from '../BaseComponents/EmptyItem';
-import { trackSpecificEventsFromUser } from '../../api';
-import { userAnalyticLabels } from '../constants';
+import { trackSpecificEventsFromUser } from '../../api/baseApi';
+import { userAnalyticLabels } from '../../constants/baseConstants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import { ReactComponent as RefreshSVG } from '../../assets/icons/refresh.svg';
 import { ReactComponent as CancelSVG } from '../../assets/icons/cancel.svg';

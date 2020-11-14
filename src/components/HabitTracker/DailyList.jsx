@@ -8,14 +8,14 @@ import AddItem from '../BaseComponents/AddItem';
 import {
   addHabit as addHabitAction,
   createDailiesForDay as createDailiesForDayAction,
-} from './redux/actions';
+} from '../../redux/actions/habitTrackerActions';
 import {
   getDailiesDailies,
   getDailiesLoadingStatus,
   getDailiesError,
-} from './redux/selectors';
+} from '../../redux/selectors/habitTrackerSelectors';
 import { smallerFilledButtonClassName } from '../BaseComponents';
-import { FILTERS } from './constants';
+import { FILTERS } from '../../constants/habitTrackerConstants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
 

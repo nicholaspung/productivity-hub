@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteUser as deleteUserAction } from './redux/actions';
-import { getUserInfo } from './redux/selectors';
+import { deleteUser as deleteUserAction } from '../../redux/actions/userActions';
+import { getUserInfo } from '../../redux/selectors/userSelectors';
 import { DisplayContainerCard, Button, Modal } from '../BaseComponents';
 
 const DeleteAccount = ({ deleteUser, userInfo }) => {

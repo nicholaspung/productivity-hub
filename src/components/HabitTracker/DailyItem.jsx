@@ -6,10 +6,13 @@ import {
   reorderHabits as reorderHabitsAction,
   deleteHabit as deleteHabitAction,
   toggleDaily as toggleDailyAction,
-} from './redux/actions';
-import { getDailiesDailies } from './redux/selectors';
+} from '../../redux/actions/habitTrackerActions';
+import { getDailiesDailies } from '../../redux/selectors/habitTrackerSelectors';
 import ItemAction from './ItemAction';
-import { DIRECTIONS, displayColor } from './constants';
+import {
+  DIRECTIONS,
+  displayColor,
+} from '../../constants/habitTrackerConstants';
 import { ReactComponent as EditSVG } from '../../assets/icons/edit.svg';
 import { ReactComponent as ArchiveSVG } from '../../assets/icons/archive.svg';
 import { ReactComponent as ArrowUpSVG } from '../../assets/icons/arrowup.svg';

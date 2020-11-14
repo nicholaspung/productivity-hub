@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import {
   getTitles as getTitlesAction,
   addTitle as addTitleAction,
-} from './redux/actions';
+} from '../../redux/actions/postSaverActions';
 import {
   getTitlesTitles,
   getTitlesLoading,
   getTitlesError,
-} from './redux/selectors';
+} from '../../redux/selectors/postSaverSelectors';
 import Title from './Title';
 import AddItem from '../BaseComponents/AddItem';
 import {

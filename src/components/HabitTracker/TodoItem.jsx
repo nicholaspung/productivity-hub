@@ -5,10 +5,14 @@ import {
   editTodo as editTodoAction,
   deleteTodo as deleteTodoAction,
   reorderTodos as reorderTodosAction,
-} from './redux/actions';
-import { getTodosTodos } from './redux/selectors';
+} from '../../redux/actions/habitTrackerActions';
+import { getTodosTodos } from '../../redux/selectors/habitTrackerSelectors';
 import ItemAction from './ItemAction';
-import { PRIORITIES, DIRECTIONS, displayColor } from './constants';
+import {
+  PRIORITIES,
+  DIRECTIONS,
+  displayColor,
+} from '../../constants/habitTrackerConstants';
 import { ReactComponent as MinusSVG } from '../../assets/icons/minus.svg';
 import { ReactComponent as DoubleArrowDownSVG } from '../../assets/icons/doublearrowdown.svg';
 import { ReactComponent as DoubleArrowUpSVG } from '../../assets/icons/doublearrowup.svg';

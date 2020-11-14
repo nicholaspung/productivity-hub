@@ -9,11 +9,10 @@ import {
   getDailiesDailiesCacheForDate,
   getDailiesLoadingStatus,
   getDailiesError,
-} from './redux/selectors';
-import { createDailiesForDay as createDailiesForDayAction } from './redux/actions';
-import { getYesterday } from './utils';
+} from '../../redux/selectors/habitTrackerSelectors';
+import { createDailiesForDay as createDailiesForDayAction } from '../../redux/actions/habitTrackerActions';
+import { getYesterday, sortDailies } from '../../utils/habitTrackerUtils';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
-import { sortDailies } from './utils.js';
 
 const YesterdayDailies = ({
   yesterday,

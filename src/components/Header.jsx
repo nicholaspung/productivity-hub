@@ -9,22 +9,25 @@ import {
   loggedIn as loggedInAction,
   logOut as logOutAction,
   initialLoad as initialLoadAction,
-} from './User/redux/actions';
+} from '../redux/actions/userActions';
 import {
   isLoggedIn as isLoggedInSelector,
   isUserLoading as isUserLoadingSelector,
   hasError as hasErrorSelector,
-} from './User/redux/selectors';
+} from '../redux/selectors/userSelectors';
 import {
   signInWithGoogle,
   signInAnonymously,
   signOut,
   onAuthStateChange,
 } from '../firebase/utils';
-import { createUserAnalytics, trackSpecificEventsFromUser } from '../api';
-import { userAnalyticLabels } from './constants';
-import { clearHabitTracker as clearHabitTrackerAction } from './HabitTracker/redux/actions';
-import { clearPostSaver as clearPostSaverAction } from './PostSaver/redux/actions';
+import {
+  createUserAnalytics,
+  trackSpecificEventsFromUser,
+} from '../api/baseApi';
+import { userAnalyticLabels } from '../constants/baseConstants';
+import { clearHabitTracker as clearHabitTrackerAction } from '../redux/actions/habitTrackerActions';
+import { clearPostSaver as clearPostSaverAction } from '../redux/actions/postSaverActions';
 import { Button, FilledButton } from './BaseComponents';
 import { ReactComponent as LoadingSVG } from '../assets/icons/loading.svg';
 

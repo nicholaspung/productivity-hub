@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { isLoggedIn as isLoggedInSelector } from './User/redux/selectors';
+import { isLoggedIn as isLoggedInSelector } from '../redux/selectors/userSelectors';
 
 const PrivateRoute = ({ component: Component, isLoggedIn, ...rest }) => (
   <Route
