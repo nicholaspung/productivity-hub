@@ -1,5 +1,5 @@
 import * as utils from '../habitTrackerUtils';
-import { DIRECTIONS } from '../../components/HabitTracker/constants';
+import { DIRECTIONS } from '../../constants/habitTrackerConstants';
 
 describe('#HabitTrackerUtils', () => {
   it('#getDaysInMonth', () => {
