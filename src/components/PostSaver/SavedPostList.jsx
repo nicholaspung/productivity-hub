@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -10,6 +10,7 @@ import {
   getSavedPostsLoading,
   getSavedPostsError,
 } from '../../redux/selectors/postSaverSelectors';
+import { getUserAnalyticLabelFrequencyAndThreshold } from '../../redux/selectors/userSelectors';
 import {
   FilledButton,
   smallerFilledButtonClassName,
@@ -21,6 +22,7 @@ import { userAnalyticLabels } from '../../constants/baseConstants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import { ReactComponent as RefreshSVG } from '../../assets/icons/refresh.svg';
 import { ReactComponent as CancelSVG } from '../../assets/icons/cancel.svg';
+import NotFocusedModal from '../BaseComponents/NotFocusedModal';
 
 const SavedPostList = ({
   savedPosts = [],
@@ -29,7 +31,13 @@ const SavedPostList = ({
   updateSavedPost,
   classes = '',
   error,
+  savedPostRefreshAnalyticFrequencyAndThreshold,
+  savedPostTitleAnalyticFrequencyAndThreshold,
 }) => {
+  const emptyFunction = () => () => {};
+  const [seeThreshold, setSeeThreshold] = useState(false);
+  const [thresholdFunction, setThresholdFunction] = useState(emptyFunction);
+
   useEffect(() => {
     if (!savedPosts.length) {
       getSavedPosts();
@@ -40,22 +48,47 @@ const SavedPostList = ({
 
   const trackSavedPostTitle = (e, savedPost) => {
     if (e.type === 'click') {
+      if (
+        savedPostTitleAnalyticFrequencyAndThreshold.frequency >=
+        savedPostTitleAnalyticFrequencyAndThreshold.threshold
+      ) {
+        e.preventDefault();
+        setThresholdFunction(() => () => updateSavedPost(savedPost.id));
+        setSeeThreshold(true);
+        return false;
+      }
       updateSavedPost(savedPost.id);
     }
-    trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_TITLE);
+    return trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_TITLE);
+  };
+  const onRefreshAction = () => {
+    if (
+      savedPostRefreshAnalyticFrequencyAndThreshold.frequency >=
+      savedPostRefreshAnalyticFrequencyAndThreshold.threshold
+    ) {
+      setThresholdFunction(() => () => getSavedPosts());
+      setSeeThreshold(true);
+      return false;
+    }
+    getSavedPosts();
+    return trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_REFRESH);
   };
 
   return (
     <div className={`${classes || ''}`}>
       <div className="h-0 text-right">
-        <FilledButton
-          action={() => {
-            getSavedPosts();
-            trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_REFRESH);
-          }}
-        >
+        <FilledButton action={onRefreshAction}>
           <RefreshSVG className="w-4 h-auto" />
         </FilledButton>
+        {seeThreshold && (
+          <NotFocusedModal
+            displayFunction={() => {
+              thresholdFunction();
+              setSeeThreshold(false);
+              setThresholdFunction(emptyFunction);
+            }}
+          />
+        )}
       </div>
       {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
       <h1 className="text-2xl font-bold text-center">Saved Post List</h1>
@@ -114,6 +147,8 @@ SavedPostList.propTypes = {
   updateSavedPost: PropTypes.func.isRequired,
   classes: PropTypes.string,
   error: PropTypes.object.isRequired,
+  savedPostRefreshAnalyticFrequencyAndThreshold: PropTypes.object.isRequired,
+  savedPostTitleAnalyticFrequencyAndThreshold: PropTypes.object.isRequired,
 };
 
 export default connect(
@@ -121,6 +156,14 @@ export default connect(
     savedPosts: getSavedPostsSavedPosts(state),
     loading: getSavedPostsLoading(state),
     error: getSavedPostsError(state),
+    savedPostRefreshAnalyticFrequencyAndThreshold: getUserAnalyticLabelFrequencyAndThreshold(
+      state,
+      userAnalyticLabels.SAVED_POST_REFRESH,
+    ),
+    savedPostTitleAnalyticFrequencyAndThreshold: getUserAnalyticLabelFrequencyAndThreshold(
+      state,
+      userAnalyticLabels.SAVED_POST_TITLE,
+    ),
   }),
   {
     getSavedPosts: getSavedPostsAction,

@@ -92,7 +92,8 @@ export const Modal = ({ children }) => (
   </div>
 );
 Modal.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array])
+    .isRequired,
 };
 
 export const smallerButtonClassName =

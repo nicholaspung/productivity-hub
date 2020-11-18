@@ -86,12 +86,12 @@ describe('#UserSelectors', () => {
       state2.users.userAnalytics,
     );
   });
-  it('#getUserAnalyticsThreshold', () => {
-    expect(selectors.getUserAnalyticsThreshold(state2, 'Label 1')).toEqual(
-      state2.users.userAnalytics[0].threshold,
-    );
-    expect(selectors.getUserAnalyticsThreshold(state2, 'Label 2')).toEqual(
-      state2.users.userAnalytics[1].threshold,
-    );
+  it('#getUserAnalyticLabelFrequencyAndThreshold', () => {
+    expect(
+      selectors.getUserAnalyticLabelFrequencyAndThreshold(state2, 'Label 1'),
+    ).toEqual(state2.users.userAnalytics[0].threshold);
+    expect(
+      selectors.getUserAnalyticLabelFrequencyAndThreshold(state2, 'Label 2'),
+    ).toEqual(state2.users.userAnalytics[1].threshold);
   });
 });
