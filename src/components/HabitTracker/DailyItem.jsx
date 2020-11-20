@@ -29,6 +29,7 @@ const DailyItem = ({
   toggleDaily,
   hideOptions = false,
   hideInput = false,
+  disableInput = false,
   firstItem,
   lastItem,
 }) => {
@@ -58,6 +59,7 @@ const DailyItem = ({
   };
 
   const labelId = data.habit.name.replace(/ /, '');
+  const disabledInputClass = !disableInput ? 'cursor-pointer' : '';
 
   return (
     <li className="p-1 border-t-2 border-gray-200 flex justify-between items-center">
@@ -65,7 +67,7 @@ const DailyItem = ({
         <div className="flex items-center">
           <label
             htmlFor={labelId}
-            className={`flex items-center p-4 border border-transparent rounded-md transition ease-in-out duration-150 cursor-pointer ${displayColor(
+            className={`flex items-center p-4 border border-transparent rounded-md transition ease-in-out duration-150 ${disabledInputClass} ${displayColor(
               { archived: data.habit.archived },
             )}`}
           >
@@ -75,7 +77,8 @@ const DailyItem = ({
                 type="checkbox"
                 checked={data.finished}
                 onChange={onCheckedChange}
-                className="form-checkbox text-indigo-600 w-6 h-6 cursor-pointer"
+                disabled={disableInput}
+                className={`form-checkbox text-indigo-600 w-6 h-6 ${disabledInputClass}`}
               />
             )}
             {hideInput && !data.habit.archived && (
@@ -168,6 +171,7 @@ DailyItem.propTypes = {
   hideInput: PropTypes.bool,
   firstItem: PropTypes.bool.isRequired,
   lastItem: PropTypes.bool.isRequired,
+  disableInput: PropTypes.bool,
 };
 
 export default connect((state) => ({ dailies: getDailiesDailies(state) }), {

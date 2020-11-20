@@ -19,6 +19,9 @@ describe('#UserUtils', () => {
         action: 'click',
         frequency: 1,
         date: 1,
+        threshold: {
+          threshold: 1,
+        },
       },
       {
         label: 'there',
@@ -26,6 +29,9 @@ describe('#UserUtils', () => {
         action: 'click',
         frequency: 5,
         date: 1,
+        threshold: {
+          threshold: 2,
+        },
       },
       {
         label: 'friend',
@@ -33,6 +39,9 @@ describe('#UserUtils', () => {
         action: 'click',
         frequency: 6,
         date: 1,
+        threshold: {
+          threshold: 3,
+        },
       },
       {
         label: 'we',
@@ -40,6 +49,9 @@ describe('#UserUtils', () => {
         action: 'click',
         frequency: 7,
         date: 1,
+        threshold: {
+          threshold: 4,
+        },
       },
       {
         label: 'see',
@@ -47,6 +59,9 @@ describe('#UserUtils', () => {
         action: 'click',
         frequency: 12,
         date: 1,
+        threshold: {
+          threshold: 5,
+        },
       },
       {
         label: 'hi',
@@ -54,6 +69,9 @@ describe('#UserUtils', () => {
         action: 'click',
         frequency: 64,
         date: 2,
+        threshold: {
+          threshold: 1,
+        },
       },
       {
         label: 'there',
@@ -61,6 +79,9 @@ describe('#UserUtils', () => {
         action: 'click',
         frequency: 1,
         date: 2,
+        threshold: {
+          threshold: 2,
+        },
       },
       {
         label: 'friend',
@@ -68,6 +89,9 @@ describe('#UserUtils', () => {
         action: 'click',
         frequency: 0,
         date: 2,
+        threshold: {
+          threshold: 3,
+        },
       },
       {
         label: 'we',
@@ -75,6 +99,9 @@ describe('#UserUtils', () => {
         action: 'click',
         frequency: 0,
         date: 2,
+        threshold: {
+          threshold: 4,
+        },
       },
       {
         label: 'see',
@@ -82,6 +109,9 @@ describe('#UserUtils', () => {
         action: 'click',
         frequency: 0,
         date: 2,
+        threshold: {
+          threshold: 5,
+        },
       },
       {
         label: 'hi',
@@ -89,6 +119,9 @@ describe('#UserUtils', () => {
         action: 'click',
         frequency: 4,
         date: 3,
+        threshold: {
+          threshold: 1,
+        },
       },
     ];
     expect(userUtils.userAnalyticsWithFrequenciesForDate(analytics)).toEqual([
@@ -97,30 +130,35 @@ describe('#UserUtils', () => {
         label: 'hi',
         action: 'click',
         frequencies: { 1: 1, 2: 64, 3: 4 },
+        threshold: 1,
       },
       {
         id: 2,
         label: 'there',
         action: 'click',
         frequencies: { 1: 5, 2: 1 },
+        threshold: 2,
       },
       {
         id: 3,
         label: 'friend',
         action: 'click',
         frequencies: { 1: 6, 2: 0 },
+        threshold: 3,
       },
       {
         id: 4,
         label: 'we',
         action: 'click',
         frequencies: { 1: 7, 2: 0 },
+        threshold: 4,
       },
       {
         id: 5,
         label: 'see',
         action: 'click',
         frequencies: { 1: 12, 2: 0 },
+        threshold: 5,
       },
     ]);
   });

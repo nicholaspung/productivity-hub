@@ -16474,6 +16474,10 @@ video {
   width: 91.666667%;
 }
 
+.w-inherit {
+  width: inherit;
+}
+
 .w-full {
   width: 100%;
 }
@@ -34674,6 +34678,10 @@ video {
     width: 91.666667%;
   }
 
+  .sm\:w-inherit {
+    width: inherit;
+  }
+
   .sm\:w-full {
     width: 100%;
   }
@@ -52842,6 +52850,10 @@ video {
 
   .md\:w-11\/12 {
     width: 91.666667%;
+  }
+
+  .md\:w-inherit {
+    width: inherit;
   }
 
   .md\:w-full {
@@ -71014,6 +71026,10 @@ video {
     width: 91.666667%;
   }
 
+  .lg\:w-inherit {
+    width: inherit;
+  }
+
   .lg\:w-full {
     width: 100%;
   }
@@ -89182,6 +89198,10 @@ video {
 
   .xl\:w-11\/12 {
     width: 91.666667%;
+  }
+
+  .xl\:w-inherit {
+    width: inherit;
   }
 
   .xl\:w-full {

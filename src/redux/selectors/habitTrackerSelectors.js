@@ -22,11 +22,11 @@ export const getTodosError = (store) => getTodosState(store).error;
 
 export const getDailiesHabits = (store) => getDailiesState(store).habits;
 
-export const getEarliestHabitDate = (store) =>
+export const getEarliestHabitDate = (store, today = new Date()) =>
   getDailiesDailies(store).reduce((acc, curr) => {
     if (!curr.habit) return acc;
     if (ISOStringToJavascriptDate(curr.habit.date_created) < acc) {
       return ISOStringToJavascriptDate(curr.habit.date_created);
     }
     return acc;
-  }, new Date());
+  }, today);

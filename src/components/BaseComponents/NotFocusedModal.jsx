@@ -53,14 +53,18 @@ const NotFocusedModal = ({ displayFunction }) => {
               }
               setShowInputError(false);
               if (step + 1 === 3) {
-                displayFunction();
+                displayFunction(true);
               }
               setStep(step + 1);
             }}
           >
             {leftSideButton(step)}
           </Button>
-          <FilledButton type="button" classes="w-full" action={displayFunction}>
+          <FilledButton
+            type="button"
+            classes="w-full"
+            action={() => displayFunction(false)}
+          >
             No
           </FilledButton>
         </div>

@@ -1,4 +1,5 @@
 import * as selectors from '../userSelectors';
+import { getDateTransform } from '../../../utils/habitTrackerUtils';
 
 describe('#UserSelectors', () => {
   const state1 = {
@@ -25,8 +26,24 @@ describe('#UserSelectors', () => {
       loading: true,
       error: { message: 'error' },
       userAnalytics: [
-        { label: 'Label 1', threshold: 5 },
-        { label: 'Label 2', threshold: 10 },
+        {
+          label: 'Label 1',
+          threshold: { threshold: 5 },
+          frequency: 11,
+          date: '2020-06-01',
+        },
+        {
+          label: 'Label 2',
+          threshold: { threshold: 10 },
+          frequency: 22,
+          date: '2020-01-15',
+        },
+        {
+          label: 'Label 3',
+          threshold: null,
+          frequency: 33,
+          date: getDateTransform(new Date()),
+        },
       ],
     },
   };
@@ -87,11 +104,27 @@ describe('#UserSelectors', () => {
     );
   });
   it('#getUserAnalyticLabelFrequencyAndThreshold', () => {
+    const defaultNumber = 9999;
+    expect(
+      selectors.getUserAnalyticLabelFrequencyAndThreshold(state1, 'Anything'),
+    ).toEqual({ frequency: defaultNumber, threshold: defaultNumber });
     expect(
       selectors.getUserAnalyticLabelFrequencyAndThreshold(state2, 'Label 1'),
-    ).toEqual(state2.users.userAnalytics[0].threshold);
+    ).toEqual({
+      frequency: state2.users.userAnalytics[0].frequency,
+      threshold: state2.users.userAnalytics[0].threshold.threshold,
+    });
     expect(
       selectors.getUserAnalyticLabelFrequencyAndThreshold(state2, 'Label 2'),
-    ).toEqual(state2.users.userAnalytics[1].threshold);
+    ).toEqual({
+      frequency: state2.users.userAnalytics[1].frequency,
+      threshold: state2.users.userAnalytics[1].threshold.threshold,
+    });
+    expect(
+      selectors.getUserAnalyticLabelFrequencyAndThreshold(state2, 'Label 3'),
+    ).toEqual({
+      frequency: state2.users.userAnalytics[2].frequency,
+      threshold: defaultNumber,
+    });
   });
 });

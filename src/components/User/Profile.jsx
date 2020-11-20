@@ -18,6 +18,7 @@ import {
   userAnalyticsWithFrequenciesForDate,
   displayDateTransform,
 } from '../../utils/userUtils';
+import UserAnalyticRow from './UserAnalyticRow';
 
 const APPS = ['HABIT_TRACKER', 'POST_SAVER'];
 
@@ -74,21 +75,14 @@ const Profile = ({
                   {displayDateTransform(date)}
                 </th>
               ))}
-              <th className="text-right underline">Action</th>
+              <th className="text-center underline w-1/12">Threshold</th>
+              <th className="text-center underline">Action</th>
             </tr>
           </thead>
           <tbody>
             {userAnalyticsWithFrequenciesForDate(userAnalytics).map(
               (analytic) => (
-                <tr key={analytic.id}>
-                  <td className="text-left">{analytic.label}</td>
-                  {Object.keys(analytic.frequencies).map((frequencyObj) => (
-                    <td key={frequencyObj} className="text-center">
-                      {analytic.frequencies[frequencyObj]}
-                    </td>
-                  ))}
-                  <td className="text-right">{analytic.action}</td>
-                </tr>
+                <UserAnalyticRow key={analytic.id} analytic={analytic} />
               ),
             )}
           </tbody>

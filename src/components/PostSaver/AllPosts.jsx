@@ -46,17 +46,29 @@ const AllPosts = ({
 
   const postObjLength = postsObj.results ? postsObj.results.length : 0;
   const trackAllPostTitle = (e) => {
-    if (e.type === 'click') {
+    e.persist();
+    if (e.type === 'click' || e.type === 'contextmenu') {
       if (
         allPostTitleAnalyticThreshold.frequency >=
         allPostTitleAnalyticThreshold.threshold
       ) {
+        let url = e.target.href;
+        let { target } = e.target;
+        if (e.target.nodeName === 'svg') {
+          url = e.target.parentNode.href;
+          target = e.target.parentNode.target;
+        }
         e.preventDefault();
+        setThresholdFunction(() => (use) => {
+          if (use) {
+            window.open(url, target);
+          }
+        });
         setSeeThreshold(true);
         return false;
       }
     }
-    trackSpecificEventsFromUser(userAnalyticLabels.ALL_POST_TITLE);
+    return trackSpecificEventsFromUser(userAnalyticLabels.ALL_POST_TITLE);
   };
 
   const onRefreshAction = () => {
@@ -69,7 +81,7 @@ const AllPosts = ({
       return false;
     }
     getRefreshedPosts();
-    trackSpecificEventsFromUser(userAnalyticLabels.ALL_POST_REFRESH);
+    return trackSpecificEventsFromUser(userAnalyticLabels.ALL_POST_REFRESH);
   };
 
   return (
@@ -80,8 +92,8 @@ const AllPosts = ({
         </FilledButton>
         {seeThreshold && (
           <NotFocusedModal
-            displayFunction={() => {
-              thresholdFunction();
+            displayFunction={(use) => {
+              thresholdFunction(use);
               setSeeThreshold(false);
               setThresholdFunction(emptyFunction);
             }}

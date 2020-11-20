@@ -47,13 +47,21 @@ const SavedPostList = ({
   }, [getSavedPosts]);
 
   const trackSavedPostTitle = (e, savedPost) => {
-    if (e.type === 'click') {
+    e.persist();
+    if (e.type === 'click' || e.type === 'contextmenu') {
       if (
         savedPostTitleAnalyticFrequencyAndThreshold.frequency >=
         savedPostTitleAnalyticFrequencyAndThreshold.threshold
       ) {
+        const url = e.target.href;
+        const { target } = e.target;
         e.preventDefault();
-        setThresholdFunction(() => () => updateSavedPost(savedPost.id));
+        setThresholdFunction(() => (use) => {
+          if (use) {
+            window.open(url, target);
+            updateSavedPost(savedPost.id);
+          }
+        });
         setSeeThreshold(true);
         return false;
       }
@@ -82,8 +90,8 @@ const SavedPostList = ({
         </FilledButton>
         {seeThreshold && (
           <NotFocusedModal
-            displayFunction={() => {
-              thresholdFunction();
+            displayFunction={(use) => {
+              thresholdFunction(use);
               setSeeThreshold(false);
               setThresholdFunction(emptyFunction);
             }}

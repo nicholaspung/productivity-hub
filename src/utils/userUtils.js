@@ -19,6 +19,7 @@ export const userAnalyticsWithFrequenciesForDate = (analytics) =>
           frequencies: {
             [curr.date]: curr.frequency,
           },
+          threshold: curr.threshold.threshold,
         },
       ];
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -11,6 +11,7 @@ import {
   displayColor,
 } from '../../../constants/habitTrackerConstants';
 import { getEarliestHabitDate } from '../../../redux/selectors/habitTrackerSelectors';
+import PreviousDailies from './PreviousDailies';
 
 const CalendarDay = ({
   dailiesCache,
@@ -26,11 +27,21 @@ const CalendarDay = ({
       dailiesCache[day],
     );
   }
+
+  const [showDaily, setShowDaily] = useState(false);
+
+  const dateObject = getJavascriptDateTransform(day);
   const isActiveHabit =
-    getJavascriptDateTransform(day) < new Date() &&
-    getJavascriptDateTransform(day) > earliestHabitDate;
+    dateObject < new Date() && dateObject > earliestHabitDate;
   return (
     <li className="m-2">
+      {showDaily && (
+        <PreviousDailies
+          date={dateObject}
+          data={dailiesCache[day]}
+          displayFunction={() => setShowDaily(false)}
+        />
+      )}
       {labelView === VIEWS.WEEK.label && (
         <p className="text-center hidden sm:block">
           {`${SHORT_MONTH_NAMES[Number(day.slice(5, 7)) - 1]} ${Number(
@@ -38,11 +49,13 @@ const CalendarDay = ({
           )}`}
         </p>
       )}
-      <div
+      <button
+        type="button"
         className={`w-8 h-8 sm:w-16 sm:h-16 sm:flex sm:flex-col sm:items-end sm:justify-end rounded-sm border-2 ${
           (isActiveHabit || totalLength) &&
-          displayColor({ percentage: percentageLabel })[0]
+          `${displayColor({ percentage: percentageLabel })[0]} cursor-pointer`
         }`}
+        onClick={() => setShowDaily(true)}
       >
         {dailiesCache[day] && (
           <p className="text-xs text-right p-2 text-white font-bold">
@@ -50,7 +63,7 @@ const CalendarDay = ({
             {finishedLength}/{totalLength}
           </p>
         )}
-      </div>
+      </button>
     </li>
   );
 };

@@ -96,7 +96,8 @@ describe('#HabitTrackerSelectors', () => {
     expect(selectors.getDailiesHabits(state2)).toEqual(state2.dailies.habits);
   });
   it('#getEarliestHabitDate', () => {
-    expect(selectors.getEarliestHabitDate(state1)).toEqual(new Date());
+    const rightNow = new Date();
+    expect(selectors.getEarliestHabitDate(state1, rightNow)).toEqual(rightNow);
     expect(selectors.getEarliestHabitDate(state2)).toEqual(
       new Date(2020, 5, 7),
     );
