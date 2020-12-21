@@ -59,9 +59,7 @@ describe('#UserUtils', () => {
         action: 'click',
         frequency: 12,
         date: 1,
-        threshold: {
-          threshold: 5,
-        },
+        threshold: undefined,
       },
       {
         label: 'hi',
@@ -158,7 +156,7 @@ describe('#UserUtils', () => {
         label: 'see',
         action: 'click',
         frequencies: { 1: 12, 2: 0 },
-        threshold: 5,
+        threshold: undefined,
       },
     ]);
   });

@@ -42,6 +42,7 @@ See the project page [here](https://github.com/nicholaspung/productivity-hub/pro
 
 1. Clone this repo.
 2. Create a Firebase account, create a new project, and enable Firebase Authentication. This account will also be used with [productivity-hub-api](https://github.com/nicholaspung/productivity-hub-api).
+   - Go to Settings > General and get the Firebase SDK snippet config for .env
 3. Add environment variables to .env file using Firebase settings.
 4. `npm install`
 5. `npm start`

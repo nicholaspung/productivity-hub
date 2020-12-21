@@ -22,4 +22,4 @@ export const createUserAnalytics = async () =>
   (await axiosWithAuth()).post(userAnalyticsUrl);
 
 export const trackSpecificEventsFromUser = async (label) =>
-  (await axiosWithAuth()).post('/useranalytics/', { label });
+  (await axiosWithAuth()).post(userAnalyticsUrl, { label });

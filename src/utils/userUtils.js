@@ -19,7 +19,7 @@ export const userAnalyticsWithFrequenciesForDate = (analytics) =>
           frequencies: {
             [curr.date]: curr.frequency,
           },
-          threshold: curr.threshold.threshold,
+          threshold: curr.threshold && curr.threshold.threshold,
         },
       ];
     }
@@ -38,7 +38,7 @@ export const displayDateTransform = (dateStr, shortFlag = false) => {
   return `${month}/${day}`;
 };
 export const helperLoggedIn = (authUser, data) => {
-  const { apps, user } = data;
-  const updatedAuthUser = { ...authUser, user };
+  const { apps, user, id } = data;
+  const updatedAuthUser = { ...authUser, user, profileId: id };
   return { updatedAuthUser, apps };
 };

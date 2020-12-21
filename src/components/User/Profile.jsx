@@ -20,7 +20,10 @@ import {
 } from '../../utils/userUtils';
 import UserAnalyticRow from './UserAnalyticRow';
 
-const APPS = ['HABIT_TRACKER', 'POST_SAVER'];
+const APPS = [
+  { title: 'Habit Tracker', id: 1 },
+  { title: 'Post Saver', id: 2 },
+];
 
 const Profile = ({
   userInfo,
@@ -29,26 +32,23 @@ const Profile = ({
   userAnalytics,
   getUserAnalytics,
 }) => {
-  const defaultApps = apps.split(',');
-
-  const [userApps, setUserApps] = useState(defaultApps);
+  const [userApps, setUserApps] = useState(apps);
 
   useEffect(() => {
     getUserAnalytics();
   }, [getUserAnalytics]);
 
-  const onCheckboxChange = (event, app) => {
-    let userAppsCopy = [...userApps];
+  const onCheckboxChange = (event, appId) => {
+    const userAppsCopy = [...userApps];
     if (!event.target.checked) {
-      userAppsCopy.splice(userApps.indexOf(app), 1);
+      userAppsCopy.splice(userApps.indexOf(appId), 1);
     } else {
       userAppsCopy.push(event.target.id);
     }
-    userAppsCopy = userAppsCopy.filter((word) => word);
-    setUserApps(userAppsCopy);
+    setUserApps(userAppsCopy.map((id) => Number(id)));
   };
-  const onProfileCancel = () => setUserApps(defaultApps);
-  const onProfileSave = () => addApp(userInfo.userId, userApps.join(','));
+  const onProfileCancel = () => setUserApps(apps);
+  const onProfileSave = () => addApp(userInfo.profileId, userApps);
 
   return (
     <>
@@ -94,18 +94,16 @@ const Profile = ({
           <h2 className="text-xl font-bold">Apps</h2>
           <ul>
             {APPS.map((app) => (
-              <li key={app}>
-                <label htmlFor={app} style={{ textTransform: 'capitalize' }}>
+              <li key={app.id}>
+                <label htmlFor={app.id} style={{ textTransform: 'capitalize' }}>
                   <input
-                    id={app}
+                    id={app.id}
                     className="mr-2 leading-tight"
                     type="checkbox"
-                    checked={userApps.indexOf(app) !== -1}
-                    onChange={(event) => onCheckboxChange(event, app)}
+                    checked={userApps.indexOf(app.id) !== -1}
+                    onChange={(event) => onCheckboxChange(event, app.id)}
                   />
-                  <span className="text-sm">
-                    {app.replace(/_/, ' ').toLowerCase()}
-                  </span>
+                  <span className="text-sm">{app.title}</span>
                 </label>
               </li>
             ))}
@@ -129,7 +127,7 @@ const Profile = ({
 
 Profile.propTypes = {
   userInfo: PropTypes.object.isRequired,
-  apps: PropTypes.string.isRequired,
+  apps: PropTypes.array.isRequired,
   addApp: PropTypes.func.isRequired,
   userAnalytics: PropTypes.array.isRequired,
   getUserAnalytics: PropTypes.func.isRequired,
