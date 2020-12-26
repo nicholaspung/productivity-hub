@@ -5,8 +5,8 @@ import { getUserError } from '../redux/selectors/userSelectors';
 
 const Banner = ({ error }) => (
   <div
-    className={`w-full text-center p-2 font-bold ${
-      error.message && 'bg-red-600 text-white'
+    className={`w-full text-center font-bold ${
+      error.message ? 'p-2 bg-red-600 text-white' : 'h-0'
     }`}
   >
     <p>{error.message && error.message}</p>

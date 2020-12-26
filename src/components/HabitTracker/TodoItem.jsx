@@ -98,30 +98,36 @@ const TodoItem = ({
           />
         )}
         <div className="flex">
-          <button
-            onClick={() => onSetPriorityTodo(PRIORITIES.HIGH)}
-            type="button"
-          >
-            <DoubleArrowUpSVG
-              className="w-4 h-auto"
-              title="Set high priority"
-            />
-          </button>
-          <button
-            onClick={() => onSetPriorityTodo(PRIORITIES.NONE)}
-            type="button"
-          >
-            <MinusSVG className="w-4 h-auto" title="Set no priority" />
-          </button>
-          <button
-            onClick={() => onSetPriorityTodo(PRIORITIES.LOW)}
-            type="button"
-          >
-            <DoubleArrowDownSVG
-              className="w-4 h-auto"
-              title="Set low priority"
-            />
-          </button>
+          {data.priority !== PRIORITIES.HIGH && (
+            <button
+              onClick={() => onSetPriorityTodo(PRIORITIES.HIGH)}
+              type="button"
+            >
+              <DoubleArrowUpSVG
+                className="w-4 h-auto"
+                title="Set high priority"
+              />
+            </button>
+          )}
+          {data.priority !== PRIORITIES.NONE && (
+            <button
+              onClick={() => onSetPriorityTodo(PRIORITIES.NONE)}
+              type="button"
+            >
+              <MinusSVG className="w-4 h-auto" title="Set no priority" />
+            </button>
+          )}
+          {data.priority !== PRIORITIES.LOW && (
+            <button
+              onClick={() => onSetPriorityTodo(PRIORITIES.LOW)}
+              type="button"
+            >
+              <DoubleArrowDownSVG
+                className="w-4 h-auto"
+                title="Set low priority"
+              />
+            </button>
+          )}
         </div>
         <div>
           {!firstItem && (

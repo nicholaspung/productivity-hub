@@ -89,8 +89,16 @@ export const changeDate = (date, view, direction) => {
 };
 
 export const getDayInfo = (array) => {
-  const finishedLength = array.filter((day) => day.finished).length;
-  return [finishedLength, array.length, finishedLength / array.length];
+  const finishedLength = array.filter(
+    (day) => day.finished && !day.habit.archived,
+  ).length;
+  const unarchivedTotalLength = array.filter((day) => !day.habit.archived)
+    .length;
+  return [
+    finishedLength,
+    unarchivedTotalLength,
+    finishedLength / unarchivedTotalLength,
+  ];
 };
 
 export const createFrontEmptyDates = (pythonDate) => {

@@ -78,7 +78,7 @@ const TodoList = ({
           </button>
         </div>
       </div>
-      <div className="p-4 rounded-md border-2 border-gray-200">
+      <div className="p-4 rounded-md border-2 border-gray-200 bg-white">
         {loading && (
           <div className="h-0 flex justify-end ">
             <div className="relative bottom-3 right-3">
@@ -100,21 +100,27 @@ const TodoList = ({
           error={error}
           message="You have no todos for this category."
         />
-        <h2 className="font-bold pt-2">High Priority</h2>
+        {sortedTodosForPriority[0].length ? (
+          <h2 className="font-bold pt-2">High Priority</h2>
+        ) : null}
         <ItemList
           data={sortedTodosForPriority[0]}
           Component={TodoItem}
           filterFunction={getFilterFunction(filter)}
           loading={loading}
         />
-        <h2 className="font-bold pt-2">No Priority</h2>
+        {sortedTodosForPriority[1].length ? (
+          <h2 className="font-bold pt-2">No Priority</h2>
+        ) : null}
         <ItemList
           data={sortedTodosForPriority[1]}
           Component={TodoItem}
           filterFunction={getFilterFunction(filter)}
           loading={loading}
         />
-        <h2 className="font-bold pt-2">Low Priority</h2>
+        {sortedTodosForPriority[2].length ? (
+          <h2 className="font-bold pt-2">Low Priority</h2>
+        ) : null}
         <ItemList
           data={sortedTodosForPriority[2]}
           Component={TodoItem}

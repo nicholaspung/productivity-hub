@@ -97,11 +97,17 @@ describe('#HabitTrackerUtils', () => {
   });
   it('#getDayInfo', () => {
     const dailyArray = [
-      { finished: true },
-      { finished: false },
-      { finished: true },
+      { finished: true, habit: { archived: false } },
+      { finished: false, habit: { archived: false } },
+      { finished: true, habit: { archived: false } },
     ];
     expect(utils.getDayInfo(dailyArray)).toEqual([2, 3, 2 / 3]);
+    const dailyArray2 = [
+      { finished: true, habit: { archived: true } },
+      { finished: false, habit: { archived: false } },
+      { finished: true, habit: { archived: false } },
+    ];
+    expect(utils.getDayInfo(dailyArray2)).toEqual([1, 2, 1 / 2]);
   });
   it('#getDateTransform', () => {
     const date = new Date(2020, 9, 2);

@@ -78,7 +78,7 @@ const DailyList = ({
 
       {showHabits && <HabitList closeHabits={() => setShowHabits(false)} />}
 
-      <div className="p-4 rounded-md border-2 border-gray-200">
+      <div className="p-4 rounded-md border-2 border-gray-200 bg-white">
         {!loading && (
           <div className="h-0">
             <button

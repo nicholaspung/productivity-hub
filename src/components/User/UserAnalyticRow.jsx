@@ -5,12 +5,14 @@ import { ReactComponent as SaveSVG } from '../../assets/icons/save.svg';
 import { ReactComponent as CancelSVG } from '../../assets/icons/cancel.svg';
 
 const UserAnalyticRow = ({ analytic }) => {
+  const threshold = analytic.threshold || 0;
+
   const [edit, setEdit] = useState(false);
-  const [value, setValue] = useState(analytic.threshold);
+  const [value, setValue] = useState(threshold);
 
   const onSubmitAction = (e) => {
     e.preventDefault();
-    console.log(value);
+    console.log(value, typeof value);
   };
   const onInputChange = (e) => {
     const inputValue = e.target.value;
@@ -28,7 +30,7 @@ const UserAnalyticRow = ({ analytic }) => {
       <td className="text-center w-1/12">
         {!edit && (
           <>
-            <span className="pr-4">{analytic.threshold}</span>
+            <span className="pr-4">{threshold}</span>
             <button type="button" onClick={() => setEdit(true)}>
               <EditSVG className="w-4 h-auto" title="Edit threshold" />
             </button>

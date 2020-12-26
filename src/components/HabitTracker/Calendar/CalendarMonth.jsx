@@ -15,7 +15,7 @@ const CalendarMonth = ({ dailiesCache, display }) => (
       {LONG_MONTH_NAMES[Number(display[0].slice(5, 7)) - 1]}
     </p>
     <CalendarWeekNames />
-    <ul className="flex justify-center w-full flex-wrap">
+    <ul className="flex justify-around w-full flex-wrap">
       {createFrontEmptyDates(display[0]).map((day, idx) => (
         // eslint-disable-next-line react/no-array-index-key
         <CalendarEmptyDates key={`${day}${idx}`} />

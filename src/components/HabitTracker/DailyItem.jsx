@@ -45,7 +45,12 @@ const DailyItem = ({
   };
   const onReorderHabits = (direction) => {
     const filteredDailies = dailies.filter((item) => !item.habit.archived);
-    const currentIdx = filteredDailies.findIndex((el) => el.id === data.id);
+    let currentIdx = filteredDailies.findIndex((el) => el.id === data.id);
+    if (!data.date) {
+      currentIdx = filteredDailies.findIndex(
+        (el) => el.habit.id === data.habit.id,
+      );
+    }
     if (direction === DIRECTIONS.UP) {
       if (currentIdx - 1 < 0) return;
       reorderHabits(data.habit.id, filteredDailies[currentIdx - 1].habit.id);
