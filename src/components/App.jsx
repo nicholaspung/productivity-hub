@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import Header from './Header';
 import Footer from './Footer';
@@ -26,6 +26,9 @@ const App = () => (
         <PrivateRoute path="/post-saver" component={PostSaver} />
         <PrivateRoute path="/habit-tracker" component={HabitTracker} />
         <PrivateRoute path="/profile" component={Profile} />
+        <Route path="*">
+          <Redirect to="/" />
+        </Route>
       </Switch>
     </Main>
 
