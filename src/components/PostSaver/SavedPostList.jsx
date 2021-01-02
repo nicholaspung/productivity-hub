@@ -32,7 +32,7 @@ const SavedPostList = ({
   useEffect(() => {
     if (
       !savedPosts.length &&
-      savedPostRefreshAnalyticFrequencyAndThreshold.frequency >=
+      savedPostRefreshAnalyticFrequencyAndThreshold.frequency <
         savedPostRefreshAnalyticFrequencyAndThreshold.threshold
     ) {
       getSavedPosts();

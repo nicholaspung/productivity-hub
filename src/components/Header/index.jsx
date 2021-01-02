@@ -43,8 +43,8 @@ const Header = ({
 
   useEffect(() => {
     onAuthStateChange(
-      async (authUser) => {
-        await loggedIn(authUser);
+      async (/* authUser */) => {
+        await loggedIn();
         await createUserAnalytics();
         await getUserAnalytics();
       },

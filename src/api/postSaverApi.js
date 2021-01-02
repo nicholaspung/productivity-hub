@@ -1,8 +1,5 @@
 import { axiosWithAuth } from './baseApi';
-
-const savedPostsUrl = '/savedposts/';
-const postsUrl = '/posts/';
-const titlesUrl = '/titles/';
+import { savedPostsUrl, postsUrl, titlesUrl } from '../common/routes';
 
 export const getPosts = async (newUrl) => {
   if (newUrl) {

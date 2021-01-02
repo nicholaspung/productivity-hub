@@ -1,8 +1,5 @@
 import { axiosWithAuth } from './baseApi';
-
-const habitUrl = '/habits/';
-const todoUrl = '/todos/';
-const dailiesUrl = '/dailies/';
+import { habitUrl, todoUrl, dailiesUrl } from '../common/routes';
 
 const transformToDateFormat = (date) => {
   let month = date.getMonth() + 1;

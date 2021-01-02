@@ -9,6 +9,10 @@ import {
   APPS_UPDATING_ERROR,
   USER_ANALYTICS_DONE,
   USER_ANALYTICS_ERROR,
+  UPDATE_USER_ANALYTIC_THRESHOLD_DONE,
+  UPDATE_USER_ANALYTIC_THRESHOLD_ERROR,
+  CREATE_USER_ANALYTIC_THRESHOLD_DONE,
+  CREATE_USER_ANALYTIC_THRESHOLD_ERROR,
 } from '../../actions/userActions';
 
 export const initialState = {
@@ -75,6 +79,19 @@ export default function (state = initialState, action) {
         error: {},
       };
     case USER_ANALYTICS_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case CREATE_USER_ANALYTIC_THRESHOLD_DONE:
+    case UPDATE_USER_ANALYTIC_THRESHOLD_DONE:
+      return {
+        ...state,
+        userAnalytics: action.payload,
+        error: {},
+      };
+    case CREATE_USER_ANALYTIC_THRESHOLD_ERROR:
+    case UPDATE_USER_ANALYTIC_THRESHOLD_ERROR:
       return {
         ...state,
         error: action.payload,

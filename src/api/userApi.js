@@ -1,7 +1,10 @@
-import { axiosWithAuth, userAnalyticsUrl } from './baseApi';
-
-const profileUrl = '/profile/';
-const userUrl = '/user/';
+import { axiosWithAuth } from './baseApi';
+import {
+  profileUrl,
+  userUrl,
+  userAnalyticsUrl,
+  viceThresholdUrl,
+} from '../common/routes';
 
 export const getProfile = async () => (await axiosWithAuth()).get(profileUrl);
 
@@ -13,3 +16,9 @@ export const deleteUser = async (id) =>
 
 export const getUserAnalytics = async () =>
   (await axiosWithAuth()).get(userAnalyticsUrl);
+
+export const updateViceThreshold = async (id, threshold) =>
+  (await axiosWithAuth()).patch(`${viceThresholdUrl}${id}/`, threshold);
+
+export const createViceThreshold = async (viceThreshold) =>
+  (await axiosWithAuth()).post(viceThresholdUrl, viceThreshold);

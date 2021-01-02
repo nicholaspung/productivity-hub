@@ -1,10 +1,6 @@
 import axios from 'axios';
 import { getIdToken } from '../firebase/utils';
-
-const baseUrl =
-  process.env.NODE_ENV === 'production'
-    ? process.env.REACT_APP_API_ROUTE
-    : 'http://127.0.0.1:8000/api';
+import { baseUrl, userAnalyticsUrl } from '../common/routes';
 
 export const axiosWithAuth = async () => {
   const token = await getIdToken();
@@ -15,8 +11,6 @@ export const axiosWithAuth = async () => {
     baseURL: baseUrl,
   });
 };
-
-export const userAnalyticsUrl = '/useranalytics/';
 
 export const createUserAnalytics = async () =>
   (await axiosWithAuth()).post(userAnalyticsUrl);

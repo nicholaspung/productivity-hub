@@ -19,14 +19,20 @@ import { FILTERS } from '../../constants/habitTrackerConstants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
 
-const getFilterFunction = (filter) => {
-  if (filter === FILTERS.UNFINISHED) {
-    return (item) => !item.habit.archived && !item.finished;
-  }
-  if (filter === FILTERS.FINISHED) {
-    return (item) => !item.habit.archived && item.finished;
-  }
-  return (item) => !item.habit.archived;
+const filterCategories = {
+  [FILTERS.UNFINISHED]: {
+    func: (item) => !item.habit.archived && !item.finished,
+    label: 'You have finished all dailies for today. Congrats!',
+  },
+  [FILTERS.FINISHED]: {
+    func: (item) => !item.habit.archived && item.finished,
+    label: "You haven't finished any dailies today. Get to it you monster.",
+  },
+  [FILTERS.ALL]: {
+    func: (item) => !item.habit.archived,
+    label:
+      'You have no dailies. Add a habit as a daily to make less decisions while improving your day.',
+  },
 };
 
 const DailyList = ({
@@ -106,15 +112,15 @@ const DailyList = ({
           classes="mt-2"
         />
         <EmptyItem
-          length={dailies.filter(getFilterFunction(filter)).length}
+          length={dailies.filter(filterCategories[filter].func).length}
           loading={loading}
           error={error}
-          message="You have no habits for this category."
+          message={filterCategories[filter].label}
         />
         <ItemList
           data={dailies}
           Component={DailyItem}
-          filterFunction={getFilterFunction(filter)}
+          filterFunction={filterCategories[filter].func}
           loading={loading}
         />
       </div>
