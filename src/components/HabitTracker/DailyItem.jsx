@@ -7,7 +7,10 @@ import {
   deleteHabit as deleteHabitAction,
   toggleDaily as toggleDailyAction,
 } from '../../redux/actions/habitTrackerActions';
-import { getDailiesDailies } from '../../redux/selectors/habitTrackerSelectors';
+import {
+  getDailiesDailies,
+  getDailiesHabits,
+} from '../../redux/selectors/habitTrackerSelectors';
 import ItemAction from './ItemAction';
 import {
   DIRECTIONS,
@@ -26,6 +29,7 @@ const DailyItem = ({
   reorderHabits,
   deleteHabit,
   dailies,
+  habits,
   toggleDaily,
   hideOptions = false,
   hideInput = false,
@@ -44,19 +48,18 @@ const DailyItem = ({
     editHabit(data.habit.id, { archived: false, name: data.habit.name });
   };
   const onReorderHabits = (direction) => {
-    const filteredDailies = dailies.filter((item) => !item.habit.archived);
-    let currentIdx = filteredDailies.findIndex((el) => el.id === data.id);
-    if (!data.date) {
-      currentIdx = filteredDailies.findIndex(
-        (el) => el.habit.id === data.habit.id,
-      );
-    }
+    const dataList = data.date ? habits : dailies;
+    const findIndexFunc = data.date
+      ? (el) => el.id === data.id
+      : (el) => el.habit.id === data.habit.id;
+    const filteredDataList = dataList.filter((item) => !item.habit.archived);
+    const currentIdx = filteredDataList.findIndex(findIndexFunc);
     if (direction === DIRECTIONS.UP) {
       if (currentIdx - 1 < 0) return;
-      reorderHabits(data.habit.id, filteredDailies[currentIdx - 1].habit.id);
+      reorderHabits(data.habit.id, filteredDataList[currentIdx - 1].habit.id);
     } else {
-      if (currentIdx + 1 > filteredDailies.length - 1) return;
-      reorderHabits(data.habit.id, filteredDailies[currentIdx + 1].habit.id);
+      if (currentIdx + 1 > filteredDataList.length - 1) return;
+      reorderHabits(data.habit.id, filteredDataList[currentIdx + 1].habit.id);
     }
   };
   const onDeleteHabit = () => {
@@ -171,6 +174,7 @@ DailyItem.propTypes = {
   reorderHabits: PropTypes.func.isRequired,
   deleteHabit: PropTypes.func.isRequired,
   dailies: PropTypes.array.isRequired,
+  habits: PropTypes.array.isRequired,
   toggleDaily: PropTypes.func.isRequired,
   hideOptions: PropTypes.bool,
   hideInput: PropTypes.bool,
@@ -179,9 +183,15 @@ DailyItem.propTypes = {
   disableInput: PropTypes.bool,
 };
 
-export default connect((state) => ({ dailies: getDailiesDailies(state) }), {
-  editHabit: editHabitAction,
-  reorderHabits: reorderHabitsAction,
-  deleteHabit: deleteHabitAction,
-  toggleDaily: toggleDailyAction,
-})(DailyItem);
+export default connect(
+  (state) => ({
+    dailies: getDailiesDailies(state),
+    habits: getDailiesHabits(state),
+  }),
+  {
+    editHabit: editHabitAction,
+    reorderHabits: reorderHabitsAction,
+    deleteHabit: deleteHabitAction,
+    toggleDaily: toggleDailyAction,
+  },
+)(DailyItem);
