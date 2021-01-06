@@ -37,8 +37,8 @@ export const signInAnonymously = async () => {
 
 // Auth State Changed
 export const onAuthStateChange = async (
-  next,
-  fallback,
+  next = () => {},
+  fallback = () => {},
   beforeAction = () => {},
 ) => {
   beforeAction();
@@ -78,15 +78,25 @@ export const getIdToken = async () => {
 };
 
 // Link anonymous account with Google
-// const credential = firebase.auth.GoogleAuthProvider.credential(
-//   googleUser.getAuthResponse().id_token
-// );
-// firebase.auth.currentUser
-//   .linkWithCredential(credential)
-//   .then((usercred) => {
-//     const user = usercred.user;
-//     console.log("Anonymous account successfully upgraded", user);
-//   })
-//   .catch((err) => {
-//     console.log("Error upgrading anonymous account", error);
-//   });
+export const linkAnonymousAccountToGoogle = async (next = () => {}) => {
+  try {
+    const user = await firebase
+      .auth()
+      .currentUser.linkWithPopup(new firebase.auth.GoogleAuthProvider());
+    let isAnonymous;
+    let uid;
+    if (user) {
+      isAnonymous = user.isAnonymous;
+      uid = user.uid;
+      next({ isAnonymous, uid });
+    }
+    return {};
+  } catch (err) {
+    return {
+      code: err.code,
+      message: err.message,
+      email: err.email,
+      credential: err.credential,
+    };
+  }
+};
