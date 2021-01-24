@@ -64,172 +64,170 @@ const ItemAction = ({
 
   return (
     <Modal>
-      <div>
-        <form onSubmit={onSubmitForm} className="p-4">
-          <h1 className="text-2xl px-5 font-bold">{labelName}</h1>
-          <label htmlFor={nameLabelId}>
-            <span className="w-full uppercase text-xs">Name</span>
-            <input
-              id={nameLabelId}
-              type="text"
-              value={name}
-              className={formInputClassName}
-              onChange={onNameChange}
-              autoComplete="off"
-            />
-          </label>
-          {data.weekdays && (
-            <div>
-              <span className="w-full uppercase text-xs">
-                Days To Create Dailies
-              </span>
-              <div className="flex justify-around">
-                <>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Sun')}
-                    className={`hidden md:block ${chooseButtonFill('Sun')}`}
-                  >
-                    Sun
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Mon')}
-                    className={`hidden md:block ${chooseButtonFill('Mon')}`}
-                  >
-                    Mon
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Tue')}
-                    className={`hidden md:block ${chooseButtonFill('Tue')}`}
-                  >
-                    Tue
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Wed')}
-                    className={`hidden md:block ${chooseButtonFill('Wed')}`}
-                  >
-                    Wed
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Thu')}
-                    className={`hidden md:block ${chooseButtonFill('Thu')}`}
-                  >
-                    Thu
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Fri')}
-                    className={`hidden md:block ${chooseButtonFill('Fri')}`}
-                  >
-                    Fri
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Sat')}
-                    className={`hidden md:block ${chooseButtonFill('Sat')}`}
-                  >
-                    Sat
-                  </button>
-                </>
-                <>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Sun')}
-                    className={`md:hidden ${chooseButtonFill('Sun').replace(
-                      /px-5/,
-                      'px-3',
-                    )}`}
-                  >
-                    S
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Mon')}
-                    className={`md:hidden ${chooseButtonFill('Mon').replace(
-                      /px-5/,
-                      'px-3',
-                    )}`}
-                  >
-                    M
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Tue')}
-                    className={`md:hidden ${chooseButtonFill('Tue').replace(
-                      /px-5/,
-                      'px-3',
-                    )}`}
-                  >
-                    T
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Wed')}
-                    className={`md:hidden ${chooseButtonFill('Wed').replace(
-                      /px-5/,
-                      'px-3',
-                    )}`}
-                  >
-                    W
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Thu')}
-                    className={`md:hidden ${chooseButtonFill('Thu').replace(
-                      /px-5/,
-                      'px-3',
-                    )}`}
-                  >
-                    T
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Fri')}
-                    className={`md:hidden ${chooseButtonFill('Fri').replace(
-                      /px-5/,
-                      'px-3',
-                    )}`}
-                  >
-                    F
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onWeekdayPress('Sat')}
-                    className={`md:hidden ${chooseButtonFill('Sat').replace(
-                      /px-5/,
-                      'px-3',
-                    )}`}
-                  >
-                    S
-                  </button>
-                </>
-              </div>
+      <form onSubmit={onSubmitForm} className="p-4">
+        <h1 className="text-2xl px-5 font-bold">{labelName}</h1>
+        <label htmlFor={nameLabelId}>
+          <span className="w-full uppercase text-xs">Name</span>
+          <input
+            id={nameLabelId}
+            type="text"
+            value={name}
+            className={formInputClassName}
+            onChange={onNameChange}
+            autoComplete="off"
+          />
+        </label>
+        {data.weekdays && (
+          <div>
+            <span className="w-full uppercase text-xs">
+              Days To Create Dailies
+            </span>
+            <div className="flex justify-around">
+              <>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Sun')}
+                  className={`hidden md:block ${chooseButtonFill('Sun')}`}
+                >
+                  Sun
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Mon')}
+                  className={`hidden md:block ${chooseButtonFill('Mon')}`}
+                >
+                  Mon
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Tue')}
+                  className={`hidden md:block ${chooseButtonFill('Tue')}`}
+                >
+                  Tue
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Wed')}
+                  className={`hidden md:block ${chooseButtonFill('Wed')}`}
+                >
+                  Wed
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Thu')}
+                  className={`hidden md:block ${chooseButtonFill('Thu')}`}
+                >
+                  Thu
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Fri')}
+                  className={`hidden md:block ${chooseButtonFill('Fri')}`}
+                >
+                  Fri
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Sat')}
+                  className={`hidden md:block ${chooseButtonFill('Sat')}`}
+                >
+                  Sat
+                </button>
+              </>
+              <>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Sun')}
+                  className={`md:hidden ${chooseButtonFill('Sun').replace(
+                    /px-5/,
+                    'px-3',
+                  )}`}
+                >
+                  S
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Mon')}
+                  className={`md:hidden ${chooseButtonFill('Mon').replace(
+                    /px-5/,
+                    'px-3',
+                  )}`}
+                >
+                  M
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Tue')}
+                  className={`md:hidden ${chooseButtonFill('Tue').replace(
+                    /px-5/,
+                    'px-3',
+                  )}`}
+                >
+                  T
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Wed')}
+                  className={`md:hidden ${chooseButtonFill('Wed').replace(
+                    /px-5/,
+                    'px-3',
+                  )}`}
+                >
+                  W
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Thu')}
+                  className={`md:hidden ${chooseButtonFill('Thu').replace(
+                    /px-5/,
+                    'px-3',
+                  )}`}
+                >
+                  T
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Fri')}
+                  className={`md:hidden ${chooseButtonFill('Fri').replace(
+                    /px-5/,
+                    'px-3',
+                  )}`}
+                >
+                  F
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onWeekdayPress('Sat')}
+                  className={`md:hidden ${chooseButtonFill('Sat').replace(
+                    /px-5/,
+                    'px-3',
+                  )}`}
+                >
+                  S
+                </button>
+              </>
             </div>
-          )}
-          <label htmlFor={descriptionLabelId}>
-            <span className="w-full uppercase text-xs">Description</span>
-            <textarea
-              id={descriptionLabelId}
-              type="text"
-              value={description}
-              className={`${formInputClassName} h-64 resize-none`}
-              onChange={onDescriptionChange}
-            />
-          </label>
-          <div className="flex py-4">
-            <FilledButton action={onSaveAction} classes="flex-1 w-full">
-              Save
-            </FilledButton>
-            <Button action={displayFunction} classes="flex-1">
-              Cancel
-            </Button>
           </div>
-        </form>
-      </div>
+        )}
+        <label htmlFor={descriptionLabelId}>
+          <span className="w-full uppercase text-xs">Description</span>
+          <textarea
+            id={descriptionLabelId}
+            type="text"
+            value={description}
+            className={`${formInputClassName} h-64 resize-none`}
+            onChange={onDescriptionChange}
+          />
+        </label>
+        <div className="flex py-4">
+          <FilledButton action={onSaveAction} classes="flex-1 w-full">
+            Save
+          </FilledButton>
+          <Button action={displayFunction} classes="flex-1">
+            Cancel
+          </Button>
+        </div>
+      </form>
     </Modal>
   );
 };

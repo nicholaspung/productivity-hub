@@ -10,6 +10,7 @@ import Profile from './User/Profile';
 import { Main } from './BaseComponents';
 import Banner from './Banner';
 import Helmet from './BaseComponents/Helmet';
+import Vices from './Vices';
 
 const App = () => (
   <>
@@ -25,6 +26,7 @@ const App = () => (
         <Route exact path="/" component={LandingPage} />
         <PrivateRoute path="/post-saver" component={PostSaver} />
         <PrivateRoute path="/habit-tracker" component={HabitTracker} />
+        <PrivateRoute path="/vices" component={Vices} />
         <PrivateRoute path="/profile" component={Profile} />
         <Route path="*">
           <Redirect to="/" />

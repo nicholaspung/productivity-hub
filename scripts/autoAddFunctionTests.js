@@ -1,20 +1,19 @@
 const fs = require('fs');
 const { parse } = require('@babel/parser');
 
-const filePaths = [
-  './src/utils/baseUtils.js',
-  './src/utils/habitTrackerUtils.js',
-  './src/utils/userUtils.js',
-  './src/redux/selectors/habitTrackerSelectors.js',
-  './src/redux/selectors/postSaverSelectors.js',
-  './src/redux/selectors/userSelectors.js',
-  './src/redux/reducers/habitTrackerReducers/dailies.js',
-  './src/redux/reducers/habitTrackerReducers/todos.js',
-  './src/redux/reducers/postSaverReducers/posts.js',
-  './src/redux/reducers/postSaverReducers/savedPosts.js',
-  './src/redux/reducers/postSaverReducers/titles.js',
-  './src/redux/reducers/userReducers/users.js',
-];
+const baseFileDirectoryPaths = ['./src/utils', './src/redux/selectors'];
+const filePaths = [];
+
+const getFileNamesFromBasePath = (basePath) => {
+  fs.readdirSync(basePath).forEach((file) => {
+    const fileName = `${basePath}/${file}`;
+    if (!file.includes('__test__') && !file.includes('index')) {
+      filePaths.push(fileName);
+    }
+  });
+};
+
+baseFileDirectoryPaths.forEach(getFileNamesFromBasePath);
 
 // https://astexplorer.net/
 const astFromFile = (filePath) => {
@@ -40,7 +39,7 @@ const createFailingTestCode = (functionName) => `it('#${functionName}', () => {
   expect(true).toEqual(false);
 });`;
 
-const insertFunctionsToTestFile = (filePath, functionNames) => {
+const findTestFilePath = (filePath) => {
   const filePathArray = filePath.split('/');
   const relativePath = filePathArray
     .slice(0, filePathArray.length - 1)
@@ -49,8 +48,11 @@ const insertFunctionsToTestFile = (filePath, functionNames) => {
   fileName.splice(1, 0, 'spec');
   fileName = fileName.join('.');
   const testFolderName = '/__test__/';
-  const correspondingTestFile = `${relativePath}${testFolderName}${fileName}`;
+  return `${relativePath}${testFolderName}${fileName}`;
+};
 
+const insertFunctionsToTestFile = (filePath, functionNames) => {
+  const correspondingTestFile = findTestFilePath(filePath);
   const ast = astFromFile(correspondingTestFile);
   const alreadyInsertedFunctionNames = ast.program.body
     .filter((d) => d.type === 'ExpressionStatement')
@@ -86,8 +88,24 @@ const insertFunctionsToTestFile = (filePath, functionNames) => {
 };
 
 filePaths.forEach((path) => {
-  const names = grabExportedFunctionNames(path);
-  insertFunctionsToTestFile(path, names);
+  try {
+    if (fs.existsSync(path)) {
+      const names = grabExportedFunctionNames(path);
+      insertFunctionsToTestFile(path, names);
+    }
+  } catch (err) {
+    const splitPath = path.split('/');
+    const testName = splitPath[splitPath.length - 1].split('.')[0];
+    const capitalizedTestName =
+      testName.charAt(0).toUpperCase() + testName.slice(1);
+    const correspondingTestFile = findTestFilePath(path);
+    fs.writeFileSync(
+      correspondingTestFile,
+      `describe('#${capitalizedTestName}', () => {})`,
+    );
+    const names = grabExportedFunctionNames(path);
+    insertFunctionsToTestFile(path, names);
+  }
 });
 
 console.log('Finished checking tracked files.');

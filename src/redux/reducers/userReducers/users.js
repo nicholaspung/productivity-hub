@@ -21,7 +21,7 @@ export const initialState = {
     isAnonymous: false,
     userId: undefined,
   },
-  apps: '',
+  apps: [],
   userAnalytics: [],
   loading: true,
   error: {},
@@ -40,6 +40,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: true,
+        error: {},
       };
     case USER_LOGGED_OUT:
       return { ...initialState, loading: false };
@@ -59,30 +60,15 @@ export default function (state = initialState, action) {
     case USER_DELETING_ERROR:
       return {
         ...state,
+        loading: false,
         error: action.payload,
       };
-    // App Status
     case APPS_UPDATING_DONE:
       return {
         ...state,
         apps: action.payload,
       };
-    case APPS_UPDATING_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-      };
     case USER_ANALYTICS_DONE:
-      return {
-        ...state,
-        userAnalytics: action.payload,
-        error: {},
-      };
-    case USER_ANALYTICS_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-      };
     case CREATE_USER_ANALYTIC_THRESHOLD_DONE:
     case UPDATE_USER_ANALYTIC_THRESHOLD_DONE:
       return {
@@ -90,6 +76,8 @@ export default function (state = initialState, action) {
         userAnalytics: action.payload,
         error: {},
       };
+    case APPS_UPDATING_ERROR:
+    case USER_ANALYTICS_ERROR:
     case CREATE_USER_ANALYTIC_THRESHOLD_ERROR:
     case UPDATE_USER_ANALYTIC_THRESHOLD_ERROR:
       return {
