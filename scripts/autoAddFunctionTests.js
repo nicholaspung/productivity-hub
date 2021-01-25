@@ -1,7 +1,14 @@
 const fs = require('fs');
 const { parse } = require('@babel/parser');
 
+/**
+ * Declare the file directories for files with only functions. This script,
+ * as explained by the title, auto creates function tests for newly created
+ * files, and also for newly added functions within the directories stated
+ * below.
+ */
 const baseFileDirectoryPaths = ['./src/utils', './src/redux/selectors'];
+
 const filePaths = [];
 
 const getFileNamesFromBasePath = (basePath) => {
@@ -12,7 +19,6 @@ const getFileNamesFromBasePath = (basePath) => {
     }
   });
 };
-
 baseFileDirectoryPaths.forEach(getFileNamesFromBasePath);
 
 // https://astexplorer.net/
