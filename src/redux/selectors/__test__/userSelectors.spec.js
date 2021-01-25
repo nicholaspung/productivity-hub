@@ -1,5 +1,5 @@
 import * as selectors from '../userSelectors';
-import { getDateTransform } from '../../../utils/habitTrackerUtils';
+import { getDateTransform } from '../../../utils/dateUtils';
 
 describe('#UserSelectors', () => {
   const state1 = {

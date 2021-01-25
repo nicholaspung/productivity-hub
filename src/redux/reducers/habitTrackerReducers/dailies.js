@@ -31,6 +31,9 @@ export const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case DAILIES_FETCHING:
+    case DAILIES_CACHE_FETCHING:
+    case HABITS_FETCHING:
+    case HABITS_UPDATING:
       return {
         ...state,
         loading: true,
@@ -43,6 +46,11 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case DAILIES_FETCHING_ERROR:
+    case DAILIES_CACHE_ERROR:
+    case HABITS_FETCHING_ERROR:
+    case DAILIES_TOGGLE_ERROR:
+    case HABITS_DELETING_ERROR:
+    case HABITS_UPDATING_ERROR:
       return {
         ...state,
         loading: false,
@@ -54,83 +62,27 @@ export default function (state = initialState, action) {
         dailies: action.payload,
         error: {},
       };
-    case DAILIES_TOGGLE_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-      };
-    case DAILIES_CACHE_FETCHING:
-      return {
-        ...state,
-        loading: true,
-        error: {},
-      };
     case DAILIES_CACHE_DONE:
       return {
         ...state,
         loading: false,
         dailiesCache: action.payload,
       };
-    case DAILIES_CACHE_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
     case DAILIES_DATE_RANGE_DONE:
       return {
         ...state,
         dateRangeCache: action.payload,
       };
-    case HABITS_FETCHING:
-      return {
-        ...state,
-        loading: true,
-        error: {},
-      };
     case HABITS_FETCHING_DONE:
-      return {
-        ...state,
-        loading: false,
-        habits: action.payload,
-      };
-    case HABITS_FETCHING_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    case HABITS_UPDATING:
-      return {
-        ...state,
-        loading: true,
-        error: {},
-      };
     case HABITS_UPDATING_DONE:
-      return {
-        ...state,
-        habits: action.payload,
-        loading: false,
-      };
-    case HABITS_UPDATING_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-        loading: false,
-      };
     case HABITS_DELETING_DONE:
       return {
         ...state,
         habits: action.payload,
         loading: false,
       };
-    case HABITS_DELETING_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-      };
     case HABIT_TRACKER_CLEAR:
-      return { ...initialState, dailiesCache: {} };
+      return initialState;
     default:
       return state;
   }

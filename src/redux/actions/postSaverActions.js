@@ -35,6 +35,7 @@ export const SAVED_POSTS_FETCHING_ERROR = 'SAVED_POSTS_FETCHING_ERROR';
 export const SAVED_POSTS_UPDATING = 'SAVED_POSTS_UPDATING';
 export const SAVED_POSTS_UPDATING_DONE = 'SAVED_POSTS_UPDATING_DONE';
 export const SAVED_POSTS_UPDATING_ERROR = 'SAVED_POSTS_UPDATING_ERROR';
+export const POST_SAVER_CLEAR = 'POST_SAVER_CLEAR';
 
 export const getPosts = (newUrl) => async (dispatch, getState) => {
   let lastTwoStrings;
@@ -153,5 +154,4 @@ export const updateSavedPost = (id) => async (dispatch, getState) => {
     return dispatch({ type: SAVED_POSTS_UPDATING_ERROR, payload: err });
   }
 };
-export const POST_SAVER_CLEAR = 'POST_SAVER_CLEAR';
 export const clearPostSaver = () => ({ type: POST_SAVER_CLEAR });

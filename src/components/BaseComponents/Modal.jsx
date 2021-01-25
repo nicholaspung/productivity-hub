@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-const Modal = ({ isShowing, toggle, Component, data }) => {
+const Modal = ({ isShowing, toggle, Component, data, ...rest }) => {
   if (!isShowing) return null;
 
   return ReactDOM.createPortal(
@@ -17,7 +17,12 @@ const Modal = ({ isShowing, toggle, Component, data }) => {
           aria-modal="true"
           aria-labelledby="modal-headline"
         >
-          <Component toggle={toggle} data={data} />
+          <Component
+            toggle={toggle}
+            data={data}
+            isShowing={isShowing}
+            {...rest}
+          />
         </div>
       </div>
     </div>,
@@ -27,8 +32,12 @@ const Modal = ({ isShowing, toggle, Component, data }) => {
 Modal.propTypes = {
   isShowing: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  Component: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
-    .isRequired,
+  Component: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array,
+    PropTypes.func,
+  ]).isRequired,
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
 export default Modal;

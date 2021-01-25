@@ -1,17 +1,6 @@
 import { axiosWithAuth } from './baseApi';
 import { habitUrl, todoUrl, dailiesUrl } from '../common/routes';
-
-const transformToDateFormat = (date) => {
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
-  if (String(month).length === 1) {
-    month = `0${month}`;
-  }
-  if (String(day).length === 1) {
-    day = `0${day}`;
-  }
-  return `${date.getFullYear()}-${month}-${day}`;
-};
+import { getDateTransform } from '../utils/dateUtils';
 
 export const getHabits = async () => (await axiosWithAuth()).get(habitUrl);
 
@@ -52,26 +41,24 @@ export const toggleDaily = async (daily) =>
   );
 
 export const createDailiesForDay = async (date = new Date()) =>
-  (await axiosWithAuth()).post(
-    `${dailiesUrl}?date=${transformToDateFormat(date)}`,
-  );
+  (await axiosWithAuth()).post(`${dailiesUrl}?date=${getDateTransform(date)}`);
 
 export const getDailiesForDay = async (date = new Date()) =>
   (await axiosWithAuth()).get(
-    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=day`,
+    `${dailiesUrl}?date=${getDateTransform(date)}&timeframe=day`,
   );
 
 export const getDailiesForWeek = async (date = new Date()) =>
   (await axiosWithAuth()).get(
-    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=week`,
+    `${dailiesUrl}?date=${getDateTransform(date)}&timeframe=week`,
   );
 
 export const getDailiesForMonth = async (date = new Date()) =>
   (await axiosWithAuth()).get(
-    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=month`,
+    `${dailiesUrl}?date=${getDateTransform(date)}&timeframe=month`,
   );
 
 export const getDailiesForYear = async (date = new Date()) =>
   (await axiosWithAuth()).get(
-    `${dailiesUrl}?date=${transformToDateFormat(date)}&timeframe=year`,
+    `${dailiesUrl}?date=${getDateTransform(date)}&timeframe=year`,
   );

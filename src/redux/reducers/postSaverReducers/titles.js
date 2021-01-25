@@ -23,13 +23,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: true,
+        error: {},
       };
     case TITLES_FETCHING_DONE:
       return {
         ...state,
         loading: false,
         titles: action.payload,
-        error: {},
       };
     case TITLES_FETCHING_ERROR:
       return {
@@ -38,33 +38,15 @@ export default function (state = initialState, action) {
         error: action.payload,
       };
     case TITLES_ADDING_DONE:
-      return {
-        ...state,
-        error: {},
-        titles: action.payload,
-      };
-    case TITLES_ADDING_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-      };
     case TITLES_UPDATING_DONE:
-      return {
-        ...state,
-        titles: action.payload,
-        error: {},
-      };
-    case TITLES_UPDATING_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-      };
     case TITLES_DELETING_DONE:
       return {
         ...state,
-        error: {},
         titles: action.payload,
+        error: {},
       };
+    case TITLES_ADDING_ERROR:
+    case TITLES_UPDATING_ERROR:
     case TITLES_DELETING_ERROR:
       return {
         ...state,

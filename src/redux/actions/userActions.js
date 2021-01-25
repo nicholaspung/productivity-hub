@@ -3,8 +3,8 @@ import {
   deleteUser as deleteUserAPI,
   getProfile,
   getUserAnalytics as getUserAnalyticsAPI,
-  updateViceThreshold as updateViceThresholdAPI,
-  createViceThreshold as createViceThresholdAPI,
+  updateUserAnalyticThreshold as updateUserAnalyticThresholdAPI,
+  createUserAnalyticThreshold as createUserAnalyticThresholdAPI,
 } from '../../api/userApi';
 import {
   helperLoggedIn,
@@ -33,14 +33,12 @@ export const UPDATE_USER_ANALYTIC_THRESHOLD_DONE =
 export const UPDATE_USER_ANALYTIC_THRESHOLD_ERROR =
   'UPDATE_USER_ANALYTIC_THRESHOLD_ERROR';
 
-export const initialLoad = () => (dispatch) => {
-  dispatch({ type: USER_LOADING });
-};
+export const initialLoad = () => ({ type: USER_LOADING });
+export const logOut = () => ({ type: USER_LOGGED_OUT });
 export const logIn = (callback) => async (dispatch) => {
   dispatch({ type: USER_LOADING });
   await callback();
 };
-
 export const updateApps = (apps) => ({
   type: APPS_UPDATING_DONE,
   payload: apps,
@@ -58,8 +56,6 @@ export const loggedIn = () => async (dispatch) => {
     return dispatch({ type: USER_LOADING_ERROR, payload: err });
   }
 };
-export const logOut = () => ({ type: USER_LOGGED_OUT });
-
 export const addApp = (id, newApps) => async (dispatch) => {
   dispatch({ type: APPS_UPDATING });
   try {
@@ -71,7 +67,6 @@ export const addApp = (id, newApps) => async (dispatch) => {
     return dispatch({ type: APPS_UPDATING_ERROR, payload: err });
   }
 };
-
 export const deleteUser = (id) => async (dispatch) => {
   dispatch({ type: USER_DELETING });
   try {
@@ -81,7 +76,6 @@ export const deleteUser = (id) => async (dispatch) => {
     return dispatch({ type: USER_DELETING_ERROR, payload: err });
   }
 };
-
 export const getUserAnalytics = () => async (dispatch) => {
   try {
     const { data } = await getUserAnalyticsAPI();
@@ -90,13 +84,12 @@ export const getUserAnalytics = () => async (dispatch) => {
     return dispatch({ type: USER_ANALYTICS_ERROR, payload: err });
   }
 };
-
-export const updateViceThreshold = (id, threshold) => async (
+export const updateUserAnalyticThreshold = (id, threshold) => async (
   dispatch,
   getState,
 ) => {
   try {
-    const { data } = await updateViceThresholdAPI(id, { threshold });
+    const { data } = await updateUserAnalyticThresholdAPI(id, { threshold });
     const userAnalytics = getUserAnalyticsSelector(getState());
     const updatedUserAnalytics = helperAttachNewThresholdToUserAnalytics(
       data,
@@ -113,13 +106,12 @@ export const updateViceThreshold = (id, threshold) => async (
     });
   }
 };
-
-export const createViceThreshold = (label, threshold) => async (
+export const createUserAnalyticThreshold = (label, threshold) => async (
   dispatch,
   getState,
 ) => {
   try {
-    const { data } = await createViceThresholdAPI({ label, threshold });
+    const { data } = await createUserAnalyticThresholdAPI({ label, threshold });
     const userAnalytics = getUserAnalyticsSelector(getState());
     const updatedUserAnalytics = helperAttachNewThresholdToUserAnalytics(
       data,

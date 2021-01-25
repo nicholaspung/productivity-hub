@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  VIEWS,
-  getDayInfo,
-  getJavascriptDateTransform,
-} from '../../../utils/habitTrackerUtils';
+import { VIEWS, getDayInfo } from '../../../utils/habitTrackerUtils';
+import { getJavascriptDateTransform } from '../../../utils/dateUtils';
 import {
   SHORT_MONTH_NAMES,
   displayColor,
 } from '../../../constants/habitTrackerConstants';
 import { getEarliestHabitDate } from '../../../redux/selectors/habitTrackerSelectors';
 import PreviousDailies from './PreviousDailies';
+import Modal from '../../BaseComponents/Modal';
 
 const CalendarDay = ({
   dailiesCache,
@@ -35,13 +33,13 @@ const CalendarDay = ({
     dateObject < new Date() && dateObject > earliestHabitDate;
   return (
     <li className="m-2">
-      {showDaily && (
-        <PreviousDailies
-          date={dateObject}
-          data={dailiesCache[day]}
-          displayFunction={() => setShowDaily(false)}
-        />
-      )}
+      <Modal
+        isShowing={showDaily}
+        toggle={() => setShowDaily(false)}
+        Component={PreviousDailies}
+        date={dateObject}
+        data={dailiesCache[day]}
+      />
       {labelView === VIEWS.WEEK.label && (
         <p className="text-center hidden sm:block">
           {`${SHORT_MONTH_NAMES[Number(day.slice(5, 7)) - 1]} ${Number(

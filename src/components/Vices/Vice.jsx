@@ -6,11 +6,15 @@ import { ReactComponent as DeleteSVG } from '../../assets/icons/delete.svg';
 import Modal from '../BaseComponents/Modal';
 import EditVice from './EditVice';
 import {
-  addFrequencyForViceAnalytic as addFrequencyForViceAnalyticAction,
+  incrementFrequencyForViceAnalytic as incrementFrequencyForViceAnalyticAction,
   deleteVice as deleteViceAction,
 } from '../../redux/actions/vicesActions';
 
-const Vice = ({ viceAnalytic, addFrequencyForViceAnalytic, deleteVice }) => {
+const Vice = ({
+  viceAnalytic,
+  incrementFrequencyForViceAnalytic,
+  deleteVice,
+}) => {
   const viceVice = viceAnalytic.vice;
   const viceLastAccessed = new Date(
     viceAnalytic.last_updated,
@@ -19,7 +23,7 @@ const Vice = ({ viceAnalytic, addFrequencyForViceAnalytic, deleteVice }) => {
   const [edit, setEdit] = useState(false);
 
   const onLinkAction = () => {
-    addFrequencyForViceAnalytic(viceAnalytic.id);
+    incrementFrequencyForViceAnalytic(viceAnalytic.id);
   };
   const onDeleteAction = () => {
     deleteVice(viceAnalytic.vice.id);
@@ -65,11 +69,11 @@ const Vice = ({ viceAnalytic, addFrequencyForViceAnalytic, deleteVice }) => {
 
 Vice.propTypes = {
   viceAnalytic: PropTypes.object.isRequired,
-  addFrequencyForViceAnalytic: PropTypes.func.isRequired,
+  incrementFrequencyForViceAnalytic: PropTypes.func.isRequired,
   deleteVice: PropTypes.func.isRequired,
 };
 
 export default connect(null, {
-  addFrequencyForViceAnalytic: addFrequencyForViceAnalyticAction,
+  incrementFrequencyForViceAnalytic: incrementFrequencyForViceAnalyticAction,
   deleteVice: deleteViceAction,
 })(Vice);

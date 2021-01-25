@@ -22,6 +22,7 @@ import { ReactComponent as ArrowUpSVG } from '../../assets/icons/arrowup.svg';
 import { ReactComponent as ArrowDownSVG } from '../../assets/icons/arrowdown.svg';
 import { ReactComponent as UnarchiveSVG } from '../../assets/icons/unarchive.svg';
 import { ReactComponent as DeleteSVG } from '../../assets/icons/delete.svg';
+import Modal from '../BaseComponents/Modal';
 
 const DailyItem = ({
   data,
@@ -123,14 +124,14 @@ const DailyItem = ({
               <EditSVG className="w-4 h-auto" title="Edit habit" />
             </button>
           )}
-          {edit && (
-            <ItemAction
-              data={data.habit}
-              labelName="Edit Habit"
-              actionFunction={editHabit}
-              displayFunction={() => setEdit(!edit)}
-            />
-          )}
+          <Modal
+            isShowing={edit}
+            toggle={() => setEdit(!edit)}
+            Component={ItemAction}
+            data={data.habit}
+            actionFunction={editHabit}
+            labelName="Edit Habit"
+          />
           {!hideInput && !data.habit.archived && (
             <button onClick={onArchiveHabit} type="button">
               <ArchiveSVG className="w-4 h-auto" title="Archive habit" />

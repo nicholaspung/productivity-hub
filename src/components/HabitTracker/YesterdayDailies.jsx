@@ -4,86 +4,78 @@ import { connect } from 'react-redux';
 import ItemList from './ItemList';
 import DailyItem from './DailyItem';
 import EmptyItem from '../BaseComponents/EmptyItem';
-import { Modal, FilledButton } from '../BaseComponents';
+import { FilledButton } from '../BaseComponents';
+import Modal from '../BaseComponents/Modal';
 import {
   getDailiesDailiesCacheForDate,
   getDailiesLoadingStatus,
   getDailiesError,
 } from '../../redux/selectors/habitTrackerSelectors';
 import { createDailiesForDay as createDailiesForDayAction } from '../../redux/actions/habitTrackerActions';
-import { getYesterday, sortDailies } from '../../utils/habitTrackerUtils';
+import { sortDailies } from '../../utils/habitTrackerUtils';
+import { getYesterday } from '../../utils/dateUtils';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 
-const YesterdayDailies = ({
+const YesterdayDailiesContent = ({
   yesterday,
   createDailiesForDay,
   loading,
   error,
+  isShowing,
+  toggle,
 }) => {
-  const todayString = new Date().toLocaleDateString();
-  const [showYesterday, setShowYesterday] = useState(
-    localStorage.getItem('first-load-of-day') !== todayString,
-  );
-
   useEffect(() => {
-    if (showYesterday) {
+    if (isShowing) {
       createDailiesForDay(getYesterday());
     }
     // eslint-disable-next-line
   }, []);
 
   const visibleFilter = (item) => !item.archived;
-  const closePreviousDayDailies = () => {
-    localStorage.setItem('first-load-of-day', todayString);
-    setShowYesterday(false);
-  };
   yesterday.sort(sortDailies);
+
   return (
-    showYesterday && (
-      <Modal>
-        <div className="w-full text-center p-4">
-          <h1 className="text-2xl font-bold">Welcome back!</h1>
-          <p>
-            Check and see if you forgot to complete any habits from the previous
-            day.
-          </p>
-          {loading && (
-            <div className="flex justify-center items-center p-8">
-              <LoadingSVG className="w-6 h-auto animate-spin absolute" />
-            </div>
-          )}
-          <div className="text-left p-4">
-            <EmptyItem
-              length={yesterday.filter(visibleFilter).length}
-              loading={loading}
-              error={error}
-              message="You have no habits."
-            />
-            <ItemList
-              data={yesterday}
-              Component={DailyItem}
-              filterFunction={visibleFilter}
-              loading={loading}
-              hideOptions
-            />
-          </div>
-          <FilledButton action={closePreviousDayDailies}>
-            Start a new day!
-          </FilledButton>
+    <div className="w-full text-center p-4">
+      <h1 className="text-2xl font-bold">Welcome back!</h1>
+      <p>
+        Check and see if you forgot to complete any habits from the previous
+        day.
+      </p>
+      {loading && (
+        <div className="flex justify-center items-center p-8">
+          <LoadingSVG className="w-6 h-auto animate-spin absolute" />
         </div>
-      </Modal>
-    )
+      )}
+      <div className="text-left p-4">
+        <EmptyItem
+          length={yesterday.filter(visibleFilter).length}
+          loading={loading}
+          error={error}
+          message="You have no habits."
+        />
+        <ItemList
+          data={yesterday}
+          Component={DailyItem}
+          filterFunction={visibleFilter}
+          loading={loading}
+          hideOptions
+        />
+      </div>
+      <FilledButton action={toggle}>Start a new day!</FilledButton>
+    </div>
   );
 };
 
-YesterdayDailies.propTypes = {
+YesterdayDailiesContent.propTypes = {
   yesterday: PropTypes.array.isRequired,
   createDailiesForDay: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.object.isRequired,
+  isShowing: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
 };
 
-export default connect(
+const ConnectedYesterdayDailiesContent = connect(
   (state) => ({
     yesterday: getDailiesDailiesCacheForDate(state, getYesterday()),
     loading: getDailiesLoadingStatus(state),
@@ -92,4 +84,26 @@ export default connect(
   {
     createDailiesForDay: createDailiesForDayAction,
   },
-)(YesterdayDailies);
+)(YesterdayDailiesContent);
+
+const YesterdayDailies = () => {
+  const todayString = new Date().toLocaleDateString();
+  const [showYesterday, setShowYesterday] = useState(
+    localStorage.getItem('first-load-of-day') !== todayString,
+  );
+
+  const closePreviousDayDailies = () => {
+    localStorage.setItem('first-load-of-day', todayString);
+    setShowYesterday(false);
+  };
+
+  return (
+    <Modal
+      isShowing={showYesterday}
+      toggle={closePreviousDayDailies}
+      Component={ConnectedYesterdayDailiesContent}
+    />
+  );
+};
+
+export default YesterdayDailies;

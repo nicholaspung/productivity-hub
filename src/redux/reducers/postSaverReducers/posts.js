@@ -24,13 +24,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: true,
+        error: {},
       };
     case POSTS_FETCHING_DONE:
       return {
         ...state,
         loading: false,
         fetchedPosts: action.payload,
-        error: {},
       };
     case POSTS_FETCHING_ERROR:
       return {

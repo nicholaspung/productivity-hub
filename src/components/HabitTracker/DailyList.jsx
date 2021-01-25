@@ -18,6 +18,7 @@ import { smallerFilledButtonClassName } from '../BaseComponents';
 import { FILTERS } from '../../constants/habitTrackerConstants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
+import Modal from '../BaseComponents/Modal';
 
 const filterCategories = {
   [FILTERS.UNFINISHED]: {
@@ -81,9 +82,11 @@ const DailyList = ({
           </button>
         </div>
       </div>
-
-      {showHabits && <HabitList closeHabits={() => setShowHabits(false)} />}
-
+      <Modal
+        isShowing={showHabits}
+        toggle={() => setShowHabits(false)}
+        Component={HabitList}
+      />
       <div className="p-4 rounded-md border-2 border-gray-200 bg-white">
         {!loading && (
           <div className="h-0">

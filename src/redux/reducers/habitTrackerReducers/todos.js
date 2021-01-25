@@ -40,44 +40,17 @@ export default function (state = initialState, action) {
         error: action.payload,
       };
     case TODOS_ADDING_DONE:
-      return {
-        ...state,
-        todos: action.payload,
-        error: {},
-      };
-    case TODOS_ADDING_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-      };
     case TODOS_EDITING_DONE:
-      return {
-        ...state,
-        todos: action.payload,
-        error: {},
-      };
-    case TODOS_EDITING_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-      };
     case TODOS_REORDERING_DONE:
-      return {
-        ...state,
-        todos: action.payload,
-        error: {},
-      };
-    case TODOS_REORDERING_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-      };
     case TODOS_DELETING_DONE:
       return {
         ...state,
         todos: action.payload,
         error: {},
       };
+    case TODOS_ADDING_ERROR:
+    case TODOS_EDITING_ERROR:
+    case TODOS_REORDERING_ERROR:
     case TODOS_DELETING_ERROR:
       return {
         ...state,

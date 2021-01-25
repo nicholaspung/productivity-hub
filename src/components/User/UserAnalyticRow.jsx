@@ -5,14 +5,14 @@ import { ReactComponent as EditSVG } from '../../assets/icons/edit.svg';
 import { ReactComponent as SaveSVG } from '../../assets/icons/save.svg';
 import { ReactComponent as CancelSVG } from '../../assets/icons/cancel.svg';
 import {
-  updateViceThreshold as updateViceThresholdAction,
-  createViceThreshold as createViceThresholdAction,
+  updateUserAnalyticThreshold as updateUserAnalyticThresholdAction,
+  createUserAnalyticThreshold as createUserAnalyticThresholdAction,
 } from '../../redux/actions/userActions';
 
 const UserAnalyticRow = ({
   analytic,
-  updateViceThreshold,
-  createViceThreshold,
+  updateUserAnalyticThreshold,
+  createUserAnalyticThreshold,
 }) => {
   const threshold = analytic.threshold || 0;
 
@@ -23,9 +23,9 @@ const UserAnalyticRow = ({
     e.preventDefault();
     const intValue = parseInt(value, 10);
     if (analytic.threshold) {
-      updateViceThreshold(analytic.thresholdId, intValue);
+      updateUserAnalyticThreshold(analytic.thresholdId, intValue);
     } else {
-      createViceThreshold(analytic.label, intValue);
+      createUserAnalyticThreshold(analytic.label, intValue);
     }
     setEdit(false);
   };
@@ -74,11 +74,11 @@ const UserAnalyticRow = ({
 };
 UserAnalyticRow.propTypes = {
   analytic: PropTypes.object.isRequired,
-  updateViceThreshold: PropTypes.func.isRequired,
-  createViceThreshold: PropTypes.func.isRequired,
+  updateUserAnalyticThreshold: PropTypes.func.isRequired,
+  createUserAnalyticThreshold: PropTypes.func.isRequired,
 };
 
 export default connect(null, {
-  updateViceThreshold: updateViceThresholdAction,
-  createViceThreshold: createViceThresholdAction,
+  updateUserAnalyticThreshold: updateUserAnalyticThresholdAction,
+  createUserAnalyticThreshold: createUserAnalyticThresholdAction,
 })(UserAnalyticRow);

@@ -3,7 +3,7 @@ import {
   addVice as addViceAPI,
   updateVice as updateViceAPI,
   deleteVice as deleteViceAPI,
-  addFrequencyForViceAnalytic as addFrequencyForViceAnalyticAPI,
+  incrementFrequencyForViceAnalytic as incrementFrequencyForViceAnalyticAPI,
 } from '../../api/vicesApi';
 import { getVicesViceAnalytics } from '../selectors/vicesSelectors';
 
@@ -27,14 +27,6 @@ export const VICES_DELETING = 'VICES_DELETING';
 export const VICES_DELETING_DONE = 'VICES_DELETING_DONE';
 export const VICES_DELETING_ERROR = 'VICES_DELETING_ERROR';
 
-export const VICE_THRESHOLD_CREATING = 'VICE_THRESHOLD_CREATING';
-export const VICE_THRESHOLD_CREATING_DONE = 'VICE_THRESHOLD_CREATING_DONE';
-export const VICE_THRESHOLD_CREATING_ERROR = 'VICE_THRESHOLD_CREATING_ERROR';
-
-export const VICE_THRESHOLD_UPDATING = 'VICE_THRESHOLD_UPDATING';
-export const VICE_THRESHOLD_UPDATING_DONE = 'VICE_THRESHOLD_UPDATING_DONE';
-export const VICE_THRESHOLD_UPDATING_ERROR = 'VICE_THRESHOLD_UPDATING_ERROR';
-
 export const createViceAnalytics = () => async (dispatch) => {
   dispatch({ type: VICE_ANALYTICS_FETCHING });
   try {
@@ -44,13 +36,13 @@ export const createViceAnalytics = () => async (dispatch) => {
     return dispatch({ type: VICE_ANALYTICS_FETCHING_ERROR, payload: err });
   }
 };
-export const addFrequencyForViceAnalytic = (id) => async (
+export const incrementFrequencyForViceAnalytic = (id) => async (
   dispatch,
   getState,
 ) => {
   dispatch({ type: VICE_ANALYTICS_INCREASE });
   try {
-    const { data } = await addFrequencyForViceAnalyticAPI(id);
+    const { data } = await incrementFrequencyForViceAnalyticAPI(id);
     const viceAnalytics = getVicesViceAnalytics(getState());
     const viceAnalyticsCopy = [...viceAnalytics];
     const viceAnalyticIdx = viceAnalyticsCopy.findIndex(

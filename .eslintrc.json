@@ -26,6 +26,6 @@
     "react/forbid-prop-types": "warn",
     "react/require-default-props": "off",
     "react/jsx-indent": "warn",
-    "function-paren-newline": "warn"
+    "function-paren-newline": "warn",
   }
 }

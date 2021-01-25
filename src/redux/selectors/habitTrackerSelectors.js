@@ -1,7 +1,7 @@
 import {
   getDateTransform,
   ISOStringToJavascriptDate,
-} from '../../utils/habitTrackerUtils';
+} from '../../utils/dateUtils';
 
 export const getDailiesState = (store) => store.dailies;
 export const getDailiesDailies = (store) => getDailiesState(store).dailies;

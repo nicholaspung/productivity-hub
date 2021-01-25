@@ -20,6 +20,7 @@ import { ReactComponent as DeleteSVG } from '../../assets/icons/delete.svg';
 import { ReactComponent as EditSVG } from '../../assets/icons/edit.svg';
 import { ReactComponent as ArrowUpSVG } from '../../assets/icons/arrowup.svg';
 import { ReactComponent as ArrowDownSVG } from '../../assets/icons/arrowdown.svg';
+import Modal from '../BaseComponents/Modal';
 
 const TodoItem = ({
   data,
@@ -89,14 +90,14 @@ const TodoItem = ({
         <button onClick={() => setEdit(!edit)} type="button">
           <EditSVG className="w-4 h-auto" title="Edit todo" />
         </button>
-        {edit && (
-          <ItemAction
-            data={data}
-            labelName="Edit Todo"
-            actionFunction={editTodo}
-            displayFunction={() => setEdit(!edit)}
-          />
-        )}
+        <Modal
+          isShowing={edit}
+          toggle={() => setEdit(!edit)}
+          Component={ItemAction}
+          data={data}
+          actionFunction={editTodo}
+          labelName="Edit Todo"
+        />
         <div className="flex">
           {data.priority !== PRIORITIES.HIGH && (
             <button

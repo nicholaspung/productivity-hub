@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Button, FilledButton, formInputClassName } from './index';
+import { Button, FilledButton, formInputClassName } from './index';
 
-const NotFocusedModal = ({ displayFunction }) => {
+const NotFocusedModal = ({ toggle }) => {
   const [step, setStep] = useState(1);
   const [input, setInput] = useState('');
   const [showInputError, setShowInputError] = useState(false);
@@ -34,7 +34,7 @@ const NotFocusedModal = ({ displayFunction }) => {
     }
   };
   return (
-    <Modal>
+    <>
       <h2 className="text-center text-6xl text-white bg-red-500 py-8">
         ! STOP !
       </h2>
@@ -53,7 +53,7 @@ const NotFocusedModal = ({ displayFunction }) => {
               }
               setShowInputError(false);
               if (step + 1 === 3) {
-                displayFunction(true);
+                toggle(true);
               }
               setStep(step + 1);
             }}
@@ -63,17 +63,17 @@ const NotFocusedModal = ({ displayFunction }) => {
           <FilledButton
             type="button"
             classes="w-full"
-            action={() => displayFunction(false)}
+            action={() => toggle(false)}
           >
             No
           </FilledButton>
         </div>
       </div>
-    </Modal>
+    </>
   );
 };
 NotFocusedModal.propTypes = {
-  displayFunction: PropTypes.func.isRequired,
+  toggle: PropTypes.func.isRequired,
 };
 export default NotFocusedModal;
 

@@ -14,8 +14,9 @@ import { trackSpecificEventsFromUser } from '../../api/baseApi';
 import { userAnalyticLabels } from '../../constants/baseConstants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import { ReactComponent as RefreshSVG } from '../../assets/icons/refresh.svg';
-import NotFocusedModal from '../BaseComponents/NotFocusedModal';
+import NotFocused from '../BaseComponents/NotFocused';
 import SavedPostItem from './SavedPostItem';
+import Modal from '../BaseComponents/Modal';
 
 const SavedPostList = ({
   savedPosts = [],
@@ -72,15 +73,15 @@ const SavedPostList = ({
         <FilledButton action={onRefreshAction}>
           <RefreshSVG className="w-4 h-auto" />
         </FilledButton>
-        {seeThreshold && (
-          <NotFocusedModal
-            displayFunction={(use) => {
-              thresholdFunction(use);
-              setSeeThreshold(false);
-              setThresholdFunction(emptyFunction);
-            }}
-          />
-        )}
+        <Modal
+          isShowing={seeThreshold}
+          toggle={(use) => {
+            thresholdFunction(use);
+            setSeeThreshold(false);
+            setThresholdFunction(emptyFunction);
+          }}
+          Component={NotFocused}
+        />
       </div>
       {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
       <h1 className="text-2xl font-bold text-center">Saved Post List</h1>

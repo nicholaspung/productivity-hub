@@ -14,4 +14,3 @@ export const profileUrl = '/profile/';
 export const userUrl = '/user/';
 export const viceUrl = '/vices/';
 export const viceAnalyticUrl = '/viceanalytics/';
-export const viceThresholdUrl = '/vicethresholds/';

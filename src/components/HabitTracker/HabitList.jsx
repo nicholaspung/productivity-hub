@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ItemList from './ItemList';
 import DailyItem from './DailyItem';
 import EmptyItem from '../BaseComponents/EmptyItem';
-import { Modal, smallerFilledButtonClassName } from '../BaseComponents';
+import { smallerFilledButtonClassName } from '../BaseComponents';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import {
   getDailiesError,
@@ -15,7 +15,7 @@ import { getHabits as getHabitsAction } from '../../redux/actions/habitTrackerAc
 
 const HabitList = ({
   loading = false,
-  closeHabits,
+  toggle,
   habits = [],
   error,
   getHabits,
@@ -28,59 +28,57 @@ const HabitList = ({
   }, [getHabits]);
   const transformedHabits = habits.map((habit) => ({ habit, id: habit.id }));
   return (
-    <Modal>
-      <div className="w-full text-center p-4">
-        <div className="h-0 text-right">
-          <button
-            type="button"
-            className={`${smallerFilledButtonClassName} relative`}
-            onClick={closeHabits}
-          >
-            X
-          </button>
-        </div>
-        <h1 className="text-2xl font-bold">All Habits</h1>
-        {loading && (
-          <div className="flex justify-center items-center p-8">
-            <LoadingSVG className="w-6 h-auto animate-spin absolute" />
-          </div>
-        )}
-        <div className="text-left p-4">
-          <EmptyItem
-            length={transformedHabits.length}
-            loading={loading}
-            error={error}
-            message="You have no habits."
-          />
-          {habits.length ? (
-            <>
-              <h2 className="font-bold">Active</h2>
-              <ItemList
-                data={transformedHabits}
-                Component={DailyItem}
-                filterFunction={(data) => !data.habit.archived}
-                loading={loading}
-                hideInput
-              />
-              <h2 className="font-bold">Archived</h2>
-              <ItemList
-                data={transformedHabits}
-                Component={DailyItem}
-                filterFunction={(data) => data.habit.archived}
-                loading={loading}
-                hideInput
-              />
-            </>
-          ) : null}
-        </div>
+    <div className="w-full text-center p-4">
+      <div className="h-0 text-right">
+        <button
+          type="button"
+          className={`${smallerFilledButtonClassName} relative`}
+          onClick={toggle}
+        >
+          X
+        </button>
       </div>
-    </Modal>
+      <h1 className="text-2xl font-bold">All Habits</h1>
+      {loading && (
+        <div className="flex justify-center items-center p-8">
+          <LoadingSVG className="w-6 h-auto animate-spin absolute" />
+        </div>
+      )}
+      <div className="text-left p-4">
+        <EmptyItem
+          length={transformedHabits.length}
+          loading={loading}
+          error={error}
+          message="You have no habits."
+        />
+        {habits.length ? (
+          <>
+            <h2 className="font-bold">Active</h2>
+            <ItemList
+              data={transformedHabits}
+              Component={DailyItem}
+              filterFunction={(data) => !data.habit.archived}
+              loading={loading}
+              hideInput
+            />
+            <h2 className="font-bold">Archived</h2>
+            <ItemList
+              data={transformedHabits}
+              Component={DailyItem}
+              filterFunction={(data) => data.habit.archived}
+              loading={loading}
+              hideInput
+            />
+          </>
+        ) : null}
+      </div>
+    </div>
   );
 };
 
 HabitList.propTypes = {
   loading: PropTypes.bool,
-  closeHabits: PropTypes.func.isRequired,
+  toggle: PropTypes.func.isRequired,
   habits: PropTypes.array.isRequired,
   error: PropTypes.object.isRequired,
   getHabits: PropTypes.func.isRequired,

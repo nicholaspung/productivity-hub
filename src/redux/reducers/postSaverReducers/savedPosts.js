@@ -19,13 +19,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: true,
+        error: {},
       };
     case SAVED_POSTS_FETCHING_DONE:
       return {
         ...state,
         loading: false,
         savedPosts: action.payload,
-        error: {},
       };
     case SAVED_POSTS_FETCHING_ERROR:
       return {
