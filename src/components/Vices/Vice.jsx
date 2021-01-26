@@ -33,7 +33,7 @@ const Vice = ({
     <>
       <div
         key={viceAnalytic.id}
-        className="flex justify-between even:bg-gray-500"
+        className="flex justify-between even:bg-gray-500 py-2"
       >
         {viceVice && (
           <a

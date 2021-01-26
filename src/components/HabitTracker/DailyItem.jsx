@@ -49,18 +49,27 @@ const DailyItem = ({
     editHabit(data.habit.id, { archived: false, name: data.habit.name });
   };
   const onReorderHabits = (direction) => {
-    const dataList = data.date ? habits : dailies;
-    const findIndexFunc = data.date
-      ? (el) => el.id === data.id
-      : (el) => el.habit.id === data.habit.id;
-    const filteredDataList = dataList.filter((item) => !item.habit.archived);
-    const currentIdx = filteredDataList.findIndex(findIndexFunc);
+    const isDaily = Boolean(data.date);
+    const getHabitObj = (data) => (isDaily ? data.habit : data);
+    const dataList = isDaily ? dailies : habits;
+    const filteredDataList = dataList.filter(
+      (item) => !getHabitObj(item).archived,
+    );
+    const currentIdx = filteredDataList.findIndex(
+      (el) => getHabitObj(el).id === getHabitObj(data).id,
+    );
     if (direction === DIRECTIONS.UP) {
       if (currentIdx - 1 < 0) return;
-      reorderHabits(data.habit.id, filteredDataList[currentIdx - 1].habit.id);
+      reorderHabits(
+        getHabitObj(data).id,
+        getHabitObj(filteredDataList[currentIdx - 1]).id,
+      );
     } else {
       if (currentIdx + 1 > filteredDataList.length - 1) return;
-      reorderHabits(data.habit.id, filteredDataList[currentIdx + 1].habit.id);
+      reorderHabits(
+        getHabitObj(data).id,
+        getHabitObj(filteredDataList[currentIdx + 1]).id,
+      );
     }
   };
   const onDeleteHabit = () => {

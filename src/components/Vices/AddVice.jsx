@@ -36,7 +36,7 @@ const AddVice = ({ addVice }) => {
   const onLinkChange = (event) => setLink(event.target.value);
 
   return (
-    <form className="p-4 flex" onSubmit={onSubmitForm}>
+    <form className="p-4 flex h-48" onSubmit={onSubmitForm}>
       <div className="flex flex-col">
         <label htmlFor={nameTitle}>
           <span className="w-full uppercase text-xs">

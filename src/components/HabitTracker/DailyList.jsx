@@ -118,7 +118,11 @@ const DailyList = ({
           length={dailies.filter(filterCategories[filter].func).length}
           loading={loading}
           error={error}
-          message={filterCategories[filter].label}
+          message={
+            dailies.length
+              ? filterCategories[filter].label
+              : filterCategories[FILTERS.ALL].label
+          }
         />
         <ItemList
           data={dailies}
