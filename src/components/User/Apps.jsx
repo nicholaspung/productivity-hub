@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 const APPS = [
   { title: 'Habit Tracker', id: 1 },
   { title: 'Post Saver', id: 2 },
+  { title: 'Vices', id: 3 },
 ];
 
 const Apps = ({ userApps, onCheckboxChange }) => (

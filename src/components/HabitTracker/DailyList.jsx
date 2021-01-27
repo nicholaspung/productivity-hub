@@ -106,6 +106,17 @@ const DailyList = ({
             </div>
           </div>
         )}
+        {!loading && (
+          <div className="h-0 flex justify-end items-start">
+            <button
+              type="button"
+              className={`${smallerFilledButtonClassName} relative bottom-3 left-3`}
+              onClick={() => createDailiesForDay()}
+            >
+              Refresh
+            </button>
+          </div>
+        )}
         <AddItem
           addItem={addHabit}
           labelTitle="Add a habit"

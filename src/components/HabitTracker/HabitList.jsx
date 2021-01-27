@@ -38,12 +38,14 @@ const HabitList = ({
           X
         </button>
       </div>
-      <h1 className="text-2xl font-bold">All Habits</h1>
       {loading && (
-        <div className="flex justify-center items-center p-8">
-          <LoadingSVG className="w-6 h-auto animate-spin absolute" />
+        <div className="h-0">
+          <div className="relative top-1 left-6">
+            <LoadingSVG className="w-6 h-auto animate-spin absolute" />
+          </div>
         </div>
       )}
+      <h1 className="text-2xl font-bold">All Habits</h1>
       <div className="text-left p-4">
         <EmptyItem
           length={transformedHabits.length}
