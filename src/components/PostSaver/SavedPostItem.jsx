@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { updateSavedPost as updateSavedPostAction } from '../../redux/actions/postSaverActions';
@@ -15,6 +15,7 @@ const SavedPostItem = ({
   setThresholdFunction,
   setSeeThreshold,
 }) => {
+  const [clicked, setClicked] = useState(false);
   const trackSavedPostTitle = (e) => {
     e.persist();
     if (e.type === 'click' || e.type === 'contextmenu') {
@@ -34,9 +35,14 @@ const SavedPostItem = ({
         setSeeThreshold(true);
         return false;
       }
+      setClicked(true);
       updateSavedPost(savedPost.id);
     }
     return trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_TITLE);
+  };
+  const removeSavedPost = () => {
+    setClicked(true);
+    updateSavedPost(savedPost.id);
   };
 
   return (
@@ -45,7 +51,7 @@ const SavedPostItem = ({
         href={savedPost.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex visited:text-red-600"
+        className={`flex visited:text-red-600 ${clicked && 'opacity-50'}`}
         onClick={(e) => trackSavedPostTitle(e, savedPost)}
         onContextMenu={(e) => trackSavedPostTitle(e, savedPost)}
       >
@@ -53,7 +59,7 @@ const SavedPostItem = ({
       </a>
       <button
         className={`${smallerFilledButtonClassName} ml-1`}
-        onClick={() => updateSavedPost(savedPost.id)}
+        onClick={removeSavedPost}
         type="button"
       >
         <CancelSVG className="w-4 h-auto" title="Remove" />
@@ -68,7 +74,6 @@ SavedPostItem.propTypes = {
   updateSavedPost: PropTypes.func.isRequired,
   setThresholdFunction: PropTypes.func.isRequired,
   setSeeThreshold: PropTypes.func.isRequired,
-  error: PropTypes.object.isRequired,
 };
 
 export default connect(

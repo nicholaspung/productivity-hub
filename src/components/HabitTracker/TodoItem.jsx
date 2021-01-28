@@ -33,6 +33,7 @@ const TodoItem = ({
 }) => {
   const [edit, setEdit] = useState(false);
 
+  const isFinished = data.finished;
   const onCheckedChange = async () => {
     await editTodo(data.id, { finished: !data.finished, name: data.name });
   };
@@ -87,9 +88,11 @@ const TodoItem = ({
         </div>
       </div>
       <div className="flex flex-col items-end w-16">
-        <button onClick={() => setEdit(!edit)} type="button">
-          <EditSVG className="w-4 h-auto" title="Edit todo" />
-        </button>
+        {!isFinished && (
+          <button onClick={() => setEdit(!edit)} type="button">
+            <EditSVG className="w-4 h-auto" title="Edit todo" />
+          </button>
+        )}
         <Modal
           isShowing={edit}
           toggle={() => setEdit(!edit)}
@@ -99,7 +102,7 @@ const TodoItem = ({
           labelName="Edit Todo"
         />
         <div className="flex">
-          {data.priority !== PRIORITIES.HIGH && (
+          {!isFinished && data.priority !== PRIORITIES.HIGH && (
             <button
               onClick={() => onSetPriorityTodo(PRIORITIES.HIGH)}
               type="button"
@@ -110,7 +113,7 @@ const TodoItem = ({
               />
             </button>
           )}
-          {data.priority !== PRIORITIES.NONE && (
+          {!isFinished && data.priority !== PRIORITIES.NONE && (
             <button
               onClick={() => onSetPriorityTodo(PRIORITIES.NONE)}
               type="button"
@@ -118,7 +121,7 @@ const TodoItem = ({
               <MinusSVG className="w-4 h-auto" title="Set no priority" />
             </button>
           )}
-          {data.priority !== PRIORITIES.LOW && (
+          {!isFinished && data.priority !== PRIORITIES.LOW && (
             <button
               onClick={() => onSetPriorityTodo(PRIORITIES.LOW)}
               type="button"
@@ -131,7 +134,7 @@ const TodoItem = ({
           )}
         </div>
         <div>
-          {!firstItem && (
+          {!isFinished && !firstItem && (
             <button
               onClick={() => onReorderTodo(DIRECTIONS.UP, data.priority)}
               type="button"
@@ -139,7 +142,7 @@ const TodoItem = ({
               <ArrowUpSVG className="w-4 h-auto" title="Move todo up" />
             </button>
           )}
-          {!lastItem && (
+          {!isFinished && !lastItem && (
             <button
               onClick={() => onReorderTodo(DIRECTIONS.DOWN, data.priority)}
               type="button"

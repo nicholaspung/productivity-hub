@@ -23,6 +23,7 @@ import { ReactComponent as ArrowDownSVG } from '../../assets/icons/arrowdown.svg
 import { ReactComponent as UnarchiveSVG } from '../../assets/icons/unarchive.svg';
 import { ReactComponent as DeleteSVG } from '../../assets/icons/delete.svg';
 import Modal from '../BaseComponents/Modal';
+import HabitDelete from './HabitDelete';
 
 const DailyItem = ({
   data,
@@ -39,6 +40,7 @@ const DailyItem = ({
   lastItem,
 }) => {
   const [edit, setEdit] = useState(false);
+  const [willDelete, setWillDelete] = useState(false);
   const onCheckedChange = () => {
     toggleDaily(data);
   };
@@ -128,11 +130,9 @@ const DailyItem = ({
       </div>
       {!hideOptions && (
         <div className="flex flex-col items-end w-16">
-          {!hideInput && (
-            <button onClick={() => setEdit(true)} type="button">
-              <EditSVG className="w-4 h-auto" title="Edit habit" />
-            </button>
-          )}
+          <button onClick={() => setEdit(true)} type="button">
+            <EditSVG className="w-4 h-auto" title="Edit habit" />
+          </button>
           <Modal
             isShowing={edit}
             toggle={() => setEdit(!edit)}
@@ -169,9 +169,16 @@ const DailyItem = ({
               </button>
             )}
           </div>
-          <button onClick={onDeleteHabit} type="button">
+          <button onClick={() => setWillDelete(true)} type="button">
             <DeleteSVG className="w-4 h-auto" title="Delete habit" />
           </button>
+          <Modal
+            isShowing={willDelete}
+            toggle={() => setWillDelete(!willDelete)}
+            Component={HabitDelete}
+            actionFunction={onDeleteHabit}
+            backupFunction={onArchiveHabit}
+          />
         </div>
       )}
     </li>

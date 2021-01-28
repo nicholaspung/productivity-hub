@@ -21,6 +21,7 @@ const App = () => (
     />
     <Banner />
     <Header />
+    <div className="h-20" />
     <Main>
       <Switch>
         <Route exact path="/" component={LandingPage} />
