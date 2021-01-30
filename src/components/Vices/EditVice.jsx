@@ -7,11 +7,15 @@ import { formInputClassName, FilledButton, Button } from '../BaseComponents';
 const EditVice = ({ toggle, data, editVice }) => {
   const [name, setName] = useState(data.vice.name);
   const [link, setLink] = useState(data.vice.link);
+  const [timeBetween, setTimeBetween] = useState(
+    parseInt(data.vice.time_between.slice(0, 2)),
+  );
   const [nameError, setNameError] = useState('');
   const [linkError, setLinkError] = useState('');
 
   const onNameChange = (event) => setName(event.target.value);
   const onLinkChange = (event) => setLink(event.target.value);
+  const onTimeBetweenChange = (event) => setTimeBetween(event.target.value);
   const onSaveAction = async (e) => {
     e.preventDefault();
     if (!name) {
@@ -21,7 +25,17 @@ const EditVice = ({ toggle, data, editVice }) => {
       setLinkError('Make sure link is "https".');
       return;
     }
-    await editVice(data.vice.id, { name, link });
+    const transformTimeBetween = (timeBetween) => {
+      if (String(timeBetween).length < 2) {
+        return `0${timeBetween}:00:00`;
+      }
+      return `${timeBetween}:00:00`;
+    };
+    await editVice(data.vice.id, {
+      name,
+      link,
+      time_between: transformTimeBetween(timeBetween),
+    });
     toggle();
   };
 
@@ -55,6 +69,34 @@ const EditVice = ({ toggle, data, editVice }) => {
           onChange={onLinkChange}
           autoComplete="off"
         />
+      </label>
+      <label htmlFor="vice-time-between">
+        <span className="w-full uppercase text-xs">Time Between</span>
+        <div className="relative">
+          <select
+            onChange={onTimeBetweenChange}
+            id="vice-time-between"
+            defaultValue={timeBetween}
+            className={formInputClassName}
+          >
+            {Array(24)
+              .fill(0)
+              .map((_, idx) => (
+                <option value={idx + 1} key={`${_}${idx}`}>
+                  {idx + 1} hours
+                </option>
+              ))}
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg
+              className="fill-current h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
+          </div>
+        </div>
       </label>
       <div className="flex py-4">
         <FilledButton action={onSaveAction} classes="flex-1 w-full">

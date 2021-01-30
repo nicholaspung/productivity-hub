@@ -16,10 +16,23 @@ const Vice = ({
   deleteVice,
 }) => {
   const viceVice = viceAnalytic.vice;
-  const viceLastAccessed = new Date(
-    viceAnalytic.last_updated,
-  ).toLocaleTimeString();
-
+  const pastTime = Math.floor(
+    (new Date() - new Date(viceAnalytic.last_updated)) / (1000 * 60 * 60),
+  );
+  const pastTimeText = (numOfHours) => {
+    let hourText = 'hour';
+    if (numOfHours > 1) {
+      hourText = 'hours';
+    }
+    if (!numOfHours) {
+      return `less than an ${hourText} ago`;
+    } else {
+      return `around ${numOfHours} ${hourText} ago`;
+    }
+  };
+  const vicePastTimeText = pastTimeText(pastTime);
+  const canClick =
+    parseInt(viceAnalytic.vice.time_between.slice(0, 2)) > pastTime;
   const [edit, setEdit] = useState(false);
 
   const onLinkAction = () => {
@@ -38,7 +51,9 @@ const Vice = ({
         {viceVice && (
           <a
             href={viceVice.link}
-            className="flex-1 text-center"
+            className={`flex-1 text-center ${
+              canClick ? 'line-through pointer-events-none' : ''
+            }`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={onLinkAction}
@@ -46,8 +61,16 @@ const Vice = ({
             {viceVice.name}
           </a>
         )}
-        <p className="flex-1 text-center">{viceLastAccessed}</p>
-        <p className="flex-1 text-center">{viceAnalytic.frequency}</p>
+        <p
+          className={`flex-1 text-center italic ${
+            canClick ? 'line-through' : ''
+          }`}
+        >
+          {vicePastTimeText}
+        </p>
+        <p className={`flex-1 text-center ${canClick ? 'line-through' : ''}`}>
+          {viceAnalytic.frequency}
+        </p>
         <div className="flex-1 text-center flex justify-around">
           <button type="button" onClick={() => setEdit(true)}>
             <EditSVG className="w-4 h-auto" title="Edit vice" />
