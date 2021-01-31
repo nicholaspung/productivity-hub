@@ -20,12 +20,8 @@ import {
 import EmptyItem from '../BaseComponents/EmptyItem';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import { ReactComponent as CancelSVG } from '../../assets/icons/cancel.svg';
-
-const FILTER_OPTIONS = {
-  'A-Z': 'A-Z',
-  'Z-A': 'Z-A',
-  NONE: 'NONE',
-};
+import { FILTER_OPTIONS } from '../../constants/postSaverConstants';
+import { sortTitles } from '../../utils/savedPostUtils';
 
 const TitleList = ({
   titles = [],
@@ -37,12 +33,12 @@ const TitleList = ({
 }) => {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState(FILTER_OPTIONS.NONE);
+
   useEffect(() => {
     if (!titles.length) {
       getTitles();
     }
-    // eslint-disable-next-line
-  }, [getTitles]);
+  }, [getTitles, titles]);
 
   return (
     <div className={`${classes || ''}`}>
@@ -103,29 +99,7 @@ const TitleList = ({
         <EmptyItem length={titles.length} loading={loading} error={error} />
         {titles.length
           ? titles
-              .sort((a, b) => {
-                const aTitle = a.title.toLowerCase();
-                const bTitle = b.title.toLowerCase();
-                if (filter === FILTER_OPTIONS['A-Z']) {
-                  if (aTitle < bTitle) {
-                    return -1;
-                  }
-                  if (aTitle > bTitle) {
-                    return 1;
-                  }
-                  return 0;
-                }
-                if (filter === FILTER_OPTIONS['Z-A']) {
-                  if (aTitle > bTitle) {
-                    return -1;
-                  }
-                  if (aTitle < bTitle) {
-                    return 1;
-                  }
-                  return 0;
-                }
-                return 0;
-              })
+              .sort((a, b) => sortTitles(a, b, filter))
               .filter((title) => title.title.toLowerCase().includes(search))
               .map((title) => <Title data={title} key={title.id} />)
           : null}

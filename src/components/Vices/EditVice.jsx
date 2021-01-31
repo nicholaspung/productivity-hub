@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { editVice as editViceAction } from '../../redux/actions/vicesActions';
 import { formInputClassName, FilledButton, Button } from '../BaseComponents';
+import { transformTimeBetween } from '../../utils/viceUtils';
 
 const EditVice = ({ toggle, data, editVice }) => {
   const [name, setName] = useState(data.vice.name);
   const [link, setLink] = useState(data.vice.link);
   const [timeBetween, setTimeBetween] = useState(
-    parseInt(data.vice.time_between.slice(0, 2)),
+    parseInt(data.vice.time_between.slice(0, 2), 10),
   );
   const [nameError, setNameError] = useState('');
   const [linkError, setLinkError] = useState('');
@@ -25,12 +26,6 @@ const EditVice = ({ toggle, data, editVice }) => {
       setLinkError('Make sure link is "https".');
       return;
     }
-    const transformTimeBetween = (timeBetween) => {
-      if (String(timeBetween).length < 2) {
-        return `0${timeBetween}:00:00`;
-      }
-      return `${timeBetween}:00:00`;
-    };
     await editVice(data.vice.id, {
       name,
       link,

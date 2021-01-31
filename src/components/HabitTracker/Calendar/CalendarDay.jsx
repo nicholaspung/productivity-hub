@@ -17,20 +17,15 @@ const CalendarDay = ({
   labelView = '',
   earliestHabitDate,
 }) => {
-  let finishedLength = 0;
-  let totalLength = 0;
-  let percentageLabel = 0;
-  if (dailiesCache[day]) {
-    [finishedLength, totalLength, percentageLabel] = getDayInfo(
-      dailiesCache[day],
-    );
-  }
-
   const [showDaily, setShowDaily] = useState(false);
 
+  const [finishedLength, totalLength, percentageLabel] = getDayInfo(
+    dailiesCache[day],
+  );
   const dateObject = getJavascriptDateTransform(day);
   const isActiveHabit =
     dateObject < new Date() && dateObject > earliestHabitDate;
+
   return (
     <li className="m-2">
       <Modal

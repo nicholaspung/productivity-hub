@@ -24,9 +24,10 @@ const HabitList = ({
     if (!habits.length) {
       getHabits();
     }
-    // eslint-disable-next-line
-  }, [getHabits]);
+  }, [getHabits, habits]);
+
   const transformedHabits = habits.map((habit) => ({ habit, id: habit.id }));
+
   return (
     <div className="w-full text-center p-4">
       <div className="h-0 text-right">

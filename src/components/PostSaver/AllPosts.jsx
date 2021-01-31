@@ -38,6 +38,7 @@ const AllPosts = ({
   allPostTitleAnalyticThreshold,
 }) => {
   const emptyFunction = () => () => {};
+
   const [seeThreshold, setSeeThreshold] = useState(false);
   const [thresholdFunction, setThresholdFunction] = useState(emptyFunction);
 
@@ -46,6 +47,7 @@ const AllPosts = ({
   }, [getPosts]);
 
   const postObjLength = postsObj.results ? postsObj.results.length : 0;
+
   const trackAllPostTitle = (e) => {
     e.persist();
     if (e.type === 'click' || e.type === 'contextmenu') {
@@ -71,7 +73,6 @@ const AllPosts = ({
     }
     return trackSpecificEventsFromUser(userAnalyticLabels.ALL_POST_TITLE);
   };
-
   const onRefreshAction = () => {
     if (
       allPostRefreshAnalyticThreshold.frequency >=

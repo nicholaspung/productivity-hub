@@ -8,19 +8,13 @@ import Helmet from '../BaseComponents/Helmet';
 import DeleteAccount from './DeleteAccount';
 import Apps from './Apps';
 import UserAnalytics from './UserAnalytics';
+import { appSelectionUtil } from '../../utils/userUtils';
 
 const Profile = ({ userInfo, apps, addApp }) => {
   const [userApps, setUserApps] = useState(apps);
 
-  const onCheckboxChange = (event, appId) => {
-    const userAppsCopy = [...userApps];
-    if (!event.target.checked) {
-      userAppsCopy.splice(userApps.indexOf(appId), 1);
-    } else {
-      userAppsCopy.push(event.target.id);
-    }
-    setUserApps(userAppsCopy.map((id) => Number(id)));
-  };
+  const onCheckboxChange = (event, appId) =>
+    setUserApps(appSelectionUtil(event, appId, userApps));
   const onProfileCancel = () => setUserApps(apps);
   const onProfileSave = () => addApp(userInfo.profileId, userApps);
 

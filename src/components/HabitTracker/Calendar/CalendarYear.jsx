@@ -1,21 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CalendarMonth from './CalendarMonth';
-import { isLeapYear } from '../../../utils/habitTrackerUtils';
+import { getNumOfDaysForMonthForYear } from '../../../utils/habitTrackerUtils';
 
 const CalendarYear = ({ dailiesCache, display }) => {
-  const jan = 31;
-  const feb = isLeapYear(display[0].slice(0, 4)) ? jan + 29 : jan + 28;
-  const mar = feb + 31;
-  const apr = mar + 30;
-  const may = apr + 31;
-  const jun = may + 30;
-  const jul = jun + 31;
-  const aug = jul + 31;
-  const sep = aug + 30;
-  const oct = sep + 31;
-  const nov = oct + 30;
-  const dec = nov + 31;
+  const [
+    jan,
+    feb,
+    mar,
+    apr,
+    may,
+    jun,
+    jul,
+    aug,
+    sep,
+    oct,
+    nov,
+    dec,
+  ] = getNumOfDaysForMonthForYear(display);
+
   return (
     <>
       <p className="text-xl font-bold m-4 w-full text-center">

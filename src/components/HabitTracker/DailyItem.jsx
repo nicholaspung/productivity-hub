@@ -24,6 +24,7 @@ import { ReactComponent as UnarchiveSVG } from '../../assets/icons/unarchive.svg
 import { ReactComponent as DeleteSVG } from '../../assets/icons/delete.svg';
 import Modal from '../BaseComponents/Modal';
 import HabitDelete from './HabitDelete';
+import { reorderHabitsUtil } from '../../utils/habitTrackerUtils';
 
 const DailyItem = ({
   data,
@@ -41,42 +42,15 @@ const DailyItem = ({
 }) => {
   const [edit, setEdit] = useState(false);
   const [willDelete, setWillDelete] = useState(false);
-  const onCheckedChange = () => {
-    toggleDaily(data);
-  };
-  const onArchiveHabit = () => {
+
+  const onCheckedChange = () => toggleDaily(data);
+  const onArchiveHabit = () =>
     editHabit(data.habit.id, { archived: true, name: data.habit.name });
-  };
-  const onUnarchiveHabit = () => {
+  const onUnarchiveHabit = () =>
     editHabit(data.habit.id, { archived: false, name: data.habit.name });
-  };
-  const onReorderHabits = (direction) => {
-    const isDaily = Boolean(data.date);
-    const getHabitObj = (data) => (isDaily ? data.habit : data);
-    const dataList = isDaily ? dailies : habits;
-    const filteredDataList = dataList.filter(
-      (item) => !getHabitObj(item).archived,
-    );
-    const currentIdx = filteredDataList.findIndex(
-      (el) => getHabitObj(el).id === getHabitObj(data).id,
-    );
-    if (direction === DIRECTIONS.UP) {
-      if (currentIdx - 1 < 0) return;
-      reorderHabits(
-        getHabitObj(data).id,
-        getHabitObj(filteredDataList[currentIdx - 1]).id,
-      );
-    } else {
-      if (currentIdx + 1 > filteredDataList.length - 1) return;
-      reorderHabits(
-        getHabitObj(data).id,
-        getHabitObj(filteredDataList[currentIdx + 1]).id,
-      );
-    }
-  };
-  const onDeleteHabit = () => {
-    deleteHabit(data.habit.id);
-  };
+  const onReorderHabits = (direction) =>
+    reorderHabitsUtil(data, dailies, habits, direction, reorderHabits);
+  const onDeleteHabit = () => deleteHabit(data.habit.id);
 
   const labelId = data.habit.name.replace(/ /, '');
   const disabledInputClass = !disableInput ? 'cursor-pointer' : '';
@@ -141,12 +115,12 @@ const DailyItem = ({
             actionFunction={editHabit}
             labelName="Edit Habit"
           />
-          {!hideInput && !data.habit.archived && (
+          {!data.habit.archived && (
             <button onClick={onArchiveHabit} type="button">
               <ArchiveSVG className="w-4 h-auto" title="Archive habit" />
             </button>
           )}
-          {!hideInput && data.habit.archived && (
+          {data.habit.archived && (
             <button onClick={onUnarchiveHabit} type="button">
               <UnarchiveSVG className="w-4 h-auto" title="Unarchive habit" />
             </button>

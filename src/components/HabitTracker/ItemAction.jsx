@@ -7,6 +7,7 @@ import {
   smallerButtonClassName,
   smallerFilledButtonClassName,
 } from '../BaseComponents';
+import { chosenWeekdays } from '../../utils/habitTrackerUtils';
 
 const ItemAction = ({
   data,
@@ -19,6 +20,7 @@ const ItemAction = ({
   const [weekdays, setWeekdays] = useState(
     (data.weekdays && data.weekdays.split(',')) || [],
   );
+
   const onNameChange = (event) => setName(event.target.value);
   const onDescriptionChange = (event) => setDescription(event.target.value);
   const onSaveAction = () => {
@@ -38,13 +40,7 @@ const ItemAction = ({
     onSaveAction();
   };
   const onWeekdayPress = (weekday) => {
-    const weekdayIdx = weekdays.findIndex((el) => el === weekday);
-    const weekdaysCopy = [...weekdays];
-    if (weekdayIdx !== -1) {
-      weekdaysCopy.splice(weekdayIdx, 1);
-    } else {
-      weekdaysCopy.push(weekday);
-    }
+    const weekdaysCopy = chosenWeekdays(weekday, weekdays);
     setWeekdays(weekdaysCopy);
   };
 
@@ -55,9 +51,7 @@ const ItemAction = ({
     ? data.description.replace(/ /g, '')
     : `new-${labelName.replace(/ /g, '')}-description`;
   const chooseButtonFill = (weekday) => {
-    if (weekdays.includes(weekday)) {
-      return smallerFilledButtonClassName;
-    }
+    if (weekdays.includes(weekday)) return smallerFilledButtonClassName;
     return smallerButtonClassName;
   };
 

@@ -1,4 +1,4 @@
-import { DIRECTIONS } from '../constants/habitTrackerConstants';
+import { DIRECTIONS, PRIORITIES } from '../constants/habitTrackerConstants';
 import { getDateTransform } from './dateUtils';
 
 // Calendar Utils
@@ -70,6 +70,10 @@ export const changeDate = (date, view, direction) => {
 };
 
 export const getDayInfo = (array) => {
+  if (!array || !array.length) {
+    return [0, 0, 0];
+  }
+
   const finishedLength = array.filter(
     (day) => day.finished && !day.habit.archived,
   ).length;
@@ -100,13 +104,29 @@ export const createBackEmptyDates = (pythonDate) => {
   return Array(numOfEmptyDates).fill(0);
 };
 
-export const getArrayWithDates = (date, arrayFunction, firstDateFunction) => {
-  const day = firstDateFunction(date);
-  return arrayFunction(date).map((x, i) =>
+export const getArrayWithDates = (date, arrayFunc, firstDateFunc) => {
+  const day = firstDateFunc(date);
+  return arrayFunc(date).map((x, i) =>
     getDateTransform(
       new Date(day.getFullYear(), day.getMonth(), day.getDate() + i),
     ),
   );
+};
+
+export const getNumOfDaysForMonthForYear = (display) => {
+  const jan = 31;
+  const feb = isLeapYear(display[0].slice(0, 4)) ? jan + 29 : jan + 28;
+  const mar = feb + 31;
+  const apr = mar + 30;
+  const may = apr + 31;
+  const jun = may + 30;
+  const jul = jun + 31;
+  const aug = jul + 31;
+  const sep = aug + 30;
+  const oct = sep + 31;
+  const nov = oct + 30;
+  const dec = nov + 31;
+  return [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec];
 };
 
 // Dailies utils
@@ -137,4 +157,72 @@ export const transformDailiesForCache = (dateObj, data) => {
     }
   });
   return dateObjCopy;
+};
+export const reorderHabitsUtil = (
+  data,
+  dailies,
+  habits,
+  direction,
+  apiCall,
+) => {
+  const isDaily = Boolean(data.date);
+  const getHabitObj = (obj) => (isDaily ? obj.habit : obj);
+  const dataList = isDaily ? dailies : habits;
+  const filteredDataList = dataList.filter(
+    (item) => !getHabitObj(item).archived,
+  );
+  const currentIdx = filteredDataList.findIndex(
+    (el) => getHabitObj(el).id === getHabitObj(data).id,
+  );
+  if (direction === DIRECTIONS.UP) {
+    if (currentIdx - 1 < 0) return;
+    apiCall(
+      getHabitObj(data).id,
+      getHabitObj(filteredDataList[currentIdx - 1]).id,
+    );
+  } else {
+    if (currentIdx + 1 > filteredDataList.length - 1) return;
+    apiCall(
+      getHabitObj(data).id,
+      getHabitObj(filteredDataList[currentIdx + 1]).id,
+    );
+  }
+};
+export const chosenWeekdays = (weekday, weekdays) => {
+  const weekdayIdx = weekdays.findIndex((el) => el === weekday);
+  const weekdaysCopy = [...weekdays];
+  if (weekdayIdx !== -1) {
+    weekdaysCopy.splice(weekdayIdx, 1);
+  } else {
+    weekdaysCopy.push(weekday);
+  }
+  return weekdaysCopy;
+};
+export const reorderTodosUtil = (data, todos, direction, priority, apiCall) => {
+  const filteredTodos = todos.filter(
+    (item) => !item.finished && item.priority === priority,
+  );
+  const currentIdx = filteredTodos.findIndex((el) => el.id === data.id);
+  if (direction === DIRECTIONS.UP) {
+    if (currentIdx - 1 < 0) return;
+    apiCall(data.id, filteredTodos[currentIdx - 1].id);
+  } else {
+    if (currentIdx + 1 > filteredTodos.length - 1) return;
+    apiCall(data.id, filteredTodos[currentIdx + 1].id);
+  }
+};
+export const sortedTodosForPriorityUtil = (todosArray) => {
+  const lowPriority = [];
+  const noPriority = [];
+  const highPriority = [];
+  todosArray.forEach((todo) => {
+    if (todo.priority === PRIORITIES.LOW) {
+      lowPriority.push(todo);
+    } else if (todo.priority === PRIORITIES.NONE) {
+      noPriority.push(todo);
+    } else {
+      highPriority.push(todo);
+    }
+  });
+  return [highPriority, noPriority, lowPriority];
 };

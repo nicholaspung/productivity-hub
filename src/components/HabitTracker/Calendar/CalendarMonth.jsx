@@ -17,14 +17,12 @@ const CalendarMonth = ({ dailiesCache, display }) => (
     <CalendarWeekNames />
     <ul className="flex justify-around w-full flex-wrap">
       {createFrontEmptyDates(display[0]).map((day, idx) => (
-        // eslint-disable-next-line react/no-array-index-key
         <CalendarEmptyDates key={`${day}${idx}`} />
       ))}
       {display.map((day) => (
         <CalendarDay dailiesCache={dailiesCache} day={day} key={day} />
       ))}
       {createBackEmptyDates(display[display.length - 1]).map((day, idx) => (
-        // eslint-disable-next-line react/no-array-index-key
         <CalendarEmptyDates key={`${day}${idx}`} />
       ))}
     </ul>

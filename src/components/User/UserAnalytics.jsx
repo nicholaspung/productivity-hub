@@ -44,10 +44,6 @@ UserAnalytics.propTypes = {
 };
 
 export default connect(
-  (state) => ({
-    userAnalytics: getUserAnalyticsSelector(state),
-  }),
-  {
-    getUserAnalytics: getUserAnalyticsAction,
-  },
+  (state) => ({ userAnalytics: getUserAnalyticsSelector(state) }),
+  { getUserAnalytics: getUserAnalyticsAction },
 )(UserAnalytics);

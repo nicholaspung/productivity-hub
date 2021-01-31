@@ -28,8 +28,7 @@ const YesterdayDailiesContent = ({
     if (isShowing) {
       createDailiesForDay(getYesterday());
     }
-    // eslint-disable-next-line
-  }, []);
+  }, [createDailiesForDay, isShowing]);
 
   const visibleFilter = (item) => !item.archived;
   yesterday.sort(sortDailies);
@@ -81,9 +80,7 @@ const ConnectedYesterdayDailiesContent = connect(
     loading: getDailiesLoadingStatus(state),
     error: getDailiesError(state),
   }),
-  {
-    createDailiesForDay: createDailiesForDayAction,
-  },
+  { createDailiesForDay: createDailiesForDayAction },
 )(YesterdayDailiesContent);
 
 const YesterdayDailies = () => {

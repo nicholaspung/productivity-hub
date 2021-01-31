@@ -6,9 +6,11 @@ const NotFocusedModal = ({ toggle }) => {
   const [step, setStep] = useState(1);
   const [input, setInput] = useState('');
   const [showInputError, setShowInputError] = useState(false);
+
   const step1Quote =
     'Everybody wants to change others. Nobody wants to be changed.';
   const step1Author = 'Naval Ravikant';
+
   const leftSideButton = (stepNumber) => {
     switch (stepNumber) {
       case 2:
@@ -33,6 +35,7 @@ const NotFocusedModal = ({ toggle }) => {
         return <Step1 />;
     }
   };
+
   return (
     <>
       <h2 className="text-center text-6xl text-white bg-red-500 py-8">

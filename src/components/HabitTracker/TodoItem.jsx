@@ -21,6 +21,7 @@ import { ReactComponent as EditSVG } from '../../assets/icons/edit.svg';
 import { ReactComponent as ArrowUpSVG } from '../../assets/icons/arrowup.svg';
 import { ReactComponent as ArrowDownSVG } from '../../assets/icons/arrowdown.svg';
 import Modal from '../BaseComponents/Modal';
+import { reorderTodosUtil } from '../../utils/habitTrackerUtils';
 
 const TodoItem = ({
   data,
@@ -31,31 +32,18 @@ const TodoItem = ({
   firstItem,
   lastItem,
 }) => {
+  const isFinished = data.finished;
+
   const [edit, setEdit] = useState(false);
 
-  const isFinished = data.finished;
   const onCheckedChange = async () => {
     await editTodo(data.id, { finished: !data.finished, name: data.name });
   };
-  const onSetPriorityTodo = (priority) => {
+  const onSetPriorityTodo = (priority) =>
     editTodo(data.id, { priority, name: data.name });
-  };
-  const onReorderTodo = (direction, priority) => {
-    const filteredTodos = todos.filter(
-      (item) => !item.finished && item.priority === priority,
-    );
-    const currentIdx = filteredTodos.findIndex((el) => el.id === data.id);
-    if (direction === DIRECTIONS.UP) {
-      if (currentIdx - 1 < 0) return;
-      reorderTodos(data.id, filteredTodos[currentIdx - 1].id);
-    } else {
-      if (currentIdx + 1 > filteredTodos.length - 1) return;
-      reorderTodos(data.id, filteredTodos[currentIdx + 1].id);
-    }
-  };
-  const onDeleteTodo = () => {
-    deleteTodo(data.id);
-  };
+  const onReorderTodo = (direction, priority) =>
+    reorderTodosUtil(data, todos, direction, priority, reorderTodos);
+  const onDeleteTodo = () => deleteTodo(data.id);
 
   const labelId = data.name.replace(/ /, '');
 
@@ -169,13 +157,8 @@ TodoItem.propTypes = {
   lastItem: PropTypes.bool.isRequired,
 };
 
-export default connect(
-  (state) => ({
-    todos: getTodosTodos(state),
-  }),
-  {
-    editTodo: editTodoAction,
-    deleteTodo: deleteTodoAction,
-    reorderTodos: reorderTodosAction,
-  },
-)(TodoItem);
+export default connect((state) => ({ todos: getTodosTodos(state) }), {
+  editTodo: editTodoAction,
+  deleteTodo: deleteTodoAction,
+  reorderTodos: reorderTodosAction,
+})(TodoItem);

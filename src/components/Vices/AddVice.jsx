@@ -11,11 +11,6 @@ const AddVice = ({ addVice }) => {
   const [nameError, setNameError] = useState('');
   const [linkError, setLinkError] = useState('');
 
-  const nameTitle = 'Name';
-  const namePlaceholder = 'Add a new vice';
-  const linkTitle = 'Link';
-  const linkPlaceholder = 'Add a link to your vice';
-
   const onAddItem = () => {
     if (!name) {
       setNameError('Required');
@@ -34,6 +29,11 @@ const AddVice = ({ addVice }) => {
   };
   const onNameChange = (event) => setName(event.target.value);
   const onLinkChange = (event) => setLink(event.target.value);
+
+  const nameTitle = 'Name';
+  const namePlaceholder = 'Add a new vice';
+  const linkTitle = 'Link';
+  const linkPlaceholder = 'Add a link to your vice';
 
   return (
     <form className="p-4 flex h-48" onSubmit={onSubmitForm}>

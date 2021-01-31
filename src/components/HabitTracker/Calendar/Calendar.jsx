@@ -17,17 +17,19 @@ import { ReactComponent as ArrowCircleUp } from '../../../assets/icons/arrowCirc
 const Calendar = ({ dailiesCache, getDailiesForWeek, dateRangeCache }) => {
   const [date, setDate] = useState(new Date());
   const [view, setView] = useState(VIEWS.WEEK);
+
+  useEffect(() => {
+    if (!dateRangeCache[VIEWS.WEEK.label]) {
+      getDailiesForWeek();
+    }
+  }, [getDailiesForWeek, dateRangeCache]);
+
   const display = getArrayWithDates(
     date,
     view.arrayFunction,
     view.firstDayFunction,
   );
-  useEffect(() => {
-    if (!dateRangeCache[VIEWS.WEEK.label]) {
-      getDailiesForWeek();
-    }
-    // eslint-disable-next-line
-  }, []);
+
   return (
     <>
       {view === VIEWS.YEAR && (
@@ -82,7 +84,5 @@ export default connect(
     dailiesCache: getDailiesDailiesCache(state),
     dateRangeCache: getDailiesDateRangeCache(state),
   }),
-  {
-    getDailiesForWeek: getDailiesForWeekAction,
-  },
+  { getDailiesForWeek: getDailiesForWeekAction },
 )(Calendar);

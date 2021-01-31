@@ -30,10 +30,6 @@ AnonymousUserMessage.propTypes = {
 };
 
 export default connect(
-  (state) => ({
-    isAnonymous: isAnonymousSelector(state),
-  }),
-  {
-    loggedIn: loggedInAction,
-  },
+  (state) => ({ isAnonymous: isAnonymousSelector(state) }),
+  { loggedIn: loggedInAction },
 )(AnonymousUserMessage);

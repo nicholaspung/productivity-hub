@@ -46,12 +46,13 @@ const DailyList = ({
 }) => {
   const [filter, setFilter] = useState(FILTERS.UNFINISHED);
   const [showHabits, setShowHabits] = useState(false);
+
   useEffect(() => {
     if (!dailies.length) {
       createDailiesForDay();
     }
-    // eslint-disable-next-line
-  }, [createDailiesForDay]);
+  }, [createDailiesForDay, dailies]);
+
   return (
     <div className={classes || ''}>
       <div className="flex justify-between items-center">

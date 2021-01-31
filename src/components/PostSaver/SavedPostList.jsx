@@ -17,6 +17,7 @@ import { ReactComponent as RefreshSVG } from '../../assets/icons/refresh.svg';
 import NotFocused from '../BaseComponents/NotFocused';
 import SavedPostItem from './SavedPostItem';
 import Modal from '../BaseComponents/Modal';
+import { sortSavedPostTitles } from '../../utils/savedPostUtils';
 
 const SavedPostList = ({
   savedPosts = [],
@@ -27,6 +28,7 @@ const SavedPostList = ({
   savedPostRefreshAnalyticFrequencyAndThreshold,
 }) => {
   const emptyFunction = () => () => {};
+
   const [seeThreshold, setSeeThreshold] = useState(false);
   const [thresholdFunction, setThresholdFunction] = useState(emptyFunction);
 
@@ -53,18 +55,6 @@ const SavedPostList = ({
     }
     getSavedPosts();
     return trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_REFRESH);
-  };
-
-  const sortSavedPostTitles = (a, b) => {
-    const aTitle = a.title.toLowerCase();
-    const bTitle = b.title.toLowerCase();
-    if (aTitle < bTitle) {
-      return -1;
-    }
-    if (aTitle > bTitle) {
-      return 1;
-    }
-    return 0;
   };
 
   return (
@@ -129,7 +119,5 @@ export default connect(
       userAnalyticLabels.SAVED_POST_REFRESH,
     ),
   }),
-  {
-    getSavedPosts: getSavedPostsAction,
-  },
+  { getSavedPosts: getSavedPostsAction },
 )(SavedPostList);

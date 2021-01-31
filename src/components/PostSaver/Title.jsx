@@ -17,6 +17,7 @@ import { ReactComponent as CancelSVG } from '../../assets/icons/cancel.svg';
 const Title = ({ data, updateTitle, deleteTitle }) => {
   const [edit, showEdit] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState(data.title);
+
   const onTextChange = (event) => setUpdatedTitle(event.target.value);
   const onChangeView = () => showEdit(!edit);
   const onUpdateTitle = (event) => {

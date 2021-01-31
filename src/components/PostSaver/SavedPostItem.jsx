@@ -16,6 +16,7 @@ const SavedPostItem = ({
   setSeeThreshold,
 }) => {
   const [clicked, setClicked] = useState(false);
+
   const trackSavedPostTitle = (e) => {
     e.persist();
     if (e.type === 'click' || e.type === 'contextmenu') {
@@ -83,7 +84,5 @@ export default connect(
       userAnalyticLabels.SAVED_POST_TITLE,
     ),
   }),
-  {
-    updateSavedPost: updateSavedPostAction,
-  },
+  { updateSavedPost: updateSavedPostAction },
 )(SavedPostItem);

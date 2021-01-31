@@ -13,9 +13,10 @@ import {
   getTodosLoadingStatus,
   getTodosError,
 } from '../../redux/selectors/habitTrackerSelectors';
-import { FILTERS, PRIORITIES } from '../../constants/habitTrackerConstants';
+import { FILTERS } from '../../constants/habitTrackerConstants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
+import { sortedTodosForPriorityUtil } from '../../utils/habitTrackerUtils';
 
 const getFilterFunction = (filter) => {
   if (filter === FILTERS.ACTIVE) return (item) => !item.finished;
@@ -36,24 +37,13 @@ const TodoList = ({
     if (!todos.length) {
       getTodos();
     }
-    // eslint-disable-next-line
-  }, [getTodos]);
+  }, [getTodos, todos]);
 
-  const sortedTodosForPriority = ((todosArray) => {
-    const lowPriority = [];
-    const noPriority = [];
-    const highPriority = [];
-    todosArray.forEach((todo) => {
-      if (todo.priority === PRIORITIES.LOW) {
-        lowPriority.push(todo);
-      } else if (todo.priority === PRIORITIES.NONE) {
-        noPriority.push(todo);
-      } else {
-        highPriority.push(todo);
-      }
-    });
-    return [highPriority, noPriority, lowPriority];
-  })(todos);
+  const sortedTodosForPriority = sortedTodosForPriorityUtil(todos);
+  const hasUnderline = (filterConstant) => {
+    if (filter === filterConstant) return 'underline';
+    return '';
+  };
 
   return (
     <div className={classes || ''}>
@@ -61,16 +51,14 @@ const TodoList = ({
         <h1 className="text-3xl px-5 font-bold">Todos</h1>
         <div>
           <button
-            className={`${filter === FILTERS.ACTIVE ? 'underline' : ''} px-2`}
+            className={`${hasUnderline(FILTERS.ACTIVE)} px-2`}
             onClick={() => setFilter(FILTERS.ACTIVE)}
             type="button"
           >
             Active
           </button>
           <button
-            className={`${
-              filter === FILTERS.COMPLETED ? 'underline' : ''
-            } px-2`}
+            className={`${hasUnderline(FILTERS.COMPLETED)} px-2`}
             onClick={() => setFilter(FILTERS.COMPLETED)}
             type="button"
           >

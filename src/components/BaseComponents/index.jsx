@@ -74,28 +74,6 @@ FilledButton.propTypes = {
   action: PropTypes.func.isRequired,
 };
 
-export const Modal = ({ children }) => (
-  <div className="fixed z-10 inset-0 overflow-y-auto">
-    <div className="fixed inset-0 transition-opacity">
-      <div className="absolute inset-0 bg-gray-500 opacity-75" />
-    </div>
-    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div
-        className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-headline"
-      >
-        {children}
-      </div>
-    </div>
-  </div>
-);
-Modal.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array])
-    .isRequired,
-};
-
 export const smallerButtonClassName =
   'whitespace-no-wrap text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900';
 

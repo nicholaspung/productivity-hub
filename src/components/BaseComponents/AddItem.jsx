@@ -12,6 +12,7 @@ const AddItem = ({
   classes = '',
 }) => {
   const [newItem, setNewItem] = useState('');
+
   const onAddItem = (event) => {
     event.preventDefault();
     addItem({ [property]: newItem });

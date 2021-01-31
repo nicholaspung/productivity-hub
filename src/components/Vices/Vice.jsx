@@ -9,6 +9,11 @@ import {
   incrementFrequencyForViceAnalytic as incrementFrequencyForViceAnalyticAction,
   deleteVice as deleteViceAction,
 } from '../../redux/actions/vicesActions';
+import {
+  lastAccessedText,
+  getHoursLastAccessed,
+  timeBetweenIsOverBlocker,
+} from '../../utils/viceUtils';
 
 const Vice = ({
   viceAnalytic,
@@ -16,31 +21,17 @@ const Vice = ({
   deleteVice,
 }) => {
   const viceVice = viceAnalytic.vice;
-  const pastTime = Math.floor(
-    (new Date() - new Date(viceAnalytic.last_updated)) / (1000 * 60 * 60),
+  const lastAccessed = getHoursLastAccessed(viceAnalytic.last_updated);
+  const vicePassedTimeText = lastAccessedText(lastAccessed);
+  const canAccess = timeBetweenIsOverBlocker(
+    viceAnalytic.vice.time_between,
+    lastAccessed,
   );
-  const pastTimeText = (numOfHours) => {
-    let hourText = 'hour';
-    if (numOfHours > 1) {
-      hourText = 'hours';
-    }
-    if (!numOfHours) {
-      return `less than an ${hourText} ago`;
-    } else {
-      return `around ${numOfHours} ${hourText} ago`;
-    }
-  };
-  const vicePastTimeText = pastTimeText(pastTime);
-  const canClick =
-    parseInt(viceAnalytic.vice.time_between.slice(0, 2)) > pastTime;
+
   const [edit, setEdit] = useState(false);
 
-  const onLinkAction = () => {
-    incrementFrequencyForViceAnalytic(viceAnalytic.id);
-  };
-  const onDeleteAction = () => {
-    deleteVice(viceAnalytic.vice.id);
-  };
+  const onLinkAction = () => incrementFrequencyForViceAnalytic(viceAnalytic.id);
+  const onDeleteAction = () => deleteVice(viceAnalytic.vice.id);
 
   return (
     <>
@@ -52,7 +43,7 @@ const Vice = ({
           <a
             href={viceVice.link}
             className={`flex-1 text-center ${
-              canClick ? 'line-through pointer-events-none' : ''
+              canAccess ? 'line-through pointer-events-none' : ''
             }`}
             target="_blank"
             rel="noopener noreferrer"
@@ -63,14 +54,12 @@ const Vice = ({
         )}
         <p
           className={`flex-1 text-center italic ${
-            canClick ? 'line-through' : ''
+            canAccess ? 'line-through' : ''
           }`}
         >
-          {vicePastTimeText}
+          {vicePassedTimeText}
         </p>
-        <p className={`flex-1 text-center ${canClick ? 'line-through' : ''}`}>
-          {viceAnalytic.frequency}
-        </p>
+        <p className="flex-1 text-center">{viceAnalytic.frequency}</p>
         <div className="flex-1 text-center flex justify-around">
           <button type="button" onClick={() => setEdit(true)}>
             <EditSVG className="w-4 h-auto" title="Edit vice" />

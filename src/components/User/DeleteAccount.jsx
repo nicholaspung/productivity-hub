@@ -8,6 +8,7 @@ import Modal from '../BaseComponents/Modal';
 
 const DeleteAccountContent = ({ toggle, userInfo, deleteUser }) => {
   const onDeleteUser = () => deleteUser(userInfo.userId);
+
   return (
     <>
       <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -69,17 +70,17 @@ const DeleteAccountContent = ({ toggle, userInfo, deleteUser }) => {
 DeleteAccountContent.propTypes = {
   deleteUser: PropTypes.func.isRequired,
   userInfo: PropTypes.object.isRequired,
+  toggle: PropTypes.func.isRequired,
 };
 
 const ConnectedDeleteAccountContent = connect(
-  (state) => ({
-    userInfo: getUserInfo(state),
-  }),
+  (state) => ({ userInfo: getUserInfo(state) }),
   { deleteUser: deleteUserAction },
 )(DeleteAccountContent);
 
 const DeleteAccount = () => {
   const [showDelete, setShowDelete] = useState(false);
+
   const onDeleteStatusChange = () => setShowDelete(!showDelete);
 
   return (

@@ -92,3 +92,12 @@ export const helperAttachNewThresholdToUserAnalytics = (data, analytics) => {
   });
   return analyticsCopy;
 };
+export const appSelectionUtil = (event, appId, userApps) => {
+  const userAppsCopy = [...userApps];
+  if (!event.target.checked) {
+    userAppsCopy.splice(userApps.indexOf(appId), 1);
+  } else {
+    userAppsCopy.push(event.target.id);
+  }
+  return userAppsCopy.map((id) => Number(id));
+};

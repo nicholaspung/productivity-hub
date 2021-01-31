@@ -18,14 +18,16 @@
     "operator-linebreak": "warn",
     "implicit-arrow-linebreak": "warn",
     "object-curly-newline": "warn",
-    "react/jsx-props-no-spreading": "warn",
+    "react/jsx-props-no-spreading": "off",
     "indent": "warn",
-    "import/prefer-default-export": "warn",
+    "import/prefer-default-export": "off",
     "global-require": "warn",
     "import/no-extraneous-dependencies": "warn",
-    "react/forbid-prop-types": "warn",
+    "react/forbid-prop-types": "off",
     "react/require-default-props": "off",
     "react/jsx-indent": "warn",
     "function-paren-newline": "warn",
+    "react/no-array-index-key": "off",
+    "react/jsx-one-expression-per-line": "warn"
   }
 }

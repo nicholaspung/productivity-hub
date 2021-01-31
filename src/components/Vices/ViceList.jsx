@@ -4,19 +4,12 @@ import { connect } from 'react-redux';
 import { getVicesViceAnalytics } from '../../redux/selectors/vicesSelectors';
 import { createViceAnalytics as createViceAnalyticsAction } from '../../redux/actions/vicesActions';
 import Vice from './Vice';
+import { sortViceAnalytics } from '../../utils/viceUtils';
 
 const ViceList = ({ viceAnalytics, createViceAnalytics }) => {
   useEffect(() => {
     createViceAnalytics();
   }, [createViceAnalytics]);
-
-  const sortedViceAnalytics = viceAnalytics.sort((a, b) => {
-    const nameA = a.vice.name.toUpperCase(); // ignore upper and lowercase
-    const nameB = b.vice.name.toUpperCase(); // ignore upper and lowercase
-    if (nameA < nameB) return -1;
-    if (nameA > nameB) return 1;
-    return 0;
-  });
 
   return (
     <div className="flex flex-col flex-1 md:border-r-2 border-b-2 md:border-b-0 border-gray-200">
@@ -26,7 +19,7 @@ const ViceList = ({ viceAnalytics, createViceAnalytics }) => {
         <p className="flex-1 text-center underline">Accessed Today</p>
         <p className="flex-1" />
       </div>
-      {sortedViceAnalytics.map((viceAnalytic) => (
+      {viceAnalytics.sort(sortViceAnalytics).map((viceAnalytic) => (
         <Vice key={viceAnalytic.id} viceAnalytic={viceAnalytic} />
       ))}
     </div>
@@ -39,10 +32,6 @@ ViceList.propTypes = {
 };
 
 export default connect(
-  (state) => ({
-    viceAnalytics: getVicesViceAnalytics(state),
-  }),
-  {
-    createViceAnalytics: createViceAnalyticsAction,
-  },
+  (state) => ({ viceAnalytics: getVicesViceAnalytics(state) }),
+  { createViceAnalytics: createViceAnalyticsAction },
 )(ViceList);
