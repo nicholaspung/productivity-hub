@@ -105,11 +105,12 @@ export const createBackEmptyDates = (pythonDate) => {
 };
 
 export const getArrayWithDates = (date, arrayFunc, firstDateFunc) => {
-  const day = firstDateFunc(date);
-  return arrayFunc(date).map((x, i) =>
-    getDateTransform(
-      new Date(day.getFullYear(), day.getMonth(), day.getDate() + i),
-    ),
+  const dayObj = firstDateFunc(date);
+  const day = dayObj.getDate();
+  const month = dayObj.getMonth();
+  const year = dayObj.getFullYear();
+  return arrayFunc(date).map((_, i) =>
+    getDateTransform(new Date(year, month, day + i)),
   );
 };
 
