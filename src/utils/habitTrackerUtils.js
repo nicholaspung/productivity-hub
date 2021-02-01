@@ -110,11 +110,10 @@ export const getArrayWithDates = (date, arrayFunc, firstDateFunc) => {
   const month = dayObj.getMonth();
   const year = dayObj.getFullYear();
   return arrayFunc(date).map((_, i) =>
-    getDateTransform(new Date(year, month, day + i)),
-  );
+    getDateTransform(new Date(year, month, day + i)));
 };
 
-export const getNumOfDaysForMonthForYear = (display) => {
+export const getIdxOfFirstDayForMonthsForYear = (display) => {
   const jan = 31;
   const feb = isLeapYear(display[0].slice(0, 4)) ? jan + 29 : jan + 28;
   const mar = feb + 31;
@@ -199,9 +198,9 @@ export const chosenWeekdays = (weekday, weekdays) => {
   }
   return weekdaysCopy;
 };
-export const reorderTodosUtil = (data, todos, direction, priority, apiCall) => {
+export const reorderTodosUtil = (data, todos, direction, apiCall) => {
   const filteredTodos = todos.filter(
-    (item) => !item.finished && item.priority === priority,
+    (item) => !item.finished && item.priority === data.priority,
   );
   const currentIdx = filteredTodos.findIndex((el) => el.id === data.id);
   if (direction === DIRECTIONS.UP) {

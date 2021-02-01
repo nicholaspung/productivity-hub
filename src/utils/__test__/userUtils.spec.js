@@ -261,4 +261,22 @@ describe('#UserUtils', () => {
       userUtils.helperAttachNewThresholdToUserAnalytics(data, analytics),
     ).toEqual(resultAnalytics);
   });
+  it('#appSelectionUtil', () => {
+    const event1 = { target: { checked: true } };
+    const event2 = { target: { checked: false } };
+    const appId = 1;
+    const userApps1 = [1];
+    const userApps2 = [2, 3];
+    expect(userUtils.appSelectionUtil(event1, appId, userApps1)).toEqual([1]);
+    expect(userUtils.appSelectionUtil(event1, appId, userApps2)).toEqual([
+      2,
+      3,
+      1,
+    ]);
+    expect(userUtils.appSelectionUtil(event2, appId, userApps1)).toEqual([1]);
+    expect(userUtils.appSelectionUtil(event2, appId, userApps2)).toEqual([
+      2,
+      3,
+    ]);
+  });
 });

@@ -41,8 +41,8 @@ const TodoItem = ({
   };
   const onSetPriorityTodo = (priority) =>
     editTodo(data.id, { priority, name: data.name });
-  const onReorderTodo = (direction, priority) =>
-    reorderTodosUtil(data, todos, direction, priority, reorderTodos);
+  const onReorderTodo = (direction) =>
+    reorderTodosUtil(data, todos, direction, reorderTodos);
   const onDeleteTodo = () => deleteTodo(data.id);
 
   const labelId = data.name.replace(/ /, '');
@@ -123,16 +123,13 @@ const TodoItem = ({
         </div>
         <div>
           {!isFinished && !firstItem && (
-            <button
-              onClick={() => onReorderTodo(DIRECTIONS.UP, data.priority)}
-              type="button"
-            >
+            <button onClick={() => onReorderTodo(DIRECTIONS.UP)} type="button">
               <ArrowUpSVG className="w-4 h-auto" title="Move todo up" />
             </button>
           )}
           {!isFinished && !lastItem && (
             <button
-              onClick={() => onReorderTodo(DIRECTIONS.DOWN, data.priority)}
+              onClick={() => onReorderTodo(DIRECTIONS.DOWN)}
               type="button"
             >
               <ArrowDownSVG className="w-4 h-auto" title="Move todo down" />

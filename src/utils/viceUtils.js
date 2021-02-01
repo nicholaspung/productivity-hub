@@ -6,14 +6,15 @@ export const transformTimeBetween = (timeBetween) => {
 };
 export const lastAccessedText = (numOfHours) => {
   let hourText = 'hour';
-  if (numOfHours > 1) {
+  const roundedNumOfHours = Math.floor(numOfHours);
+  if (roundedNumOfHours > 1) {
     hourText = 'hours';
   }
-  if (!numOfHours) return `less than an ${hourText} ago`;
-  return `around ${numOfHours} ${hourText} ago`;
+  if (!roundedNumOfHours) return `less than an ${hourText} ago`;
+  return `around ${roundedNumOfHours} ${hourText} ago`;
 };
-export const getHoursLastAccessed = (lastUpdated) =>
-  Math.floor((new Date() - new Date(lastUpdated)) / (1000 * 60 * 60));
+export const getHoursLastAccessed = (lastUpdated, dateObj = new Date()) =>
+  Math.floor((dateObj - new Date(lastUpdated)) / (1000 * 60 * 60));
 export const timeBetweenIsOverBlocker = (timeBetween, lastAccessed) =>
   parseInt(timeBetween.slice(0, 2), 10) > lastAccessed;
 export const sortViceAnalytics = (a, b) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CalendarMonth from './CalendarMonth';
-import { getNumOfDaysForMonthForYear } from '../../../utils/habitTrackerUtils';
+import { getIdxOfFirstDayForMonthsForYear } from '../../../utils/habitTrackerUtils';
 
 const CalendarYear = ({ dailiesCache, display }) => {
   const [
@@ -17,7 +17,7 @@ const CalendarYear = ({ dailiesCache, display }) => {
     oct,
     nov,
     dec,
-  ] = getNumOfDaysForMonthForYear(display);
+  ] = getIdxOfFirstDayForMonthsForYear(display);
 
   return (
     <>

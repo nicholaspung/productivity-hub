@@ -94,10 +94,13 @@ export const helperAttachNewThresholdToUserAnalytics = (data, analytics) => {
 };
 export const appSelectionUtil = (event, appId, userApps) => {
   const userAppsCopy = [...userApps];
+  const appIdx = userApps.indexOf(appId);
   if (!event.target.checked) {
-    userAppsCopy.splice(userApps.indexOf(appId), 1);
-  } else {
-    userAppsCopy.push(event.target.id);
+    if (appIdx > 0) {
+      userAppsCopy.splice(appIdx, 1);
+    }
+  } else if (appIdx === -1) {
+    userAppsCopy.push(appId);
   }
   return userAppsCopy.map((id) => Number(id));
 };

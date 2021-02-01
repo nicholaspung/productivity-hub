@@ -1,5 +1,5 @@
 import * as utils from '../habitTrackerUtils';
-import { DIRECTIONS } from '../../constants/habitTrackerConstants';
+import { DIRECTIONS, PRIORITIES } from '../../constants/habitTrackerConstants';
 
 describe('#HabitTrackerUtils', () => {
   it('#getDaysInMonth', () => {
@@ -177,5 +177,129 @@ describe('#HabitTrackerUtils', () => {
       '2020-10-03': [{ date: '2020-10-03', id: 2 }],
       '2020-10-04': [{ date: '2020-10-04', id: 3 }],
     });
+  });
+  it('#getIdxOfFirstDayForMonthsForYear', () => {
+    const display1 = ['2020-01-01'];
+    const display2 = ['2021-01-01'];
+    const display3 = ['2000-01-01'];
+    const display4 = ['2100-01-01'];
+    const result1 = [31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
+    const result2 = [31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366];
+    expect(utils.getIdxOfFirstDayForMonthsForYear(display1)).toEqual(result2);
+    expect(utils.getIdxOfFirstDayForMonthsForYear(display2)).toEqual(result1);
+    expect(utils.getIdxOfFirstDayForMonthsForYear(display3)).toEqual(result2);
+    expect(utils.getIdxOfFirstDayForMonthsForYear(display4)).toEqual(result1);
+  });
+  it('#reorderHabitsUtil', () => {
+    const daily = { date: '2020-01-01', habit: { id: 1 } };
+    const habit = { id: 2 };
+    const dailies = [
+      { date: '2020-01-01', habit: { id: 1 } },
+      { date: '2020-01-01', habit: { id: 2 } },
+      { date: '2020-01-01', habit: { id: 3 } },
+    ];
+    const habits = [{ id: 1 }, { id: 2 }];
+    const direction1 = DIRECTIONS.UP;
+    const direction2 = DIRECTIONS.DOWN;
+    let result = [];
+    const apiCall = (a, b) => result.push(a, b);
+
+    result = [];
+    utils.reorderHabitsUtil(daily, dailies, habits, direction1, apiCall);
+    expect(result).toEqual([]);
+
+    result = [];
+    utils.reorderHabitsUtil(daily, dailies, habits, direction2, apiCall);
+    expect(result).toEqual([1, 2]);
+
+    result = [];
+    daily.habit.id = 2;
+    utils.reorderHabitsUtil(daily, dailies, habits, direction2, apiCall);
+    expect(result).toEqual([2, 3]);
+
+    result = [];
+    daily.habit.id = 3;
+    utils.reorderHabitsUtil(daily, dailies, habits, direction2, apiCall);
+    expect(result).toEqual([]);
+
+    result = [];
+    utils.reorderHabitsUtil(habit, dailies, habits, direction1, apiCall);
+    expect(result).toEqual([2, 1]);
+
+    result = [];
+    utils.reorderHabitsUtil(habit, dailies, habits, direction2, apiCall);
+    expect(result).toEqual([]);
+  });
+  it('#chosenWeekdays', () => {
+    const weekday = 'Mon';
+    let weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    expect(utils.chosenWeekdays(weekday, weekdays)).toEqual([
+      'Sun',
+      'Tue',
+      'Wed',
+      'Thu',
+      'Fri',
+      'Sat',
+    ]);
+
+    weekdays = ['Sun'];
+    expect(utils.chosenWeekdays(weekday, weekdays)).toEqual(['Sun', 'Mon']);
+  });
+  it('#reorderTodosUtil', () => {
+    let data = { id: 4, finished: false, priority: PRIORITIES.NONE };
+    const todos = [
+      { id: 1, finished: false, priority: PRIORITIES.HIGH },
+      { id: 2, finished: true, priority: PRIORITIES.HIGH },
+      { id: 3, finished: false, priority: PRIORITIES.NONE },
+      { id: 4, finished: false, priority: PRIORITIES.NONE },
+      { id: 5, finished: false, priority: PRIORITIES.LOW },
+      { id: 6, finished: false, priority: PRIORITIES.LOW },
+    ];
+    const direction1 = DIRECTIONS.UP;
+    const direction2 = DIRECTIONS.DOWN;
+    let result = [];
+    const apiCall = (a, b) => result.push(a, b);
+
+    result = [];
+    utils.reorderTodosUtil(data, todos, direction1, apiCall);
+    expect(result).toEqual([data.id, 3]);
+
+    result = [];
+    utils.reorderTodosUtil(data, todos, direction2, apiCall);
+    expect(result).toEqual([]);
+
+    data = { id: 5, finished: false, priority: PRIORITIES.LOW };
+
+    result = [];
+    utils.reorderTodosUtil(data, todos, direction1, apiCall);
+    expect(result).toEqual([]);
+
+    result = [];
+    utils.reorderTodosUtil(data, todos, direction2, apiCall);
+    expect(result).toEqual([data.id, 6]);
+  });
+  it('#sortedTodosForPriorityUtil', () => {
+    const todosArray = [
+      { id: 1, order: 0, priority: PRIORITIES.HIGH },
+      { id: 2, order: 1, priority: PRIORITIES.NONE },
+      { id: 3, order: 2, priority: PRIORITIES.LOW },
+      { id: 4, order: 3, priority: PRIORITIES.HIGH },
+      { id: 5, order: 4, priority: PRIORITIES.NONE },
+      { id: 6, order: 5, priority: PRIORITIES.LOW },
+    ];
+    expect(utils.sortedTodosForPriorityUtil(todosArray)).toEqual([
+      [
+        { id: 1, order: 0, priority: PRIORITIES.HIGH },
+        { id: 4, order: 3, priority: PRIORITIES.HIGH },
+      ],
+      [
+        { id: 2, order: 1, priority: PRIORITIES.NONE },
+        { id: 5, order: 4, priority: PRIORITIES.NONE },
+      ],
+      [
+        { id: 3, order: 2, priority: PRIORITIES.LOW },
+        { id: 6, order: 5, priority: PRIORITIES.LOW },
+      ],
+    ]);
   });
 });
