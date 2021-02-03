@@ -6,8 +6,8 @@ import {
   FilledButton,
   smallerButtonClassName,
   smallerFilledButtonClassName,
-} from '../BaseComponents';
-import { chosenWeekdays } from '../../utils/habitTrackerUtils';
+} from '../../BaseComponents';
+import { chosenWeekdays } from '../../../utils/habitTrackerUtils';
 
 const ItemAction = ({
   data,

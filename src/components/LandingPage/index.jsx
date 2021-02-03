@@ -13,7 +13,7 @@ const LandingPage = () => (
       <div className="flex justify-around items-center p-5 rounded-md border-2 border-gray-200 flex-col-reverse md:flex-row">
         <div>
           <h1 className="text-center text-4xl font-bold">
-            Welcome to myexperiment.life
+            Welcome to my experiment(al) life
           </h1>
           <div className="p-4">
             <p>
@@ -32,7 +32,7 @@ const LandingPage = () => (
             </p>
           </div>
         </div>
-        <LandingSVG className="md:h-auto p-10 h-10 h-64" />
+        <LandingSVG className="md:h-auto p-10 h-10 h-64 max-w-xs md:w-auto" />
       </div>
     </DisplayContainer>
     <DisplayContainerCard>

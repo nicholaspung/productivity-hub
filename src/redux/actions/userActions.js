@@ -32,6 +32,7 @@ export const UPDATE_USER_ANALYTIC_THRESHOLD_DONE =
   'UPDATE_USER_ANALYTIC_THRESHOLD_DONE';
 export const UPDATE_USER_ANALYTIC_THRESHOLD_ERROR =
   'UPDATE_USER_ANALYTIC_THRESHOLD_ERROR';
+export const CLEAR_USER_ERROR_MESSAGE = 'CLEAR_USER_ERROR_MESSAGE';
 
 export const initialLoad = () => ({ type: USER_LOADING });
 export const logOut = () => ({ type: USER_LOGGED_OUT });
@@ -128,3 +129,4 @@ export const createUserAnalyticThreshold = (label, threshold) => async (
     });
   }
 };
+export const clearUserErrorMessage = () => ({ type: CLEAR_USER_ERROR_MESSAGE });

@@ -78,7 +78,7 @@ const Header = ({
     : [];
 
   return (
-    <header className="fixed bg-white w-full z-10 border-b-2 border-gray-100">
+    <header className="bg-white w-full border-b-2 border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center md:justify-start md:space-x-10">
           <LogoComponent />

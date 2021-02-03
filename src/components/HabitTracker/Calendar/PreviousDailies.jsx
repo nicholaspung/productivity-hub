@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FilledButton } from '../../BaseComponents';
 import DailyItem from '../DailyItem';
-import ItemList from '../ItemList';
+import ItemList from '../SharedComponents/ItemList';
 
 const PreviousDailies = ({ date, data, toggle }) => (
   <div className="w-full text-center p-4">

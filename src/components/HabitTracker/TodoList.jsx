@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ItemList from './ItemList';
+import ItemList from './SharedComponents/ItemList';
 import TodoItem from './TodoItem';
 import AddItem from '../BaseComponents/AddItem';
 import {
@@ -14,9 +14,10 @@ import {
   getTodosError,
 } from '../../redux/selectors/habitTrackerSelectors';
 import { FILTERS } from '../../constants/habitTrackerConstants';
-import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
 import { sortedTodosForPriorityUtil } from '../../utils/habitTrackerUtils';
+import ListLoading from './SharedComponents/ListLoading';
+import ListRefresh from './SharedComponents/ListRefresh';
 
 const getFilterFunction = (filter) => {
   if (filter === FILTERS.ACTIVE) return (item) => !item.finished;
@@ -67,13 +68,8 @@ const TodoList = ({
         </div>
       </div>
       <div className="p-4 rounded-md border-2 border-gray-200 bg-white">
-        {loading && (
-          <div className="h-0 flex justify-end ">
-            <div className="relative bottom-3 right-3">
-              <LoadingSVG className="w-6 h-auto animate-spin absolute" />
-            </div>
-          </div>
-        )}
+        {loading && <ListLoading />}
+        {!loading && <ListRefresh action={getTodos} />}
         <AddItem
           addItem={addTodo}
           labelTitle="Add a todo"

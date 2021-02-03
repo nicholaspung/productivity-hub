@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ItemList from './ItemList';
+import ItemList from './SharedComponents/ItemList';
 import DailyItem from './DailyItem';
 import HabitList from './HabitList';
 import AddItem from '../BaseComponents/AddItem';
@@ -16,9 +16,10 @@ import {
 } from '../../redux/selectors/habitTrackerSelectors';
 import { smallerFilledButtonClassName } from '../BaseComponents';
 import { FILTERS } from '../../constants/habitTrackerConstants';
-import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
 import Modal from '../BaseComponents/Modal';
+import ListLoading from './SharedComponents/ListLoading';
+import ListRefresh from './SharedComponents/ListRefresh';
 
 const filterCategories = {
   [FILTERS.UNFINISHED]: {
@@ -100,24 +101,8 @@ const DailyList = ({
             </button>
           </div>
         )}
-        {loading && (
-          <div className="h-0 flex justify-end ">
-            <div className="relative bottom-3 right-3">
-              <LoadingSVG className="w-6 h-auto animate-spin absolute" />
-            </div>
-          </div>
-        )}
-        {!loading && (
-          <div className="h-0 flex justify-end items-start">
-            <button
-              type="button"
-              className={`${smallerFilledButtonClassName} relative bottom-3 left-3`}
-              onClick={() => createDailiesForDay()}
-            >
-              Refresh
-            </button>
-          </div>
-        )}
+        {loading && <ListLoading />}
+        {!loading && <ListRefresh action={createDailiesForDay} />}
         <AddItem
           addItem={addHabit}
           labelTitle="Add a habit"

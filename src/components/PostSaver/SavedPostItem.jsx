@@ -52,7 +52,9 @@ const SavedPostItem = ({
         href={savedPost.url}
         target="_blank"
         rel="noopener noreferrer"
-        className={`flex visited:text-red-600 ${clicked && 'opacity-50'}`}
+        className={`flex visited:text-red-600 ${
+          clicked && 'opacity-50 pointer-events-none'
+        }`}
         onClick={(e) => trackSavedPostTitle(e, savedPost)}
         onContextMenu={(e) => trackSavedPostTitle(e, savedPost)}
       >

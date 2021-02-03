@@ -13,6 +13,7 @@ import {
   UPDATE_USER_ANALYTIC_THRESHOLD_ERROR,
   CREATE_USER_ANALYTIC_THRESHOLD_DONE,
   CREATE_USER_ANALYTIC_THRESHOLD_ERROR,
+  CLEAR_USER_ERROR_MESSAGE,
 } from '../../actions/userActions';
 
 export const initialState = {
@@ -83,6 +84,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         error: action.payload,
+      };
+    case CLEAR_USER_ERROR_MESSAGE:
+      return {
+        ...state,
+        error: initialState.error,
       };
     default:
       return state;

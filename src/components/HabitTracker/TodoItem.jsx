@@ -7,7 +7,7 @@ import {
   reorderTodos as reorderTodosAction,
 } from '../../redux/actions/habitTrackerActions';
 import { getTodosTodos } from '../../redux/selectors/habitTrackerSelectors';
-import ItemAction from './ItemAction';
+import ItemAction from './SharedComponents/ItemAction';
 import {
   PRIORITIES,
   DIRECTIONS,

@@ -11,7 +11,7 @@ import {
   getDailiesDailies,
   getDailiesHabits,
 } from '../../redux/selectors/habitTrackerSelectors';
-import ItemAction from './ItemAction';
+import ItemAction from './SharedComponents/ItemAction';
 import {
   DIRECTIONS,
   displayColor,

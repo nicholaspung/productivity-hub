@@ -17,7 +17,9 @@ export const UserActions = ({
   <div className="hidden md:flex items-center justify-end space-x-8 md:flex-1 lg:w-0">
     {children}
     {isUserLoading && (
-      <LoadingSVG className="w-6 h-auto animate-spin absolute" />
+      <div className="h-0 right-6 bottom-4 relative">
+        <LoadingSVG className="w-6 h-auto animate-spin absolute" />
+      </div>
     )}
     {!isLoggedIn && !isUserLoading && (
       <>
