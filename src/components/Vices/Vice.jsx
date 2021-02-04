@@ -33,11 +33,16 @@ const Vice = ({
   const onLinkAction = () => incrementFrequencyForViceAnalytic(viceAnalytic.id);
   const onDeleteAction = () => deleteVice(viceAnalytic.vice.id);
 
+  const frequencyBackgroundColor = (frequency) => {
+    if (frequency <= 2) return 'bg-indigo-600';
+    return 'bg-red-600';
+  };
+
   return (
     <>
       <div
         key={viceAnalytic.id}
-        className="flex justify-between even:bg-gray-500 py-2"
+        className="flex justify-between even:bg-gray-500 py-2 items-center"
       >
         {viceVice && (
           <a
@@ -48,6 +53,7 @@ const Vice = ({
             target="_blank"
             rel="noopener noreferrer"
             onClick={onLinkAction}
+            onContextMenu={onLinkAction}
           >
             {viceVice.name}
           </a>
@@ -59,7 +65,13 @@ const Vice = ({
         >
           {vicePassedTimeText}
         </p>
-        <p className="flex-1 text-center">{viceAnalytic.frequency}</p>
+        <p
+          className={`flex-1 text-center rounded-md text-white ${frequencyBackgroundColor(
+            viceAnalytic.frequency,
+          )}`}
+        >
+          {viceAnalytic.frequency}
+        </p>
         <div className="flex-1 text-center flex justify-around">
           <button type="button" onClick={() => setEdit(true)}>
             <EditSVG className="w-4 h-auto" title="Edit vice" />

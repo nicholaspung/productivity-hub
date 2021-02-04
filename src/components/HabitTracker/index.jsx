@@ -6,8 +6,8 @@ import TodoList from './TodoList';
 import Calendar from './Calendar/Calendar';
 import YesterdayDailies from './YesterdayDailies';
 import Helmet from '../BaseComponents/Helmet';
-import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import { getDailiesLoadingStatus } from '../../redux/selectors/habitTrackerSelectors';
+import AppTitleWithLoading from '../BaseComponents/AppTitleWithLoading';
 
 const HabitTracker = ({ loading }) => (
   <>
@@ -17,14 +17,7 @@ const HabitTracker = ({ loading }) => (
       content="This is where you track your habits and todos."
     />
     <YesterdayDailies />
-    <div className="m-auto max-w-xl">
-      {loading && (
-        <div className="relative top-5 left-5">
-          <LoadingSVG className="w-8 h-auto animate-spin absolute" />
-        </div>
-      )}
-      <h1 className="text-3xl font-bold text-center pt-4">Habit Tracker</h1>
-    </div>
+    <AppTitleWithLoading loading={loading} title="Habit Tracker" />
     <Calendar />
     <div
       className="flex flex-wrap md:flex-no-wrap justify-around"

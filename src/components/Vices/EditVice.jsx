@@ -74,7 +74,7 @@ const EditVice = ({ toggle, data, editVice }) => {
             defaultValue={timeBetween}
             className={formInputClassName}
           >
-            {Array(24)
+            {Array(12)
               .fill(0)
               .map((_, idx) => (
                 <option value={idx + 1} key={`${_}${idx}`}>
