@@ -1,8 +1,11 @@
 import { axiosWithAuth } from './baseApi';
 import { viceUrl, viceAnalyticUrl } from '../common/routes';
+import { getDateTransform } from '../utils/dateUtils';
 
-export const createViceAnalytics = async () =>
-  (await axiosWithAuth()).post(viceAnalyticUrl);
+export const createViceAnalytics = async (date = new Date()) =>
+  (await axiosWithAuth()).post(
+    `${viceAnalyticUrl}?date=${getDateTransform(date)}`,
+  );
 
 export const incrementFrequencyForViceAnalytic = async (id) =>
   (await axiosWithAuth()).patch(`${viceAnalyticUrl}${id}/`);
