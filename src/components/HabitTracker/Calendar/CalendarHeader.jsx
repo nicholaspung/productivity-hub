@@ -69,7 +69,7 @@ const CalendarHeader = ({
         </button>
       </div>
       <FilledButton action={() => setDate(new Date())}>Today</FilledButton>
-      <div className="p-2">
+      <div className="p-2 flex">
         <button
           type="button"
           onClick={() => setView(VIEWS.WEEK)}

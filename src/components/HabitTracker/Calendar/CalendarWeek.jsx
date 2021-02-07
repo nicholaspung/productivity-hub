@@ -4,7 +4,7 @@ import CalendarDay from './CalendarDay';
 import CalendarWeekNames from './CalendarWeekNames';
 
 const CalendarWeek = ({ display, dailiesCache, labelView }) => (
-  <div className="flex flex-row flex-wrap max-w-xl">
+  <div className="flex flex-row flex-wrap sm:max-w-xl w-full">
     <CalendarWeekNames />
     <ul className="flex justify-around w-full">
       {display.map((day) => (

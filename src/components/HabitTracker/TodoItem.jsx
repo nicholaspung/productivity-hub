@@ -69,7 +69,10 @@ const TodoItem = ({
           </label>
           <div className="flex flex-col px-4">
             <span className="font-semibold">{data.name}</span>
-            <span className="text-xs whitespace-pre-line">
+            <span
+              className="text-xs whitespace-pre-line"
+              style={{ wordBreak: 'break-word' }}
+            >
               {data.description}
             </span>
           </div>

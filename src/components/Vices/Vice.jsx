@@ -23,10 +23,11 @@ const Vice = ({
   const viceVice = viceAnalytic.vice;
   const lastAccessed = getHoursLastAccessed(viceAnalytic.last_updated);
   const vicePassedTimeText = lastAccessedText(lastAccessed);
-  const canAccess = timeBetweenIsOverBlocker(
-    viceAnalytic.vice.time_between,
-    lastAccessed,
-  );
+  const cantAccessFunction = (analytic) => {
+    if (analytic.frequency === 0) return false;
+    return timeBetweenIsOverBlocker(analytic.vice.time_between, lastAccessed);
+  };
+  const cantAccess = cantAccessFunction(viceAnalytic);
 
   const [edit, setEdit] = useState(false);
 
@@ -48,7 +49,7 @@ const Vice = ({
           <a
             href={viceVice.link}
             className={`flex-1 text-center ${
-              canAccess ? 'line-through pointer-events-none' : ''
+              cantAccess ? 'line-through pointer-events-none' : ''
             }`}
             target="_blank"
             rel="noopener noreferrer"
@@ -60,7 +61,7 @@ const Vice = ({
         )}
         <p
           className={`flex-1 text-center italic ${
-            canAccess ? 'line-through' : ''
+            cantAccess ? 'line-through' : ''
           }`}
         >
           {vicePassedTimeText}

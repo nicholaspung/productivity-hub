@@ -95,7 +95,10 @@ const DailyItem = ({
           <div className="flex flex-col px-4">
             <span className="font-semibold">{data.habit.name}</span>
             {!hideOptions && (
-              <span className="text-xs whitespace-pre-line">
+              <span
+                className="text-xs whitespace-pre-line"
+                style={{ wordBreak: 'break-word' }}
+              >
                 {data.habit.description}
               </span>
             )}
