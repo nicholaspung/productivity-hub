@@ -29,14 +29,14 @@ const ViceList = ({ viceAnalytics, createViceAnalytics, error, loading }) => {
           </div>
         </button>
       </div>
-      {viceAnalytics.sort(sortViceAnalytics).map((viceAnalytic) => (
-        <Vice key={viceAnalytic.id} viceAnalytic={viceAnalytic} />
-      ))}
       <EmptyItem
         length={viceAnalytics.length}
         error={error}
         loading={loading}
       />
+      {viceAnalytics.sort(sortViceAnalytics).map((viceAnalytic) => (
+        <Vice key={viceAnalytic.id} viceAnalytic={viceAnalytic} />
+      ))}
     </div>
   );
 };
