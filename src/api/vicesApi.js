@@ -7,8 +7,15 @@ export const createViceAnalytics = async (date = new Date()) =>
     `${viceAnalyticUrl}?date=${getDateTransform(date)}`,
   );
 
-export const incrementFrequencyForViceAnalytic = async (id, frequency) =>
-  (await axiosWithAuth()).patch(`${viceAnalyticUrl}${id}/`, frequency);
+export const incrementFrequencyForViceAnalytic = async (
+  id,
+  frequency,
+  date = new Date(),
+) =>
+  (await axiosWithAuth()).patch(
+    `${viceAnalyticUrl}${id}/?date=${getDateTransform(date)}`,
+    frequency,
+  );
 
 export const addVice = async (vice) =>
   (await axiosWithAuth()).post(viceUrl, vice);
