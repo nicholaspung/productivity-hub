@@ -36,13 +36,15 @@ export const createViceAnalytics = () => async (dispatch) => {
     return dispatch({ type: VICE_ANALYTICS_FETCHING_ERROR, payload: err });
   }
 };
-export const incrementFrequencyForViceAnalytic = (id) => async (
-  dispatch,
-  getState,
-) => {
+export const incrementFrequencyForViceAnalytic = (
+  id,
+  currentFrequency,
+) => async (dispatch, getState) => {
   dispatch({ type: VICE_ANALYTICS_INCREASE });
   try {
-    const { data } = await incrementFrequencyForViceAnalyticAPI(id);
+    const { data } = await incrementFrequencyForViceAnalyticAPI(id, {
+      frequency: currentFrequency + 1,
+    });
     const viceAnalytics = getVicesViceAnalytics(getState());
     const viceAnalyticsCopy = [...viceAnalytics];
     const viceAnalyticIdx = viceAnalyticsCopy.findIndex(

@@ -31,7 +31,8 @@ const Vice = ({
 
   const [edit, setEdit] = useState(false);
 
-  const onLinkAction = () => incrementFrequencyForViceAnalytic(viceAnalytic.id);
+  const onLinkAction = () =>
+    incrementFrequencyForViceAnalytic(viceAnalytic.id, viceAnalytic.frequency);
   const onDeleteAction = () => deleteVice(viceAnalytic.vice.id);
 
   const frequencyBackgroundColor = (frequency) => {
@@ -78,7 +79,7 @@ const Vice = ({
             <EditSVG className="w-4 h-auto" title="Edit vice" />
           </button>
           <button onClick={onDeleteAction} type="button">
-            <DeleteSVG className="w-4 h-auto" title="Delete todo" />
+            <DeleteSVG className="w-4 h-auto" title="Delete vice" />
           </button>
         </div>
       </div>
