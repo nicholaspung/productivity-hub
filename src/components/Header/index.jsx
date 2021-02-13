@@ -66,6 +66,7 @@ const Header = ({
     clearHabitTracker,
     clearPostSaver,
     getUserAnalytics,
+    clearVices,
   ]);
 
   //  { link: "/", label: "", icons: "" }

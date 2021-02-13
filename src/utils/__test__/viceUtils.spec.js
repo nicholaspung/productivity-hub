@@ -1,4 +1,3 @@
-import { util } from 'prettier';
 import * as utils from '../viceUtils';
 
 describe('#ViceUtils', () => {

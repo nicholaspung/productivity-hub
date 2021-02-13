@@ -17,7 +17,7 @@ const ViceList = ({ viceAnalytics, createViceAnalytics, error, loading }) => {
     if (!viceAnalytics.length) {
       createViceAnalytics();
     }
-  }, [createViceAnalytics]);
+  }, [createViceAnalytics, viceAnalytics]);
 
   return (
     <div className="flex flex-col flex-1 md:border-r-2 border-b-2 md:border-b-0 border-gray-200">
