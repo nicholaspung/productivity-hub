@@ -6,6 +6,7 @@ import {
   incrementFrequencyForViceAnalytic as incrementFrequencyForViceAnalyticAPI,
 } from '../../api/vicesApi';
 import { getVicesViceAnalytics } from '../selectors/vicesSelectors';
+import { filterArchivedVicesOut } from '../../utils/viceUtils';
 
 export const VICE_ANALYTICS_FETCHING = 'VICE_ANALYTICS_FETCHING';
 export const VICE_ANALYTICS_FETCHING_DONE = 'VICE_ANALYTICS_FETCHING_DONE';
@@ -31,7 +32,10 @@ export const createViceAnalytics = () => async (dispatch) => {
   dispatch({ type: VICE_ANALYTICS_FETCHING });
   try {
     const { data } = await createViceAnalyticsAPI();
-    return dispatch({ type: VICE_ANALYTICS_FETCHING_DONE, payload: data });
+    return dispatch({
+      type: VICE_ANALYTICS_FETCHING_DONE,
+      payload: filterArchivedVicesOut(data),
+    });
   } catch (err) {
     return dispatch({ type: VICE_ANALYTICS_FETCHING_ERROR, payload: err });
   }
@@ -79,7 +83,10 @@ export const editVice = (id, newVice) => async (dispatch, getState) => {
       (el) => el.vice.id === data.id,
     );
     viceAnalyticsCopy[viceAnalyticIdx].vice = data;
-    return dispatch({ type: VICES_EDITING_DONE, payload: viceAnalyticsCopy });
+    return dispatch({
+      type: VICES_EDITING_DONE,
+      payload: filterArchivedVicesOut(viceAnalyticsCopy),
+    });
   } catch (err) {
     return dispatch({ type: VICES_EDITING_ERROR, payload: err });
   }

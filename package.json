@@ -28,6 +28,7 @@
     "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
     "firebase-deploy": "npm run build:css && react-scripts build && firebase deploy --only hosting",
     "generate-test-files": "node scripts/autoAddFunctionTests.js",
+    "test:all": "npm run generate-test-files && npm run test",
     "lint": "node_modules/.bin/eslint --ext .js,.jsx src",
     "prettier:check": "node_modules/.bin/prettier --check \"src/**/*.js*\"",
     "prettier:fix": "node_modules/.bin/prettier -w \"src/**/*.js*\""

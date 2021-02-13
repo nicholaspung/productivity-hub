@@ -11,6 +11,7 @@ import {
   helperAttachNewThresholdToUserAnalytics,
 } from '../../utils/userUtils';
 import { getUserAnalytics as getUserAnalyticsSelector } from '../selectors/userSelectors';
+import { userAnalyticLabels } from '../../constants/baseConstants';
 
 export const USER_LOGGED_IN = 'USER_LOGGED_IN';
 export const USER_LOADING = 'USER_LOADING';
@@ -80,7 +81,15 @@ export const deleteUser = (id) => async (dispatch) => {
 export const getUserAnalytics = () => async (dispatch) => {
   try {
     const { data } = await getUserAnalyticsAPI();
-    return dispatch({ type: USER_ANALYTICS_DONE, payload: data });
+    const cleanedData = data.filter(
+      (item) =>
+        item.label !== userAnalyticLabels.ALL_POST_REFRESH &&
+        item.label !== userAnalyticLabels.ALL_POST_TITLE &&
+        item.label !== userAnalyticLabels.POST_SAVER_NAV &&
+        item.label !== userAnalyticLabels.SAVED_POST_REFRESH &&
+        item.label !== userAnalyticLabels.SAVED_POST_TITLE,
+    );
+    return dispatch({ type: USER_ANALYTICS_DONE, payload: cleanedData });
   } catch (err) {
     return dispatch({ type: USER_ANALYTICS_ERROR, payload: err });
   }

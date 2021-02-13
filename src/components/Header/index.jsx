@@ -69,7 +69,6 @@ const Header = ({
   const navItems = isLoggedIn
     ? [
         { link: '/habit-tracker', label: 'Habit Tracker', icons: '' },
-        { link: '/post-saver', label: 'Post Saver', icons: '' },
         { link: '/vices', label: 'Vices', icons: '' },
       ]
     : [];

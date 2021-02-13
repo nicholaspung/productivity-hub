@@ -1,16 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { trackSpecificEventsFromUser } from '../../api/baseApi';
-import { userAnalyticLabels } from '../../constants/baseConstants';
 import { ExitButton } from './HeaderComponents';
 import Logo from '../../assets/icons/logo.png';
-
-const postSaverNavAction = (item) => {
-  if (item.label === 'Post Saver') {
-    trackSpecificEventsFromUser(userAnalyticLabels.POST_SAVER_NAV);
-  }
-};
 
 export const NavItems = ({ data = [] }) => (
   <nav className="hidden md:flex space-x-10">
@@ -18,9 +10,6 @@ export const NavItems = ({ data = [] }) => (
       <Link
         key={item.label}
         to={item.link}
-        onClick={() => {
-          postSaverNavAction(item);
-        }}
         className="text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150"
       >
         {item.label}
@@ -47,10 +36,7 @@ export const TopMobileNavItems = ({ data = [], onClickAction }) => (
             key={item.label}
             to={item.link}
             className="-m-3 p-3 flex items-center space-x-3 rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
-            onClick={() => {
-              postSaverNavAction(item);
-              onClickAction();
-            }}
+            onClick={onClickAction}
           >
             {item.icon && item.icon}
             <div className="text-base leading-6 font-medium text-gray-900">

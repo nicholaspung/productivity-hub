@@ -1,3 +1,4 @@
+import { util } from 'prettier';
 import * as utils from '../viceUtils';
 
 describe('#ViceUtils', () => {
@@ -46,6 +47,17 @@ describe('#ViceUtils', () => {
       { vice: { name: 'a' } },
       { vice: { name: 'b' } },
       { vice: { name: 'c' } },
+    ]);
+  });
+  it('#filterArchivedVicesOut', () => {
+    const filterThisArray = [
+      { id: 1, vice: { archived: false } },
+      { id: 2, vice: { archived: true } },
+      { id: 3, vice: { archived: false } },
+    ];
+    expect(utils.filterArchivedVicesOut(filterThisArray)).toEqual([
+      { id: 1, vice: { archived: false } },
+      { id: 3, vice: { archived: false } },
     ]);
   });
 });

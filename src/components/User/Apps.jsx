@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 // Check out /api/apps for latest apps
 const APPS = [
   { title: 'Habit Tracker', id: 1 },
-  { title: 'Post Saver', id: 2 },
   { title: 'Vices', id: 3 },
 ];
 

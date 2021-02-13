@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ReactComponent as EditSVG } from '../../assets/icons/edit.svg';
 import { ReactComponent as DeleteSVG } from '../../assets/icons/delete.svg';
+import { ReactComponent as ArchiveSVG } from '../../assets/icons/archive.svg';
 import Modal from '../BaseComponents/Modal';
 import EditVice from './EditVice';
 import {
   incrementFrequencyForViceAnalytic as incrementFrequencyForViceAnalyticAction,
   deleteVice as deleteViceAction,
+  editVice as editViceAction,
 } from '../../redux/actions/vicesActions';
 import {
   lastAccessedText,
@@ -19,6 +21,7 @@ const Vice = ({
   viceAnalytic,
   incrementFrequencyForViceAnalytic,
   deleteVice,
+  editVice,
 }) => {
   const viceVice = viceAnalytic.vice;
   const lastAccessed = getHoursLastAccessed(viceAnalytic.last_updated);
@@ -34,6 +37,10 @@ const Vice = ({
   const onLinkAction = () =>
     incrementFrequencyForViceAnalytic(viceAnalytic.id, viceAnalytic.frequency);
   const onDeleteAction = () => deleteVice(viceAnalytic.vice.id);
+  const onArchiveAction = () =>
+    editVice(viceAnalytic.vice.id, {
+      archived: true,
+    });
 
   const frequencyBackgroundColor = (frequency) => {
     if (frequency <= 2) return 'bg-indigo-600';
@@ -78,6 +85,9 @@ const Vice = ({
           <button type="button" onClick={() => setEdit(true)}>
             <EditSVG className="w-4 h-auto" title="Edit vice" />
           </button>
+          <button onClick={onArchiveAction} type="button">
+            <ArchiveSVG className="w-4 h-auto" title="Archive vice" />
+          </button>
           <button onClick={onDeleteAction} type="button">
             <DeleteSVG className="w-4 h-auto" title="Delete vice" />
           </button>
@@ -97,9 +107,11 @@ Vice.propTypes = {
   viceAnalytic: PropTypes.object.isRequired,
   incrementFrequencyForViceAnalytic: PropTypes.func.isRequired,
   deleteVice: PropTypes.func.isRequired,
+  editVice: PropTypes.func.isRequired,
 };
 
 export default connect(null, {
   incrementFrequencyForViceAnalytic: incrementFrequencyForViceAnalyticAction,
   deleteVice: deleteViceAction,
+  editVice: editViceAction,
 })(Vice);

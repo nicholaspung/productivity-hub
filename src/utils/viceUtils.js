@@ -24,3 +24,5 @@ export const sortViceAnalytics = (a, b) => {
   if (nameA > nameB) return 1;
   return 0;
 };
+export const filterArchivedVicesOut = (data) =>
+  data.filter((item) => !item.vice.archived);
