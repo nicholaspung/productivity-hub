@@ -18,6 +18,7 @@ import { onAuthStateChange } from '../../firebase/utils';
 import { createUserAnalytics } from '../../api/baseApi';
 import { clearHabitTracker as clearHabitTrackerAction } from '../../redux/actions/habitTrackerActions';
 import { clearPostSaver as clearPostSaverAction } from '../../redux/actions/postSaverActions';
+import { clearVices as clearVicesAction } from '../../redux/actions/vicesActions';
 import { LogoComponent, MenuButton } from './HeaderComponents';
 import {
   NavItems,
@@ -34,6 +35,7 @@ const Header = ({
   initialLoad,
   clearHabitTracker,
   clearPostSaver,
+  clearVices,
   hasError,
   logIn,
   isUserLoading,
@@ -52,6 +54,7 @@ const Header = ({
         logOut();
         clearHabitTracker();
         clearPostSaver();
+        clearVices();
       },
       () => initialLoad(),
     );
@@ -131,6 +134,7 @@ Header.propTypes = {
   initialLoad: PropTypes.func.isRequired,
   clearHabitTracker: PropTypes.func.isRequired,
   clearPostSaver: PropTypes.func.isRequired,
+  clearVices: PropTypes.func.isRequired,
   hasError: PropTypes.bool.isRequired,
   logIn: PropTypes.func.isRequired,
   isUserLoading: PropTypes.bool.isRequired,
@@ -150,6 +154,7 @@ export default connect(
     initialLoad: initialLoadAction,
     clearHabitTracker: clearHabitTrackerAction,
     clearPostSaver: clearPostSaverAction,
+    clearVices: clearVicesAction,
     logIn: logInAction,
     getUserAnalytics: getUserAnalyticsAction,
   },

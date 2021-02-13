@@ -11,22 +11,19 @@ import { filterArchivedVicesOut } from '../../utils/viceUtils';
 export const VICE_ANALYTICS_FETCHING = 'VICE_ANALYTICS_FETCHING';
 export const VICE_ANALYTICS_FETCHING_DONE = 'VICE_ANALYTICS_FETCHING_DONE';
 export const VICE_ANALYTICS_FETCHING_ERROR = 'VICE_ANALYTICS_FETCHING_ERROR';
-
 export const VICE_ANALYTICS_INCREASE = 'VICE_ANALYTICS_INCREASE';
 export const VICE_ANALYTICS_INCREASE_DONE = 'VICE_ANALYTICS_INCREASE_DONE';
 export const VICE_ANALYTICS_INCREASE_ERROR = 'VICE_ANALYTICS_INCREASE_ERROR';
-
 export const VICES_ADDING = 'VICES_ADDING';
 export const VICES_ADDING_DONE = 'VICES_ADDING_DONE';
 export const VICES_ADDING_ERROR = 'VICES_ADDING_ERROR';
-
 export const VICES_EDITING = 'VICES_EDITING';
 export const VICES_EDITING_DONE = 'VICES_EDITING_DONE';
 export const VICES_EDITING_ERROR = 'VICES_EDITING_ERROR';
-
 export const VICES_DELETING = 'VICES_DELETING';
 export const VICES_DELETING_DONE = 'VICES_DELETING_DONE';
 export const VICES_DELETING_ERROR = 'VICES_DELETING_ERROR';
+export const VICES_CLEAR = 'VICES_CLEAR';
 
 export const createViceAnalytics = () => async (dispatch) => {
   dispatch({ type: VICE_ANALYTICS_FETCHING });
@@ -106,3 +103,4 @@ export const deleteVice = (id) => async (dispatch, getState) => {
     return dispatch({ type: VICES_DELETING_ERROR, payload: err });
   }
 };
+export const clearVices = () => ({ type: VICES_CLEAR });

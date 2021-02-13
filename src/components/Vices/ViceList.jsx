@@ -14,7 +14,9 @@ import EmptyItem from '../BaseComponents/EmptyItem';
 
 const ViceList = ({ viceAnalytics, createViceAnalytics, error, loading }) => {
   useEffect(() => {
-    createViceAnalytics();
+    if (!viceAnalytics.length) {
+      createViceAnalytics();
+    }
   }, [createViceAnalytics]);
 
   return (
