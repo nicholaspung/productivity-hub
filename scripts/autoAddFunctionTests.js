@@ -7,7 +7,19 @@ const { parse } = require('@babel/parser');
  * files, and also for newly added functions within the directories stated
  * below.
  */
-const baseFileDirectoryPaths = ['./src/utils', './src/redux/selectors'];
+let testing = false;
+const checkIfTesting = () => {
+  const thirdArgument = process.argv[2];
+  if (thirdArgument === '-T') {
+    testing = true;
+  }
+};
+checkIfTesting();
+
+let baseFileDirectoryPaths = [];
+if (!testing) {
+  baseFileDirectoryPaths = ['./src/utils', './src/redux/selectors'];
+}
 
 const filePaths = [];
 
@@ -78,18 +90,20 @@ const insertFunctionsToTestFile = (filePath, functionNames) => {
   const filePathStream = fs.createWriteStream(correspondingTestFile, {
     flags: 'a',
   });
+  const textArray = [`Failing tests added to "${correspondingTestFile}"`];
   functionNames.forEach((name) => {
     if (!alreadyInsertedFunctionNames.includes(name)) {
       try {
         filePathStream.write(createFailingTestCode(name));
-        console.log(
-          `Failing test for "${name}" in "${filePath}" added to test file: "${correspondingTestFile}"`,
-        );
+        textArray.push(`    - ${name}`);
       } catch (err) {
         console.log(err);
       }
     }
   });
+  if (textArray.length > 1) {
+    textArray.forEach((text) => console.log(text));
+  }
   filePathStream.end();
 };
 
@@ -107,11 +121,12 @@ filePaths.forEach((path) => {
     const correspondingTestFile = findTestFilePath(path);
     fs.writeFileSync(
       correspondingTestFile,
-      `describe('#${capitalizedTestName}', () => {})`,
+      `import * as utils from '../${testName}';\n\ndescribe('#${capitalizedTestName}', () => {})\n`,
     );
+    console.log(`Created new test file for: ${path}`);
     const names = grabExportedFunctionNames(path);
     insertFunctionsToTestFile(path, names);
   }
 });
 
-console.log('Finished checking tracked files.');
+console.log('\nFinished checking tracked files.');
