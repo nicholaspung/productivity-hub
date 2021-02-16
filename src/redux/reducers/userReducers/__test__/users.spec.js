@@ -16,7 +16,7 @@ import {
 } from '../../../actions/userActions';
 import reducer, { initialState } from '../users';
 
-describe('#UsersReducers', () => {
+describe('#UsersReducer', () => {
   it('#USER_LOGGED_IN', () => {
     expect(
       reducer(initialState, { type: USER_LOGGED_IN, payload: { uid: 'hi' } }),
@@ -119,5 +119,16 @@ describe('#UsersReducers', () => {
         payload: { message: 'err' },
       }),
     ).toEqual({ ...initialState, error: { message: 'err' } });
+  });
+  it('#CLEAR_USER_ERROR_MESSAGE', () => {
+    expect(
+      reducer(initialState, {
+        type: 'CLEAR_USER_ERROR_MESSAGE',
+        payload: undefined,
+      }),
+    ).toEqual({
+      ...initialState,
+      error: {},
+    });
   });
 });

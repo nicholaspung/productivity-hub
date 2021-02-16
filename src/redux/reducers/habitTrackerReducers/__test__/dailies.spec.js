@@ -119,4 +119,50 @@ describe('#DailiesReducer', () => {
       dailiesCache: {},
     });
   });
+  it('#HABITS_FETCHING', () => {
+    expect(reducer(initialState, { type: 'HABITS_FETCHING' })).toEqual({
+      ...initialState,
+      loading: true,
+    });
+  });
+  it('#HABITS_FETCHING_DONE', () => {
+    expect(
+      reducer(initialState, { type: 'HABITS_FETCHING_DONE', payload: ['hi'] }),
+    ).toEqual({
+      ...initialState,
+      habits: ['hi'],
+      loading: false,
+    });
+  });
+  it('#HABITS_FETCHING_ERROR', () => {
+    expect(
+      reducer(initialState, { type: 'HABITS_FETCHING_ERROR', payload: 'hi' }),
+    ).toEqual({
+      ...initialState,
+      error: 'hi',
+    });
+  });
+  it('#HABITS_DELETING_DONE', () => {
+    expect(
+      reducer(initialState, { type: 'HABITS_DELETING_DONE', payload: ['hi'] }),
+    ).toEqual({
+      ...initialState,
+      habits: ['hi'],
+      loading: false,
+    });
+  });
+  it('#HABITS_UPDATING', () => {
+    expect(reducer(initialState, { type: 'HABITS_UPDATING' })).toEqual({
+      ...initialState,
+      loading: true,
+    });
+  });
+  it('#HABITS_UPDATING_DONE', () => {
+    expect(
+      reducer(initialState, { type: 'HABITS_UPDATING_DONE', payload: ['hi'] }),
+    ).toEqual({
+      ...initialState,
+      habits: ['hi'],
+    });
+  });
 });

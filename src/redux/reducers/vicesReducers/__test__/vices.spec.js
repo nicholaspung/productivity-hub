@@ -17,7 +17,7 @@ import {
 } from '../../../actions/vicesActions';
 import reducer, { initialState } from '../vices';
 
-describe('#Vices', () => {
+describe('#VicesReducer', () => {
   it('#VICE_ANALYTICS_FETCHING', () => {
     expect(reducer(initialState, { type: VICE_ANALYTICS_FETCHING })).toEqual({
       ...initialState,
