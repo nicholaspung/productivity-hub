@@ -10,6 +10,7 @@ describe('#VicesSelectors', () => {
           frequency: 1,
         },
       ],
+      cache: false,
       loading: false,
       error: {},
     },
@@ -17,6 +18,7 @@ describe('#VicesSelectors', () => {
   const state2 = {
     vices: {
       viceAnalytics: [],
+      cache: true,
       loading: true,
       error: {
         message: 'This is an error',
@@ -42,5 +44,9 @@ describe('#VicesSelectors', () => {
   it('#getVicesError', () => {
     expect(selectors.getVicesError(state1)).toEqual(state1.vices.error);
     expect(selectors.getVicesError(state2)).toEqual(state2.vices.error);
+  });
+  it('#getVicesCache', () => {
+    expect(selectors.getVicesCache(state1)).toEqual(false);
+    expect(selectors.getVicesCache(state2)).toEqual(true);
   });
 });

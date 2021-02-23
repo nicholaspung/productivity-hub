@@ -15,6 +15,7 @@ import {
 
 export const initialState = {
   todos: [],
+  cache: false,
   loading: false,
   error: {},
 };
@@ -31,6 +32,7 @@ export default function (state = initialState, action) {
         ...state,
         todos: action.payload,
         loading: false,
+        cache: true,
         error: {},
       };
     case TODOS_FETCHING_ERROR:

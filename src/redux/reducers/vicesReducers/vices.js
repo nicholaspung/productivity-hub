@@ -18,6 +18,7 @@ import {
 
 export const initialState = {
   viceAnalytics: [],
+  cache: false,
   loading: false,
   error: {},
 };
@@ -42,6 +43,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         viceAnalytics: action.payload,
+        cache: true,
         loading: false,
       };
     case VICE_ANALYTICS_FETCHING_ERROR:

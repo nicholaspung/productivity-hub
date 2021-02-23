@@ -26,6 +26,7 @@ import {
   getDailiesForYear as getDailiesForYearAPI,
   getHabits as getHabitsAPI,
 } from '../../api/habitTrackerApi';
+import { getYesterday } from '../../utils/dateUtils';
 
 export const HABITS_FETCHING = 'HABITS_FETCHING';
 export const HABITS_FETCHING_DONE = 'HABITS_FETCHING_DONE';
@@ -63,6 +64,8 @@ export const DAILIES_CACHE_ERROR = 'DAILIES_CACHE_ERROR';
 export const DAILIES_DATE_RANGE_FETCHING = 'DAILIES_DATE_RANGE_FETCHING';
 export const DAILIES_DATE_RANGE_DONE = 'DAILIES_DATE_RANGE_DONE';
 export const HABIT_TRACKER_CLEAR = 'HABIT_TRACKER_CLEAR';
+export const TODAY_DAILY_CACHE = 'TODAY_DAILY_CACHE';
+export const YESTERDAY_DAILY_CACHE = 'YESTERDAY_DAILY_CACHE';
 
 export const toggleDaily = (daily) => async (dispatch, getState) => {
   dispatch({ type: DAILIES_TOGGLE });
@@ -104,6 +107,14 @@ const fetchDailiesForDay = (apiCall, date = new Date()) => async (
       payload: transformDailiesForCache(dateObj, data),
     });
     data.sort(sortDailies);
+    if (date.toLocaleDateString() === new Date().toLocaleDateString()) {
+      dispatch({ type: TODAY_DAILY_CACHE });
+    } else if (
+      getYesterday(date).toLocaleDateString() ===
+      getYesterday().toLocaleDateString()
+    ) {
+      dispatch({ type: YESTERDAY_DAILY_CACHE });
+    }
     return dispatch({ type: DAILIES_FETCHING_DONE, payload: data });
   } catch (err) {
     return dispatch({ type: DAILIES_FETCHING_ERROR, payload: err });

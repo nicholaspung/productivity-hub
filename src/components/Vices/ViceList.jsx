@@ -5,6 +5,7 @@ import {
   getVicesViceAnalytics,
   getVicesError,
   getVicesLoading,
+  getVicesCache,
 } from '../../redux/selectors/vicesSelectors';
 import { createViceAnalytics as createViceAnalyticsAction } from '../../redux/actions/vicesActions';
 import Vice from './Vice';
@@ -12,12 +13,18 @@ import { sortViceAnalytics } from '../../utils/viceUtils';
 import { ReactComponent as RefreshSVG } from '../../assets/icons/refresh.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
 
-const ViceList = ({ viceAnalytics, createViceAnalytics, error, loading }) => {
+const ViceList = ({
+  viceAnalytics,
+  createViceAnalytics,
+  error,
+  loading,
+  cache,
+}) => {
   useEffect(() => {
-    if (!viceAnalytics.length) {
+    if (!cache) {
       createViceAnalytics();
     }
-  }, [createViceAnalytics, viceAnalytics]);
+  }, [createViceAnalytics, cache]);
 
   return (
     <div className="flex flex-col flex-1 md:border-r-2 border-b-2 md:border-b-0 border-gray-200">
@@ -48,11 +55,13 @@ ViceList.propTypes = {
   createViceAnalytics: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
+  cache: PropTypes.bool.isRequired,
 };
 
 export default connect(
   (state) => ({
     viceAnalytics: getVicesViceAnalytics(state),
+    cache: getVicesCache(state),
     error: getVicesError(state),
     loading: getVicesLoading(state),
   }),

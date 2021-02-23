@@ -14,13 +14,20 @@ export const getDailiesDailiesCacheForDate = (store, date) =>
 export const getDailiesDateRangeCache = (store) =>
   getDailiesState(store).dateRangeCache;
 export const getDailiesError = (store) => getDailiesState(store).error;
+export const getDailiesTodayDailyCache = (store) =>
+  getDailiesState(store).todayDailyCache;
+export const getDailiesYesterdayDailyCache = (store) =>
+  getDailiesState(store).yesterdayDailyCache;
 
 export const getTodosState = (store) => store.todos;
 export const getTodosTodos = (store) => getTodosState(store).todos;
 export const getTodosLoadingStatus = (store) => getTodosState(store).loading;
 export const getTodosError = (store) => getTodosState(store).error;
+export const getTodosCache = (store) => getTodosState(store).cache;
 
 export const getDailiesHabits = (store) => getDailiesState(store).habits;
+export const getDailiesHabitsCache = (store) =>
+  getDailiesState(store).habitsCache;
 
 export const getEarliestHabitDate = (store, today = new Date()) =>
   getDailiesDailies(store).reduce((acc, curr) => {

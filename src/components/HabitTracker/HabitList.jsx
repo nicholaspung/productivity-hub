@@ -10,6 +10,7 @@ import {
   getDailiesError,
   getDailiesLoadingStatus,
   getDailiesHabits,
+  getDailiesHabitsCache,
 } from '../../redux/selectors/habitTrackerSelectors';
 import { getHabits as getHabitsAction } from '../../redux/actions/habitTrackerActions';
 
@@ -19,12 +20,13 @@ const HabitList = ({
   habits = [],
   error,
   getHabits,
+  habitsCache,
 }) => {
   useEffect(() => {
-    if (!habits.length) {
+    if (!habitsCache) {
       getHabits();
     }
-  }, [getHabits, habits]);
+  }, [getHabits, habitsCache]);
 
   const transformedHabits = habits.map((habit) => ({ habit, id: habit.id }));
 
@@ -85,11 +87,13 @@ HabitList.propTypes = {
   habits: PropTypes.array.isRequired,
   error: PropTypes.object.isRequired,
   getHabits: PropTypes.func.isRequired,
+  habitsCache: PropTypes.bool.isRequired,
 };
 
 export default connect(
   (state) => ({
     habits: getDailiesHabits(state),
+    habitsCache: getDailiesHabitsCache(state),
     loading: getDailiesLoadingStatus(state),
     error: getDailiesError(state),
   }),

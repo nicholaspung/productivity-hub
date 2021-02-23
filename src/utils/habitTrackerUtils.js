@@ -110,7 +110,8 @@ export const getArrayWithDates = (date, arrayFunc, firstDateFunc) => {
   const month = dayObj.getMonth();
   const year = dayObj.getFullYear();
   return arrayFunc(date).map((_, i) =>
-    getDateTransform(new Date(year, month, day + i)));
+    getDateTransform(new Date(year, month, day + i)),
+  );
 };
 
 export const getIdxOfFirstDayForMonthsForYear = (display) => {

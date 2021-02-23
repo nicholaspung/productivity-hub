@@ -15,6 +15,7 @@ describe('#TodosReducer', () => {
       loading: false,
       error: {},
       todos: ['hi'],
+      cache: true,
     });
   });
   it('#TODOS_FETCHING_ERROR', () => {

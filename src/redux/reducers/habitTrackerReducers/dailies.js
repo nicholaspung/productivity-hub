@@ -17,19 +17,28 @@ import {
   HABITS_UPDATING_DONE,
   HABITS_UPDATING_ERROR,
   HABIT_TRACKER_CLEAR,
+  TODAY_DAILY_CACHE,
+  YESTERDAY_DAILY_CACHE,
 } from '../../actions/habitTrackerActions';
 
 export const initialState = {
   dailies: [],
   dailiesCache: {},
   dateRangeCache: {},
+  todayDailyCache: false,
+  yesterdayDailyCache: false,
   habits: [],
+  habitsCache: false,
   loading: false,
   error: {},
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case TODAY_DAILY_CACHE:
+      return { ...state, todayDailyCache: true };
+    case YESTERDAY_DAILY_CACHE:
+      return { ...state, yesterdayDailyCache: true };
     case DAILIES_FETCHING:
     case DAILIES_CACHE_FETCHING:
     case HABITS_FETCHING:
@@ -79,6 +88,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         habits: action.payload,
+        habitsCache: true,
         loading: false,
       };
     case HABIT_TRACKER_CLEAR:

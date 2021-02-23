@@ -13,6 +13,7 @@ import {
   getDailiesDailies,
   getDailiesLoadingStatus,
   getDailiesError,
+  getDailiesTodayDailyCache,
 } from '../../redux/selectors/habitTrackerSelectors';
 import { smallerFilledButtonClassName } from '../BaseComponents';
 import { FILTERS } from '../../constants/habitTrackerConstants';
@@ -44,15 +45,16 @@ const DailyList = ({
   createDailiesForDay,
   classes = '',
   error,
+  cache,
 }) => {
   const [filter, setFilter] = useState(FILTERS.UNFINISHED);
   const [showHabits, setShowHabits] = useState(false);
 
   useEffect(() => {
-    if (!dailies.length) {
+    if (!cache) {
       createDailiesForDay();
     }
-  }, [createDailiesForDay, dailies]);
+  }, [createDailiesForDay, cache]);
 
   return (
     <div className={classes || ''}>
@@ -139,11 +141,13 @@ DailyList.propTypes = {
   createDailiesForDay: PropTypes.func.isRequired,
   classes: PropTypes.string,
   error: PropTypes.object.isRequired,
+  cache: PropTypes.bool.isRequired,
 };
 
 export default connect(
   (state) => ({
     dailies: getDailiesDailies(state),
+    cache: getDailiesTodayDailyCache(state),
     loading: getDailiesLoadingStatus(state),
     error: getDailiesError(state),
   }),

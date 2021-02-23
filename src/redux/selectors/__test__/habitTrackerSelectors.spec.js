@@ -6,12 +6,16 @@ describe('#HabitTrackerSelectors', () => {
       dailies: [],
       dailiesCache: {},
       dateRangeCache: {},
+      todayDailyCache: false,
+      yesterdayDailyCache: false,
       habits: [],
+      habitsCache: false,
       loading: false,
       error: {},
     },
     todos: {
       todos: [],
+      cache: false,
       loading: false,
       error: {},
     },
@@ -25,12 +29,16 @@ describe('#HabitTrackerSelectors', () => {
       ],
       dailiesCache: { '2020-10-02': [{ id: 1 }] },
       dateRangeCache: { WEEK: true },
+      todayDailyCache: true,
+      yesterdayDailyCache: true,
       habits: [],
+      habitsCache: true,
       loading: false,
       error: {},
     },
     todos: {
       todos: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }],
+      cache: true,
       loading: false,
       error: { message: 'err' },
     },
@@ -109,5 +117,21 @@ describe('#HabitTrackerSelectors', () => {
     expect(
       selectors.getDailiesDailiesCacheForDate(state2, new Date(2020, 9, 2)),
     ).toEqual(state2.dailies.dailiesCache['2020-10-02']);
+  });
+  it('#getDailiesTodayDailyCache', () => {
+    expect(selectors.getDailiesTodayDailyCache(state1)).toEqual(false);
+    expect(selectors.getDailiesTodayDailyCache(state2)).toEqual(true);
+  });
+  it('#getDailiesYesterdayDailyCache', () => {
+    expect(selectors.getDailiesYesterdayDailyCache(state1)).toEqual(false);
+    expect(selectors.getDailiesYesterdayDailyCache(state2)).toEqual(true);
+  });
+  it('#getTodosCache', () => {
+    expect(selectors.getTodosCache(state1)).toEqual(false);
+    expect(selectors.getTodosCache(state2)).toEqual(true);
+  });
+  it('#getDailiesHabitsCache', () => {
+    expect(selectors.getDailiesHabitsCache(state1)).toEqual(false);
+    expect(selectors.getDailiesHabitsCache(state2)).toEqual(true);
   });
 });

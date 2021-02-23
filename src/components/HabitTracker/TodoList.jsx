@@ -12,6 +12,7 @@ import {
   getTodosTodos,
   getTodosLoadingStatus,
   getTodosError,
+  getTodosCache,
 } from '../../redux/selectors/habitTrackerSelectors';
 import { FILTERS } from '../../constants/habitTrackerConstants';
 import EmptyItem from '../BaseComponents/EmptyItem';
@@ -31,14 +32,15 @@ const TodoList = ({
   addTodo,
   classes = '',
   error,
+  cache,
 }) => {
   const [filter, setFilter] = useState(FILTERS.ACTIVE);
 
   useEffect(() => {
-    if (!todos.length) {
+    if (!cache) {
       getTodos();
     }
-  }, [getTodos, todos]);
+  }, [getTodos, cache]);
 
   const sortedTodosForPriority = sortedTodosForPriorityUtil(todos);
   const hasUnderline = (filterConstant) => {
@@ -123,11 +125,13 @@ TodoList.propTypes = {
   addTodo: PropTypes.func.isRequired,
   classes: PropTypes.string,
   error: PropTypes.object.isRequired,
+  cache: PropTypes.bool.isRequired,
 };
 
 export default connect(
   (state) => ({
     todos: getTodosTodos(state),
+    cache: getTodosCache(state),
     loading: getTodosLoadingStatus(state),
     error: getTodosError(state),
   }),

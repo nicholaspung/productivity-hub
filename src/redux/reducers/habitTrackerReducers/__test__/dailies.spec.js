@@ -132,6 +132,7 @@ describe('#DailiesReducer', () => {
       ...initialState,
       habits: ['hi'],
       loading: false,
+      habitsCache: true,
     });
   });
   it('#HABITS_FETCHING_ERROR', () => {
@@ -149,6 +150,7 @@ describe('#DailiesReducer', () => {
       ...initialState,
       habits: ['hi'],
       loading: false,
+      habitsCache: true,
     });
   });
   it('#HABITS_UPDATING', () => {
@@ -163,6 +165,26 @@ describe('#DailiesReducer', () => {
     ).toEqual({
       ...initialState,
       habits: ['hi'],
+      habitsCache: true,
+    });
+  });
+  it('#TODAY_DAILY_CACHE', () => {
+    expect(
+      reducer(initialState, { type: 'TODAY_DAILY_CACHE', payload: undefined }),
+    ).toEqual({
+      ...initialState,
+      todayDailyCache: true,
+    });
+  });
+  it('#YESTERDAY_DAILY_CACHE', () => {
+    expect(
+      reducer(initialState, {
+        type: 'YESTERDAY_DAILY_CACHE',
+        payload: undefined,
+      }),
+    ).toEqual({
+      ...initialState,
+      yesterdayDailyCache: true,
     });
   });
 });

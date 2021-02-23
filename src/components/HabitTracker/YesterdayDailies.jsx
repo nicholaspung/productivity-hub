@@ -10,6 +10,7 @@ import {
   getDailiesDailiesCacheForDate,
   getDailiesLoadingStatus,
   getDailiesError,
+  getDailiesYesterdayDailyCache,
 } from '../../redux/selectors/habitTrackerSelectors';
 import { createDailiesForDay as createDailiesForDayAction } from '../../redux/actions/habitTrackerActions';
 import { sortDailies } from '../../utils/habitTrackerUtils';
@@ -23,12 +24,13 @@ const YesterdayDailiesContent = ({
   error,
   isShowing,
   toggle,
+  cache,
 }) => {
   useEffect(() => {
-    if (isShowing) {
+    if (isShowing && !cache) {
       createDailiesForDay(getYesterday());
     }
-  }, [createDailiesForDay, isShowing]);
+  }, [createDailiesForDay, isShowing, cache]);
 
   const visibleFilter = (item) => !item.archived;
   yesterday.sort(sortDailies);
@@ -72,11 +74,13 @@ YesterdayDailiesContent.propTypes = {
   error: PropTypes.object.isRequired,
   isShowing: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
+  cache: PropTypes.bool.isRequired,
 };
 
 const ConnectedYesterdayDailiesContent = connect(
   (state) => ({
     yesterday: getDailiesDailiesCacheForDate(state, getYesterday()),
+    cache: getDailiesYesterdayDailyCache(state),
     loading: getDailiesLoadingStatus(state),
     error: getDailiesError(state),
   }),

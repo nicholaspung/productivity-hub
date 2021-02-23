@@ -34,7 +34,12 @@ describe('#VicesReducer', () => {
           payload: [{ id: 1 }],
         },
       ),
-    ).toEqual({ ...initialState, viceAnalytics: [{ id: 1 }], loading: false });
+    ).toEqual({
+      ...initialState,
+      viceAnalytics: [{ id: 1 }],
+      loading: false,
+      cache: true,
+    });
   });
   it('#VICE_ANALYTICS_FETCHING_ERROR', () => {
     expect(
@@ -57,7 +62,12 @@ describe('#VicesReducer', () => {
         type: VICE_ANALYTICS_INCREASE_DONE,
         payload: [{ id: 1 }],
       }),
-    ).toEqual({ ...initialState, viceAnalytics: [{ id: 1 }], loading: false });
+    ).toEqual({
+      ...initialState,
+      viceAnalytics: [{ id: 1 }],
+      loading: false,
+      cache: true,
+    });
   });
   it('#VICE_ANALYTICS_INCREASE_ERROR', () => {
     expect(
@@ -80,7 +90,12 @@ describe('#VicesReducer', () => {
         type: VICES_ADDING_DONE,
         payload: [{ id: 1 }],
       }),
-    ).toEqual({ ...initialState, viceAnalytics: [{ id: 1 }], loading: false });
+    ).toEqual({
+      ...initialState,
+      viceAnalytics: [{ id: 1 }],
+      loading: false,
+      cache: true,
+    });
   });
   it('#VICES_ADDING_ERROR', () => {
     expect(
@@ -103,7 +118,12 @@ describe('#VicesReducer', () => {
         type: VICES_EDITING_DONE,
         payload: [{ id: 1 }],
       }),
-    ).toEqual({ ...initialState, viceAnalytics: [{ id: 1 }], loading: false });
+    ).toEqual({
+      ...initialState,
+      viceAnalytics: [{ id: 1 }],
+      loading: false,
+      cache: true,
+    });
   });
   it('#VICES_EDITING_ERROR', () => {
     expect(
@@ -126,7 +146,12 @@ describe('#VicesReducer', () => {
         type: VICES_DELETING_DONE,
         payload: [{ id: 1 }],
       }),
-    ).toEqual({ ...initialState, viceAnalytics: [{ id: 1 }], loading: false });
+    ).toEqual({
+      ...initialState,
+      viceAnalytics: [{ id: 1 }],
+      loading: false,
+      cache: true,
+    });
   });
   it('#VICES_DELETING_ERROR', () => {
     expect(
