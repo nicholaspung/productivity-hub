@@ -33,14 +33,8 @@ const SavedPostList = ({
   const [thresholdFunction, setThresholdFunction] = useState(emptyFunction);
 
   useEffect(() => {
-    if (
-      !savedPosts.length &&
-      savedPostRefreshAnalyticFrequencyAndThreshold.frequency <
-        savedPostRefreshAnalyticFrequencyAndThreshold.threshold
-    ) {
-      getSavedPosts();
-      trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_REFRESH);
-    }
+    getSavedPosts();
+    trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_REFRESH);
     // eslint-disable-next-line
   }, [getSavedPosts]);
 

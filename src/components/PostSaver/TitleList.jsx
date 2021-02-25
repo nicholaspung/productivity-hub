@@ -35,10 +35,8 @@ const TitleList = ({
   const [filter, setFilter] = useState(FILTER_OPTIONS.NONE);
 
   useEffect(() => {
-    if (!titles.length) {
-      getTitles();
-    }
-  }, [getTitles, titles]);
+    getTitles();
+  }, [getTitles]);
 
   return (
     <div className={`${classes || ''}`}>
