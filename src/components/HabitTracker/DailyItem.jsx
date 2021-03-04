@@ -25,6 +25,7 @@ import { ReactComponent as DeleteSVG } from '../../assets/icons/delete.svg';
 import Modal from '../BaseComponents/Modal';
 import HabitDelete from './HabitDelete';
 import { reorderHabitsUtil } from '../../utils/habitTrackerUtils';
+import useDisableBodyScroll from '../../hooks/useDisableBodyScroll';
 
 const DailyItem = ({
   data,
@@ -42,6 +43,7 @@ const DailyItem = ({
 }) => {
   const [edit, setEdit] = useState(false);
   const [willDelete, setWillDelete] = useState(false);
+  const modalChanges = useDisableBodyScroll();
 
   const onCheckedChange = () => toggleDaily(data);
   const onArchiveHabit = () =>
@@ -107,12 +109,21 @@ const DailyItem = ({
       </div>
       {!hideOptions && (
         <div className="flex flex-col items-end w-16">
-          <button onClick={() => setEdit(true)} type="button">
+          <button
+            onClick={() => {
+              modalChanges(true);
+              setEdit(true);
+            }}
+            type="button"
+          >
             <EditSVG className="w-4 h-auto" title="Edit habit" />
           </button>
           <Modal
             isShowing={edit}
-            toggle={() => setEdit(!edit)}
+            toggle={() => {
+              modalChanges(false);
+              setEdit(false);
+            }}
             Component={ItemAction}
             data={data.habit}
             actionFunction={editHabit}

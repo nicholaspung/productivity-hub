@@ -21,6 +21,7 @@ import EmptyItem from '../BaseComponents/EmptyItem';
 import Modal from '../BaseComponents/Modal';
 import ListLoading from './SharedComponents/ListLoading';
 import ListRefresh from './SharedComponents/ListRefresh';
+import useDisableBodyScroll from '../../hooks/useDisableBodyScroll';
 
 const filterCategories = {
   [FILTERS.UNFINISHED]: {
@@ -49,6 +50,7 @@ const DailyList = ({
 }) => {
   const [filter, setFilter] = useState(FILTERS.UNFINISHED);
   const [showHabits, setShowHabits] = useState(false);
+  const modalChanges = useDisableBodyScroll();
 
   useEffect(() => {
     if (!cache) {
@@ -88,7 +90,10 @@ const DailyList = ({
       </div>
       <Modal
         isShowing={showHabits}
-        toggle={() => setShowHabits(false)}
+        toggle={() => {
+          modalChanges(false);
+          setShowHabits(false);
+        }}
         Component={HabitList}
       />
       <div className="p-4 rounded-md border-2 border-gray-200 bg-white">
@@ -96,7 +101,10 @@ const DailyList = ({
           <div className="h-0">
             <button
               type="button"
-              onClick={() => setShowHabits(true)}
+              onClick={() => {
+                modalChanges(true);
+                setShowHabits(true);
+              }}
               className={`${smallerFilledButtonClassName} relative bottom-3 right-3`}
             >
               See Habits

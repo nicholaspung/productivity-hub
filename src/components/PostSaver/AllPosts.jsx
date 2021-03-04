@@ -78,7 +78,11 @@ const AllPosts = ({
       allPostRefreshAnalyticThreshold.frequency >=
       allPostRefreshAnalyticThreshold.threshold
     ) {
-      setThresholdFunction(() => () => getRefreshedPosts());
+      setThresholdFunction(() => (use) => {
+        if (use) {
+          getRefreshedPosts();
+        }
+      });
       setSeeThreshold(true);
       return false;
     }

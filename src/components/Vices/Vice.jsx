@@ -14,8 +14,9 @@ import {
 import {
   lastAccessedText,
   getHoursLastAccessed,
-  timeBetweenIsOverBlocker,
+  cantAccessFunction,
 } from '../../utils/viceUtils';
+import useDisableBodyScroll from '../../hooks/useDisableBodyScroll';
 
 const Vice = ({
   viceAnalytic,
@@ -26,11 +27,8 @@ const Vice = ({
   const viceVice = viceAnalytic.vice;
   const lastAccessed = getHoursLastAccessed(viceAnalytic.last_updated);
   const vicePassedTimeText = lastAccessedText(lastAccessed);
-  const cantAccessFunction = (analytic) => {
-    if (analytic.frequency === 0) return false;
-    return timeBetweenIsOverBlocker(analytic.vice.time_between, lastAccessed);
-  };
   const cantAccess = cantAccessFunction(viceAnalytic);
+  const modalChanges = useDisableBodyScroll();
 
   const [edit, setEdit] = useState(false);
 
@@ -82,7 +80,13 @@ const Vice = ({
           {viceAnalytic.frequency}
         </p>
         <div className="flex-1 text-center flex justify-around">
-          <button type="button" onClick={() => setEdit(true)}>
+          <button
+            type="button"
+            onClick={() => {
+              modalChanges(true);
+              setEdit(true);
+            }}
+          >
             <EditSVG className="w-4 h-auto" title="Edit vice" />
           </button>
           <button onClick={onArchiveAction} type="button">
@@ -95,7 +99,10 @@ const Vice = ({
       </div>
       <Modal
         isShowing={edit}
-        toggle={() => setEdit(false)}
+        toggle={() => {
+          modalChanges(false);
+          setEdit(false);
+        }}
         Component={EditVice}
         data={viceAnalytic}
       />

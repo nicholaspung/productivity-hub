@@ -10,7 +10,10 @@ import {
   helperLoggedIn,
   helperAttachNewThresholdToUserAnalytics,
 } from '../../utils/userUtils';
-import { getUserAnalytics as getUserAnalyticsSelector } from '../selectors/userSelectors';
+import {
+  getUserAnalytics as getUserAnalyticsSelector,
+  getUserApps as getUserAppsSelector,
+} from '../selectors/userSelectors';
 import { userAnalyticLabels } from '../../constants/baseConstants';
 
 export const USER_LOGGED_IN = 'USER_LOGGED_IN';
@@ -78,17 +81,21 @@ export const deleteUser = (id) => async (dispatch) => {
     return dispatch({ type: USER_DELETING_ERROR, payload: err });
   }
 };
-export const getUserAnalytics = () => async (dispatch) => {
+export const getUserAnalytics = () => async (dispatch, getState) => {
   try {
     const { data } = await getUserAnalyticsAPI();
-    const cleanedData = data.filter(
-      (item) =>
-        item.label !== userAnalyticLabels.ALL_POST_REFRESH &&
-        item.label !== userAnalyticLabels.ALL_POST_TITLE &&
-        item.label !== userAnalyticLabels.POST_SAVER_NAV &&
-        item.label !== userAnalyticLabels.SAVED_POST_REFRESH &&
-        item.label !== userAnalyticLabels.SAVED_POST_TITLE,
-    );
+    const userApps = getUserAppsSelector(getState());
+    const cleanedData =
+      userApps.indexOf(2) !== -1
+        ? data
+        : data.filter(
+            (item) =>
+              item.label !== userAnalyticLabels.ALL_POST_REFRESH &&
+              item.label !== userAnalyticLabels.ALL_POST_TITLE &&
+              item.label !== userAnalyticLabels.POST_SAVER_NAV &&
+              item.label !== userAnalyticLabels.SAVED_POST_REFRESH &&
+              item.label !== userAnalyticLabels.SAVED_POST_TITLE,
+          );
     return dispatch({ type: USER_ANALYTICS_DONE, payload: cleanedData });
   } catch (err) {
     return dispatch({ type: USER_ANALYTICS_ERROR, payload: err });

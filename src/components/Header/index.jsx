@@ -5,7 +5,6 @@ import {
   logIn as logInAction,
   updateApps as updateAppsAction,
   loggedIn as loggedInAction,
-  logOut as logOutAction,
   initialLoad as initialLoadAction,
   getUserAnalytics as getUserAnalyticsAction,
 } from '../../redux/actions/userActions';
@@ -16,9 +15,6 @@ import {
 } from '../../redux/selectors/userSelectors';
 import { onAuthStateChange } from '../../firebase/utils';
 import { createUserAnalytics } from '../../api/baseApi';
-import { clearHabitTracker as clearHabitTrackerAction } from '../../redux/actions/habitTrackerActions';
-import { clearPostSaver as clearPostSaverAction } from '../../redux/actions/postSaverActions';
-import { clearVices as clearVicesAction } from '../../redux/actions/vicesActions';
 import { LogoComponent, MenuButton } from './HeaderComponents';
 import {
   NavItems,
@@ -26,20 +22,18 @@ import {
   BottomMobileNavItems,
 } from './HeaderNavItem';
 import { UserActions, MobileUserActions } from './HeaderActions';
+import { clearRedux as clearReduxAction } from '../../redux/actions/baseActions';
 
 const Header = ({
   isLoggedIn,
   updateApps,
   loggedIn,
-  logOut,
   initialLoad,
-  clearHabitTracker,
-  clearPostSaver,
-  clearVices,
   hasError,
   logIn,
   isUserLoading,
   getUserAnalytics,
+  clearRedux,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -51,23 +45,11 @@ const Header = ({
         await getUserAnalytics();
       },
       () => {
-        logOut();
-        clearHabitTracker();
-        clearPostSaver();
-        clearVices();
+        clearRedux();
       },
       () => initialLoad(),
     );
-  }, [
-    loggedIn,
-    logOut,
-    updateApps,
-    initialLoad,
-    clearHabitTracker,
-    clearPostSaver,
-    getUserAnalytics,
-    clearVices,
-  ]);
+  }, [loggedIn, updateApps, initialLoad, getUserAnalytics, clearRedux]);
 
   //  { link: "/", label: "", icons: "" }
   const navItems = isLoggedIn
@@ -131,15 +113,12 @@ Header.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   updateApps: PropTypes.func.isRequired,
   loggedIn: PropTypes.func.isRequired,
-  logOut: PropTypes.func.isRequired,
   initialLoad: PropTypes.func.isRequired,
-  clearHabitTracker: PropTypes.func.isRequired,
-  clearPostSaver: PropTypes.func.isRequired,
-  clearVices: PropTypes.func.isRequired,
   hasError: PropTypes.bool.isRequired,
   logIn: PropTypes.func.isRequired,
   isUserLoading: PropTypes.bool.isRequired,
   getUserAnalytics: PropTypes.func.isRequired,
+  clearRedux: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -151,12 +130,9 @@ export default connect(
   {
     updateApps: updateAppsAction,
     loggedIn: loggedInAction,
-    logOut: logOutAction,
     initialLoad: initialLoadAction,
-    clearHabitTracker: clearHabitTrackerAction,
-    clearPostSaver: clearPostSaverAction,
-    clearVices: clearVicesAction,
     logIn: logInAction,
     getUserAnalytics: getUserAnalyticsAction,
+    clearRedux: clearReduxAction,
   },
 )(Header);

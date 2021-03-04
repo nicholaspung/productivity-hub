@@ -59,4 +59,25 @@ describe('#ViceUtils', () => {
       { id: 3, vice: { archived: false } },
     ]);
   });
+  it('#cantAccessFunction', () => {
+    const analytic1 = {
+      frequency: 0,
+      last_updated: new Date(2021, 1, 2, 5),
+      vice: {
+        time_between: '02:00:00',
+      },
+    };
+    const analytic2 = {
+      frequency: 1,
+      last_updated: new Date(2021, 1, 2, 5),
+      vice: {
+        time_between: '02:00:00',
+      },
+    };
+    const lastUpdated1 = new Date(2021, 1, 2, 4, 30);
+    const lastUpdated2 = new Date(2021, 1, 2, 7, 30);
+    expect(utils.cantAccessFunction(analytic1)).toEqual(false);
+    expect(utils.cantAccessFunction(analytic2, lastUpdated1)).toEqual(true);
+    expect(utils.cantAccessFunction(analytic2, lastUpdated2)).toEqual(false);
+  });
 });

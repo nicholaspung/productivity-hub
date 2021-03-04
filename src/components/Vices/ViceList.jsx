@@ -9,7 +9,10 @@ import {
 } from '../../redux/selectors/vicesSelectors';
 import { createViceAnalytics as createViceAnalyticsAction } from '../../redux/actions/vicesActions';
 import Vice from './Vice';
-import { sortViceAnalytics } from '../../utils/viceUtils';
+import {
+  sortViceAnalytics,
+  cantAccessFunction as cAF,
+} from '../../utils/viceUtils';
 import { ReactComponent as RefreshSVG } from '../../assets/icons/refresh.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
 
@@ -25,6 +28,10 @@ const ViceList = ({
       createViceAnalytics();
     }
   }, [createViceAnalytics, cache]);
+
+  const sortedViceAnalytics = viceAnalytics.sort(sortViceAnalytics);
+  const canAccessViceAnalytics = sortedViceAnalytics.filter((a) => !cAF(a));
+  const cantAccessViceAnalytics = sortedViceAnalytics.filter((b) => cAF(b));
 
   return (
     <div className="flex flex-col flex-1 md:border-r-2 border-b-2 md:border-b-0 border-gray-200">
@@ -43,7 +50,10 @@ const ViceList = ({
         error={error}
         loading={loading}
       />
-      {viceAnalytics.sort(sortViceAnalytics).map((viceAnalytic) => (
+      {canAccessViceAnalytics.map((viceAnalytic) => (
+        <Vice key={viceAnalytic.id} viceAnalytic={viceAnalytic} />
+      ))}
+      {cantAccessViceAnalytics.map((viceAnalytic) => (
         <Vice key={viceAnalytic.id} viceAnalytic={viceAnalytic} />
       ))}
     </div>

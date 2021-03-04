@@ -22,6 +22,7 @@ import { ReactComponent as ArrowUpSVG } from '../../assets/icons/arrowup.svg';
 import { ReactComponent as ArrowDownSVG } from '../../assets/icons/arrowdown.svg';
 import Modal from '../BaseComponents/Modal';
 import { reorderTodosUtil } from '../../utils/habitTrackerUtils';
+import useDisableBodyScroll from '../../hooks/useDisableBodyScroll';
 
 const TodoItem = ({
   data,
@@ -33,6 +34,7 @@ const TodoItem = ({
   lastItem,
 }) => {
   const isFinished = data.finished;
+  const modalChanges = useDisableBodyScroll();
 
   const [edit, setEdit] = useState(false);
 
@@ -80,13 +82,22 @@ const TodoItem = ({
       </div>
       <div className="flex flex-col items-end w-16">
         {!isFinished && (
-          <button onClick={() => setEdit(!edit)} type="button">
+          <button
+            onClick={() => {
+              modalChanges(true);
+              setEdit(true);
+            }}
+            type="button"
+          >
             <EditSVG className="w-4 h-auto" title="Edit todo" />
           </button>
         )}
         <Modal
           isShowing={edit}
-          toggle={() => setEdit(!edit)}
+          toggle={() => {
+            modalChanges(false);
+            setEdit(false);
+          }}
           Component={ItemAction}
           data={data}
           actionFunction={editTodo}

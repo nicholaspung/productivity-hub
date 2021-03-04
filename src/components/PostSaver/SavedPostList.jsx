@@ -43,7 +43,11 @@ const SavedPostList = ({
       savedPostRefreshAnalyticFrequencyAndThreshold.frequency >=
       savedPostRefreshAnalyticFrequencyAndThreshold.threshold
     ) {
-      setThresholdFunction(() => () => getSavedPosts());
+      setThresholdFunction(() => (use) => {
+        if (use) {
+          getSavedPosts();
+        }
+      });
       setSeeThreshold(true);
       return false;
     }

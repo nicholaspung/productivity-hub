@@ -29,6 +29,7 @@ const SavedPostItem = ({
         e.preventDefault();
         setThresholdFunction(() => (use) => {
           if (use) {
+            setClicked(true);
             window.open(url, target);
             updateSavedPost(savedPost.id);
           }

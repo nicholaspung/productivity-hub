@@ -16,6 +16,7 @@ import { createDailiesForDay as createDailiesForDayAction } from '../../redux/ac
 import { sortDailies } from '../../utils/habitTrackerUtils';
 import { getYesterday } from '../../utils/dateUtils';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
+import useDisableBodyScroll from '../../hooks/useDisableBodyScroll';
 
 const YesterdayDailiesContent = ({
   yesterday,
@@ -26,10 +27,14 @@ const YesterdayDailiesContent = ({
   toggle,
   cache,
 }) => {
+  const modalChanges = useDisableBodyScroll();
+
   useEffect(() => {
     if (isShowing && !cache) {
+      modalChanges(true);
       createDailiesForDay(getYesterday());
     }
+    // eslint-disable-next-line
   }, [createDailiesForDay, isShowing, cache]);
 
   const visibleFilter = (item) => !item.archived;
@@ -62,7 +67,14 @@ const YesterdayDailiesContent = ({
           hideOptions
         />
       </div>
-      <FilledButton action={toggle}>Start a new day!</FilledButton>
+      <FilledButton
+        action={() => {
+          modalChanges(false);
+          toggle();
+        }}
+      >
+        Start a new day!
+      </FilledButton>
     </div>
   );
 };

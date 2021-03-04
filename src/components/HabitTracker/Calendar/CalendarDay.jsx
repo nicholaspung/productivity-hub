@@ -10,6 +10,7 @@ import {
 import { getEarliestHabitDate } from '../../../redux/selectors/habitTrackerSelectors';
 import PreviousDailies from './PreviousDailies';
 import Modal from '../../BaseComponents/Modal';
+import useDisableBodyScroll from '../../../hooks/useDisableBodyScroll';
 
 const CalendarDay = ({
   dailiesCache,
@@ -17,6 +18,7 @@ const CalendarDay = ({
   labelView = '',
   earliestHabitDate,
 }) => {
+  const modalChanges = useDisableBodyScroll();
   const [showDaily, setShowDaily] = useState(false);
 
   const [finishedLength, totalLength, percentageLabel] = getDayInfo(
@@ -30,7 +32,10 @@ const CalendarDay = ({
     <li className="m-2">
       <Modal
         isShowing={showDaily}
-        toggle={() => setShowDaily(false)}
+        toggle={() => {
+          modalChanges(false);
+          setShowDaily(false);
+        }}
         Component={PreviousDailies}
         date={dateObject}
         data={dailiesCache[day]}
@@ -49,7 +54,10 @@ const CalendarDay = ({
             (isActiveHabit || totalLength) &&
             `${displayColor({ percentage: percentageLabel })[0]} cursor-pointer`
           }`}
-          onClick={() => setShowDaily(true)}
+          onClick={() => {
+            modalChanges(true);
+            setShowDaily(true);
+          }}
         >
           {dailiesCache[day] && (
             <p className="text-xs text-right p-2 text-white font-bold">
