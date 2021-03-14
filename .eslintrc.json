@@ -28,6 +28,7 @@
     "react/jsx-indent": "off", // prettier
     "function-paren-newline": "warn",
     "react/no-array-index-key": "off",
+    "func-names": "off",
     "react/jsx-one-expression-per-line": "off" // prettier
   }
 }

@@ -68,24 +68,24 @@ export const DATE_RANGES = {
 export const displayColor = ({ priority, percentage, archived }) => {
   if (priority === PRIORITIES.HIGH || percentage <= 0.7) {
     return [
-      'bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700',
+      'bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:ring-red active:bg-red-700',
       'text-red-600',
     ];
   }
   if (priority === PRIORITIES.LOW || percentage <= 0.9) {
     return [
-      'bg-green-600 hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green active:bg-green-700',
+      'bg-green-600 hover:bg-green-500 focus:outline-none focus:border-green-700 focus:ring-green active:bg-green-700',
       'text-green-600',
     ];
   }
   if (archived) {
     return [
-      'bg-gray-600 hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:shadow-outline-gray active:bg-gray-700',
+      'bg-gray-600 hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:ring-gray active:bg-gray-700',
       'text-gray-600',
     ];
   }
   return [
-    'bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700',
+    'bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo active:bg-indigo-700',
     'text-indigo-600',
   ];
 };

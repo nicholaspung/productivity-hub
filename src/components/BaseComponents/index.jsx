@@ -38,7 +38,7 @@ DisplayContainerCard.propTypes = {
 
 export const Button = ({ children, action, classes = '' }) => (
   <button
-    className={`whitespace-no-wrap text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 ${
+    className={`whitespace-nowrap text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 ${
       classes || ''
     }`}
     onClick={action}
@@ -57,7 +57,7 @@ Button.propTypes = {
 export const FilledButton = ({ children, action, classes = '' }) => (
   <span className={`inline-flex rounded-md shadow-sm ${classes || ''}`}>
     <button
-      className={`whitespace-no-wrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150 ${
+      className={`whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo active:bg-indigo-700 transition ease-in-out duration-150 ${
         classes || ''
       }`}
       onClick={action}
@@ -75,10 +75,10 @@ FilledButton.propTypes = {
 };
 
 export const smallerButtonClassName =
-  'whitespace-no-wrap text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900';
+  'whitespace-nowrap text-base leading-6 font-medium text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900';
 
 export const smallerFilledButtonClassName =
-  'py-1 px-5 rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150';
+  'py-1 px-5 rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo active:bg-indigo-700 transition ease-in-out duration-150';
 
 export const smallerFormInputClassName =
   'block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-1 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500';

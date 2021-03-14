@@ -20,7 +20,7 @@ const HabitTracker = ({ loading }) => (
     <AppTitleWithLoading loading={loading} title="Habit Tracker" />
     <Calendar />
     <div
-      className="flex flex-wrap md:flex-no-wrap justify-around"
+      className="flex flex-wrap md:flex-nowrap justify-around"
       id="top-of-habits"
     >
       <DailyList classes="md:flex-1 w-full px-4 mb-4" />
