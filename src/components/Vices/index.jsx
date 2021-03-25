@@ -6,6 +6,8 @@ import ViceList from './ViceList';
 import AddVice from './AddVice';
 import { getVicesLoading } from '../../redux/selectors/vicesSelectors';
 import AppTitleWithLoading from '../BaseComponents/AppTitleWithLoading';
+// import SeeArchivedVices from './SeeArchivedVices';
+// import AddVirtue from './AddVirtue';
 
 const Vices = ({ loading }) => (
   <>
@@ -17,7 +19,11 @@ const Vices = ({ loading }) => (
     <AppTitleWithLoading loading={loading} title="Vices" />
     <div className="flex flex-wrap justify-around mb-4 mx-4 rounded-md border-2 border-gray-200">
       <ViceList />
-      <AddVice />
+      <div>
+        <AddVice />
+        {/* <SeeArchivedVices /> */}
+        {/* <AddVirtue /> */}
+      </div>
     </div>
   </>
 );

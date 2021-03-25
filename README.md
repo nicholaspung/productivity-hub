@@ -73,3 +73,7 @@ Note: If you're using GitHub actions, in .env, `FIREBASE_TOKEN=` need not be use
 ## Illustration website
 
 - https://illustrationkit.com/illustrations
+
+## Components used
+
+- https://tailwindui.com/preview

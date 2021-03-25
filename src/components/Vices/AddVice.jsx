@@ -36,53 +36,61 @@ const AddVice = ({ addVice }) => {
   const linkPlaceholder = 'Add a link to your vice';
 
   return (
-    <form className="p-4 flex h-48" onSubmit={onSubmitForm}>
-      <div className="flex flex-col">
-        <label htmlFor={nameTitle}>
-          <span className="w-full uppercase text-xs">
-            {nameTitle}
-            {nameError && (
-              <span className="text-red-500 pl-1">{nameError}</span>
-            )}
-          </span>
-          <input
-            type="text"
-            id={nameTitle}
-            onChange={onNameChange}
-            value={name}
-            name="name"
-            placeholder={namePlaceholder}
-            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            autoComplete="off"
-          />
-        </label>
-        <label htmlFor={linkTitle}>
-          <span className="w-full uppercase text-xs">
-            {linkTitle}
-            {linkError && (
-              <span className="text-red-500 pl-1">{linkError}</span>
-            )}
-          </span>
-          <input
-            type="text"
-            id={linkTitle}
-            onChange={onLinkChange}
-            value={link}
-            name="link"
-            placeholder={linkPlaceholder}
-            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            autoComplete="off"
-          />
-        </label>
-      </div>
-      <input type="submit" className="hidden" />
-      <FilledButton action={onAddItem} classes="lg:hidden">
-        <SaveSVG className="w-4 h-auto" />
-      </FilledButton>
-      <FilledButton action={onAddItem} classes="hidden lg:inline-flex">
-        Save
-      </FilledButton>
-    </form>
+    <div>
+      <h2 className="font-bold pt-2 pl-4 border-b-2 border-gray-200">
+        Add a Vice
+      </h2>
+      <form
+        className="p-4 flex h-48 border-b-2 border-gray-200"
+        onSubmit={onSubmitForm}
+      >
+        <div className="flex flex-col">
+          <label htmlFor={nameTitle}>
+            <span className="w-full uppercase text-xs">
+              {nameTitle}
+              {nameError && (
+                <span className="text-red-500 pl-1">{nameError}</span>
+              )}
+            </span>
+            <input
+              type="text"
+              id={nameTitle}
+              onChange={onNameChange}
+              value={name}
+              name="name"
+              placeholder={namePlaceholder}
+              className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              autoComplete="off"
+            />
+          </label>
+          <label htmlFor={linkTitle}>
+            <span className="w-full uppercase text-xs">
+              {linkTitle}
+              {linkError && (
+                <span className="text-red-500 pl-1">{linkError}</span>
+              )}
+            </span>
+            <input
+              type="text"
+              id={linkTitle}
+              onChange={onLinkChange}
+              value={link}
+              name="link"
+              placeholder={linkPlaceholder}
+              className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              autoComplete="off"
+            />
+          </label>
+        </div>
+        <input type="submit" className="hidden" />
+        <FilledButton action={onAddItem} classes="lg:hidden">
+          <SaveSVG className="w-4 h-auto" />
+        </FilledButton>
+        <FilledButton action={onAddItem} classes="hidden lg:inline-flex">
+          Save
+        </FilledButton>
+      </form>
+    </div>
   );
 };
 

@@ -86,7 +86,7 @@ const TodoList = ({
           error={error}
           message="You have no todos for this category."
         />
-        {sortedTodosForPriority[0].length ? (
+        {sortedTodosForPriority[0].filter(getFilterFunction(filter)).length ? (
           <h2 className="font-bold pt-2">High Priority</h2>
         ) : null}
         <ItemList
@@ -95,7 +95,7 @@ const TodoList = ({
           filterFunction={getFilterFunction(filter)}
           loading={loading}
         />
-        {sortedTodosForPriority[1].length ? (
+        {sortedTodosForPriority[1].filter(getFilterFunction(filter)).length ? (
           <h2 className="font-bold pt-2">No Priority</h2>
         ) : null}
         <ItemList
@@ -104,7 +104,7 @@ const TodoList = ({
           filterFunction={getFilterFunction(filter)}
           loading={loading}
         />
-        {sortedTodosForPriority[2].length ? (
+        {sortedTodosForPriority[2].filter(getFilterFunction(filter)).length ? (
           <h2 className="font-bold pt-2">Low Priority</h2>
         ) : null}
         <ItemList
