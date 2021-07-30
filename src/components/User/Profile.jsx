@@ -11,12 +11,16 @@ import UserAnalytics from './UserAnalytics';
 import { appSelectionUtil } from '../../utils/userUtils';
 
 const Profile = ({ userInfo, apps, addApp }) => {
-  const [userApps, setUserApps] = useState(apps);
+  const [userApps, setUserApps] = useState([...apps]);
 
-  const onCheckboxChange = (event, appId) =>
-    setUserApps(appSelectionUtil(event, appId, userApps));
+  const onCheckboxChange = (event, app) =>
+    setUserApps(appSelectionUtil(event, app, userApps));
   const onProfileCancel = () => setUserApps(apps);
-  const onProfileSave = () => addApp(userInfo.profileId, userApps);
+  const onProfileSave = () =>
+    addApp(
+      userInfo.profileId,
+      userApps.map((app) => app.id),
+    );
 
   return (
     <>

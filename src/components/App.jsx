@@ -11,6 +11,7 @@ import { Main } from './BaseComponents';
 import Banner from './Banner';
 import Helmet from './BaseComponents/Helmet';
 import Vices from './Vices';
+import TimeTracker from './TimeTracker';
 
 const App = () => (
   <>
@@ -27,6 +28,7 @@ const App = () => (
         <PrivateRoute path="/post-saver" component={PostSaver} />
         <PrivateRoute path="/habit-tracker" component={HabitTracker} />
         <PrivateRoute path="/vices" component={Vices} />
+        <PrivateRoute path="/time-tracker" component={TimeTracker} />
         <PrivateRoute path="/profile" component={Profile} />
         <Route path="*">
           <Redirect to="/" />

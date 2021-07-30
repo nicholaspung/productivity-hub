@@ -264,19 +264,23 @@ describe('#UserUtils', () => {
   it('#appSelectionUtil', () => {
     const event1 = { target: { checked: true } };
     const event2 = { target: { checked: false } };
-    const appId = 1;
-    const userApps1 = [1];
-    const userApps2 = [2, 3];
-    expect(userUtils.appSelectionUtil(event1, appId, userApps1)).toEqual([1]);
-    expect(userUtils.appSelectionUtil(event1, appId, userApps2)).toEqual([
-      2,
-      3,
-      1,
+    const appId = { id: 1 };
+    const userApps1 = [appId];
+    const userApps2 = [{ id: 2 }, { id: 3 }];
+    expect(userUtils.appSelectionUtil(event1, appId, userApps1)).toEqual([
+      { id: 1 },
     ]);
-    expect(userUtils.appSelectionUtil(event2, appId, userApps1)).toEqual([1]);
+    expect(userUtils.appSelectionUtil(event1, appId, userApps2)).toEqual([
+      { id: 2 },
+      { id: 3 },
+      { id: 1 },
+    ]);
+    expect(userUtils.appSelectionUtil(event2, appId, userApps1)).toEqual([
+      { id: 1 },
+    ]);
     expect(userUtils.appSelectionUtil(event2, appId, userApps2)).toEqual([
-      2,
-      3,
+      { id: 2 },
+      { id: 3 },
     ]);
   });
 });

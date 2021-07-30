@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 const APPS = [
   { title: 'Habit Tracker', id: 1 },
   { title: 'Vices', id: 3 },
+  { title: 'Time Tracker', id: 4 },
 ];
 
 const Apps = ({ userApps, onCheckboxChange }) => (
@@ -21,8 +22,8 @@ const Apps = ({ userApps, onCheckboxChange }) => (
               id={app.id}
               className="mr-2 leading-tight"
               type="checkbox"
-              checked={userApps.indexOf(app.id) !== -1}
-              onChange={(event) => onCheckboxChange(event, app.id)}
+              checked={userApps.findIndex((el) => el.id === app.id) !== -1}
+              onChange={(event) => onCheckboxChange(event, app)}
             />
             <span className="text-sm">{app.title}</span>
           </label>

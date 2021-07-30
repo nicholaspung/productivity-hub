@@ -77,3 +77,4 @@ Note: If you're using GitHub actions, in .env, `FIREBASE_TOKEN=` need not be use
 ## Components used
 
 - https://tailwindui.com/preview
+- https://heroicons.com/

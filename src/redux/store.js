@@ -5,12 +5,14 @@ import habitTrackerReducers from './reducers/habitTrackerReducers';
 import userReducers from './reducers/userReducers';
 import postSaverReducers from './reducers/postSaverReducers';
 import vicesReducers from './reducers/vicesReducers';
+import timeTrackerReducers from './reducers/timeTrackerReducers';
 
 const combinedReducers = combineReducers({
   ...userReducers,
   ...habitTrackerReducers,
   ...postSaverReducers,
   ...vicesReducers,
+  ...timeTrackerReducers,
 });
 
 export default createStore(

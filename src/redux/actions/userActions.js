@@ -37,6 +37,7 @@ export const UPDATE_USER_ANALYTIC_THRESHOLD_DONE =
 export const UPDATE_USER_ANALYTIC_THRESHOLD_ERROR =
   'UPDATE_USER_ANALYTIC_THRESHOLD_ERROR';
 export const CLEAR_USER_ERROR_MESSAGE = 'CLEAR_USER_ERROR_MESSAGE';
+export const APP_PREFERENCES_UPDATING_DONE = 'APP_PREFERENCES_UPDATING_DONE';
 
 export const initialLoad = () => ({ type: USER_LOADING });
 export const logOut = () => ({ type: USER_LOGGED_OUT });
@@ -48,15 +49,20 @@ export const updateApps = (apps) => ({
   type: APPS_UPDATING_DONE,
   payload: apps,
 });
+export const setAppPreferences = (preferences) => ({
+  type: APP_PREFERENCES_UPDATING_DONE,
+  payload: preferences,
+});
 export const loggedIn = () => async (dispatch) => {
   try {
     const { data } = await getProfile();
-    const { transformedUser, apps } = helperLoggedIn(data);
+    const { transformedUser, apps, appPreferences } = helperLoggedIn(data);
     dispatch({
       type: USER_LOGGED_IN,
       payload: transformedUser,
     });
-    return dispatch(updateApps(apps));
+    dispatch(updateApps(apps));
+    return dispatch(setAppPreferences(appPreferences));
   } catch (err) {
     return dispatch({ type: USER_LOADING_ERROR, payload: err });
   }

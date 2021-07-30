@@ -56,6 +56,7 @@ const Header = ({
     ? [
         { link: '/habit-tracker', label: 'Habit Tracker', icons: '' },
         { link: '/vices', label: 'Vices', icons: '' },
+        { link: '/time-tracker', label: 'Time Tracker', icons: '' },
       ]
     : [];
   const navSubItems = isLoggedIn

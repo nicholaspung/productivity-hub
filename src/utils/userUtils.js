@@ -68,6 +68,7 @@ export const helperLoggedIn = (data) => {
     is_anonymous: isAnonymous,
     id: profileId,
     email: dataEmail,
+    app_preferences: appPreferences,
   } = data;
   let userEmail = dataEmail;
   if (isAnonymous) {
@@ -79,7 +80,7 @@ export const helperLoggedIn = (data) => {
     userId,
     profileId,
   };
-  return { transformedUser, apps };
+  return { transformedUser, apps, appPreferences };
 };
 export const helperAttachNewThresholdToUserAnalytics = (data, analytics) => {
   const analyticsCopy = [...analytics];
@@ -92,15 +93,15 @@ export const helperAttachNewThresholdToUserAnalytics = (data, analytics) => {
   });
   return analyticsCopy;
 };
-export const appSelectionUtil = (event, appId, userApps) => {
+export const appSelectionUtil = (event, app, userApps) => {
   const userAppsCopy = [...userApps];
-  const appIdx = userApps.indexOf(appId);
+  const appIdx = userAppsCopy.findIndex((el) => el.id === app.id);
   if (!event.target.checked) {
     if (appIdx > 0) {
       userAppsCopy.splice(appIdx, 1);
     }
   } else if (appIdx === -1) {
-    userAppsCopy.push(appId);
+    userAppsCopy.push(app);
   }
-  return userAppsCopy.map((id) => Number(id));
+  return userAppsCopy;
 };

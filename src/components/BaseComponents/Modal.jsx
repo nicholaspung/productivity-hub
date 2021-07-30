@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
+// Can be made better, don't have the energy to think how right now
+
 const Modal = ({ isShowing, toggle, Component, data, ...rest }) => {
   if (!isShowing) return null;
 

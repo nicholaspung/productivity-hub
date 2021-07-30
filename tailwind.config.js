@@ -140,6 +140,7 @@ module.exports = {
   variants: {
     extend: {
       backgroundColor: ['even', 'active'],
+      borderRadius: ['first', 'last'],
       borderWidth: ['last'],
       outline: ['focus'],
       textColor: ['visited'],

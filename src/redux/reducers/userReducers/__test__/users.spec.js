@@ -131,4 +131,15 @@ describe('#UsersReducer', () => {
       error: {},
     });
   });
+  it('#APP_PREFERENCES_UPDATING_DONE', () => {
+    expect(
+      reducer(initialState, {
+        type: 'APP_PREFERENCES_UPDATING_DONE',
+        payload: undefined,
+      }),
+    ).toEqual({
+      ...initialState,
+      appPreferences: undefined,
+    });
+  });
 });

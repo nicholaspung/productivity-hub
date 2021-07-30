@@ -14,6 +14,7 @@ import {
   CREATE_USER_ANALYTIC_THRESHOLD_DONE,
   CREATE_USER_ANALYTIC_THRESHOLD_ERROR,
   CLEAR_USER_ERROR_MESSAGE,
+  APP_PREFERENCES_UPDATING_DONE,
 } from '../../actions/userActions';
 
 export const initialState = {
@@ -23,6 +24,7 @@ export const initialState = {
     userId: undefined,
   },
   apps: [],
+  appPreferences: {},
   userAnalytics: [],
   loading: true,
   error: {},
@@ -68,6 +70,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         apps: action.payload,
+      };
+    case APP_PREFERENCES_UPDATING_DONE:
+      return {
+        ...state,
+        appPreferences: action.payload,
       };
     case USER_ANALYTICS_DONE:
     case CREATE_USER_ANALYTIC_THRESHOLD_DONE:
