@@ -6,17 +6,24 @@ import {
 } from '../common/routes';
 import { getDateTransform } from '../utils/dateUtils';
 
-export const getTrackTimes = async () =>
-  (await axiosWithAuth()).get(trackTimesUrl);
+export const getTrackTimes = async (date = new Date()) =>
+  (await axiosWithAuth()).get(
+    `${trackTimesUrl}?date=${getDateTransform(date)}`,
+  );
 
 export const createTrackTime = async (trackTime) =>
   (await axiosWithAuth()).post(trackTimesUrl, trackTime);
 
-export const updateTrackTime = async (id, trackTime) =>
-  (await axiosWithAuth()).patch(`${trackTimesUrl}${id}/`, trackTime);
+export const updateTrackTime = async (id, trackTime, date = new Date()) =>
+  (await axiosWithAuth()).patch(
+    `${trackTimesUrl}${id}/?date=${getDateTransform(date)}`,
+    trackTime,
+  );
 
-export const deleteTrackTime = async (id) =>
-  (await axiosWithAuth()).delete(`${trackTimesUrl}${id}/`);
+export const deleteTrackTime = async (id, date = new Date()) =>
+  (await axiosWithAuth()).delete(
+    `${trackTimesUrl}${id}/?date=${getDateTransform(date)}`,
+  );
 
 export const getTrackTimeNames = async () =>
   (await axiosWithAuth()).get(trackTimeNamesUrl);
@@ -24,15 +31,8 @@ export const getTrackTimeNames = async () =>
 export const createTrackTimeName = async (trackTimeName) =>
   (await axiosWithAuth()).post(trackTimeNamesUrl, trackTimeName);
 
-export const updateTrackTimeName = async (
-  id,
-  trackTimeName,
-  date = new Date(),
-) =>
-  (await axiosWithAuth()).patch(
-    `${trackTimeNamesUrl}${id}/?date=${getDateTransform(date)}`,
-    trackTimeName,
-  );
+export const updateTrackTimeName = async (id, trackTimeName) =>
+  (await axiosWithAuth()).patch(`${trackTimeNamesUrl}${id}/`, trackTimeName);
 
 export const deleteTrackTimeName = async (id) =>
   (await axiosWithAuth()).delete(`${trackTimeNamesUrl}${id}/`);
