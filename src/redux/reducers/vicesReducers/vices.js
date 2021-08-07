@@ -14,10 +14,12 @@ import {
   VICES_DELETING,
   VICES_DELETING_DONE,
   VICES_DELETING_ERROR,
+  ADD_ARCHIVED_VICES,
 } from '../../actions/vicesActions';
 
 export const initialState = {
   viceAnalytics: [],
+  archivedVices: [],
   cache: false,
   loading: false,
   error: {},
@@ -45,6 +47,11 @@ export default function (state = initialState, action) {
         viceAnalytics: action.payload,
         cache: true,
         loading: false,
+      };
+    case ADD_ARCHIVED_VICES:
+      return {
+        ...state,
+        archivedVices: action.payload,
       };
     case VICE_ANALYTICS_FETCHING_ERROR:
     case VICE_ANALYTICS_INCREASE_ERROR:

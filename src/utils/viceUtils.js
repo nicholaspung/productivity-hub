@@ -26,6 +26,8 @@ export const sortViceAnalytics = (a, b) => {
 };
 export const filterArchivedVicesOut = (data) =>
   data.filter((item) => !item.vice.archived);
+export const filterUnarchivedVicesOut = (data) =>
+  data.filter((item) => item.vice.archived);
 export const cantAccessFunction = (analytic, dateObj = new Date()) => {
   if (analytic.frequency === 0) return false;
   const lastAccessed = getHoursLastAccessed(analytic.last_updated, dateObj);

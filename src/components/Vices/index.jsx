@@ -6,7 +6,7 @@ import ViceList from './ViceList';
 import AddVice from './AddVice';
 import { getVicesLoading } from '../../redux/selectors/vicesSelectors';
 import AppTitleWithLoading from '../BaseComponents/AppTitleWithLoading';
-// import SeeArchivedVices from './SeeArchivedVices';
+import SeeArchivedVicesButton from './SeeArchivedVicesButton';
 // import AddVirtue from './AddVirtue';
 
 const Vices = ({ loading }) => (
@@ -21,7 +21,7 @@ const Vices = ({ loading }) => (
       <ViceList />
       <div>
         <AddVice />
-        {/* <SeeArchivedVices /> */}
+        <SeeArchivedVicesButton />
         {/* <AddVirtue /> */}
       </div>
     </div>

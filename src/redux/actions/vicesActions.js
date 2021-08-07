@@ -6,7 +6,10 @@ import {
   incrementFrequencyForViceAnalytic as incrementFrequencyForViceAnalyticAPI,
 } from '../../api/vicesApi';
 import { getVicesViceAnalytics } from '../selectors/vicesSelectors';
-import { filterArchivedVicesOut } from '../../utils/viceUtils';
+import {
+  filterArchivedVicesOut,
+  filterUnarchivedVicesOut,
+} from '../../utils/viceUtils';
 
 export const VICE_ANALYTICS_FETCHING = 'VICE_ANALYTICS_FETCHING';
 export const VICE_ANALYTICS_FETCHING_DONE = 'VICE_ANALYTICS_FETCHING_DONE';
@@ -24,11 +27,16 @@ export const VICES_DELETING = 'VICES_DELETING';
 export const VICES_DELETING_DONE = 'VICES_DELETING_DONE';
 export const VICES_DELETING_ERROR = 'VICES_DELETING_ERROR';
 export const VICES_CLEAR = 'VICES_CLEAR';
+export const ADD_ARCHIVED_VICES = 'ADD_ARCHIVED_VICES';
 
 export const createViceAnalytics = () => async (dispatch) => {
   dispatch({ type: VICE_ANALYTICS_FETCHING });
   try {
     const { data } = await createViceAnalyticsAPI();
+    dispatch({
+      type: ADD_ARCHIVED_VICES,
+      payload: filterUnarchivedVicesOut(data),
+    });
     return dispatch({
       type: VICE_ANALYTICS_FETCHING_DONE,
       payload: filterArchivedVicesOut(data),
@@ -80,6 +88,10 @@ export const editVice = (id, newVice) => async (dispatch, getState) => {
       (el) => el.vice.id === data.id,
     );
     viceAnalyticsCopy[viceAnalyticIdx].vice = data;
+    dispatch({
+      type: ADD_ARCHIVED_VICES,
+      payload: filterUnarchivedVicesOut(viceAnalyticsCopy),
+    });
     return dispatch({
       type: VICES_EDITING_DONE,
       payload: filterArchivedVicesOut(viceAnalyticsCopy),
