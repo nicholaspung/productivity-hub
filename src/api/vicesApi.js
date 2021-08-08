@@ -25,3 +25,6 @@ export const updateVice = async (id, newVice) =>
 
 export const deleteVice = async (id) =>
   (await axiosWithAuth()).delete(`${viceUrl}${id}/`);
+
+export const getArchivedVices = async () =>
+  (await axiosWithAuth()).get(`${viceUrl}?archived=True`);

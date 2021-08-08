@@ -14,7 +14,9 @@ import {
   VICES_DELETING,
   VICES_DELETING_DONE,
   VICES_DELETING_ERROR,
-  ADD_ARCHIVED_VICES,
+  VICES_ARCHIVED_FETCHING,
+  VICES_ARCHIVED_FETCHING_DONE,
+  VICES_ARCHIVED_FETCHING_ERROR,
 } from '../../actions/vicesActions';
 
 export const initialState = {
@@ -32,6 +34,7 @@ export default function (state = initialState, action) {
     case VICES_ADDING:
     case VICES_EDITING:
     case VICES_DELETING:
+    case VICES_ARCHIVED_FETCHING:
       return {
         ...state,
         loading: true,
@@ -48,16 +51,19 @@ export default function (state = initialState, action) {
         cache: true,
         loading: false,
       };
-    case ADD_ARCHIVED_VICES:
+    case VICES_ARCHIVED_FETCHING_DONE:
       return {
         ...state,
+        loading: false,
         archivedVices: action.payload,
+        error: {},
       };
     case VICE_ANALYTICS_FETCHING_ERROR:
     case VICE_ANALYTICS_INCREASE_ERROR:
     case VICES_ADDING_ERROR:
     case VICES_EDITING_ERROR:
     case VICES_DELETING_ERROR:
+    case VICES_ARCHIVED_FETCHING_ERROR:
       return {
         ...state,
         loading: false,
