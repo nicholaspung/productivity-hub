@@ -4,7 +4,7 @@ import {
   updateVice as updateViceAPI,
   deleteVice as deleteViceAPI,
   incrementFrequencyForViceAnalytic as incrementFrequencyForViceAnalyticAPI,
-  getArchivedVices as getArchivedVicesAPI,
+  // getArchivedVices as getArchivedVicesAPI,
 } from '../../api/vicesApi';
 import { getVicesViceAnalytics } from '../selectors/vicesSelectors';
 import { filterArchivedVicesOut } from '../../utils/viceUtils';
@@ -84,6 +84,10 @@ export const editVice = (id, newVice) => async (dispatch, getState) => {
       (el) => el.vice.id === data.id,
     );
     viceAnalyticsCopy[viceAnalyticIdx].vice = data;
+
+    // To add to Archived Vices
+    // When unarchiving a vice, it will edit the vice, but you will have to
+    // remove the vice from unarchivedvices, and also trigger a second createviceanalytics
     return dispatch({
       type: VICES_EDITING_DONE,
       payload: filterArchivedVicesOut(viceAnalyticsCopy),
@@ -108,12 +112,12 @@ export const deleteVice = (id) => async (dispatch, getState) => {
   }
 };
 export const clearVices = () => ({ type: VICES_CLEAR });
-export const getArchivedVices = () => async (dispatch) => {
-  dispatch({ type: VICES_ARCHIVED_FETCHING });
-  try {
-    const { data } = await getArchivedVicesAPI();
-    return dispatch({ type: VICES_ARCHIVED_FETCHING_DONE, payload: data });
-  } catch (err) {
-    return dispatch({ type: VICES_ARCHIVED_FETCHING_ERROR, payload: err });
-  }
-};
+// export const getArchivedVices = () => async (dispatch) => {
+//   dispatch({ type: VICES_ARCHIVED_FETCHING });
+//   try {
+//     const { data } = await getArchivedVicesAPI();
+//     return dispatch({ type: VICES_ARCHIVED_FETCHING_DONE, payload: data });
+//   } catch (err) {
+//     return dispatch({ type: VICES_ARCHIVED_FETCHING_ERROR, payload: err });
+//   }
+// };

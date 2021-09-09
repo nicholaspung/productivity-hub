@@ -10,6 +10,7 @@ describe('#VicesSelectors', () => {
           frequency: 1,
         },
       ],
+      archivedVices: [{ id: 2, name: 'archived' }],
       cache: false,
       loading: false,
       error: {},
@@ -18,6 +19,7 @@ describe('#VicesSelectors', () => {
   const state2 = {
     vices: {
       viceAnalytics: [],
+      archivedVices: [],
       cache: true,
       loading: true,
       error: {
@@ -48,5 +50,13 @@ describe('#VicesSelectors', () => {
   it('#getVicesCache', () => {
     expect(selectors.getVicesCache(state1)).toEqual(false);
     expect(selectors.getVicesCache(state2)).toEqual(true);
+  });
+  it('#getVicesArchivedVices', () => {
+    expect(selectors.getVicesArchivedVices(state1)).toEqual(
+      state1.vices.archivedVices,
+    );
+    expect(selectors.getVicesArchivedVices(state2)).toEqual(
+      state2.vices.archivedVices,
+    );
   });
 });

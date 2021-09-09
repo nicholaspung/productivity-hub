@@ -80,4 +80,14 @@ describe('#ViceUtils', () => {
     expect(utils.cantAccessFunction(analytic2, lastUpdated1)).toEqual(true);
     expect(utils.cantAccessFunction(analytic2, lastUpdated2)).toEqual(false);
   });
+  it('#filterUnarchivedVicesOut', () => {
+    const filterThisArray = [
+      { id: 1, vice: { archived: false } },
+      { id: 2, vice: { archived: true } },
+      { id: 3, vice: { archived: false } },
+    ];
+    expect(utils.filterUnarchivedVicesOut(filterThisArray)).toEqual([
+      { id: 2, vice: { archived: true } },
+    ]);
+  });
 });

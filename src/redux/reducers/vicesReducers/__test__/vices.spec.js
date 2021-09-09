@@ -161,4 +161,36 @@ describe('#VicesReducer', () => {
       }),
     ).toEqual({ ...initialState, error: { message: 'hi' }, loading: false });
   });
+  it('#VICES_ARCHIVED_FETCHING', () => {
+    expect(reducer(initialState, { type: 'VICES_ARCHIVED_FETCHING' })).toEqual({
+      ...initialState,
+      loading: true,
+      error: {},
+    });
+  });
+  it('#VICES_ARCHIVED_FETCHING_DONE', () => {
+    expect(
+      reducer(initialState, {
+        type: 'VICES_ARCHIVED_FETCHING_DONE',
+        payload: [{ id: 1 }],
+      }),
+    ).toEqual({
+      ...initialState,
+      loading: false,
+      archivedVices: [{ id: 1 }],
+      error: {},
+    });
+  });
+  it('#VICES_ARCHIVED_FETCHING_ERROR', () => {
+    expect(
+      reducer(initialState, {
+        type: 'VICES_ARCHIVED_FETCHING_ERROR',
+        payload: { message: 'hi' },
+      }),
+    ).toEqual({
+      ...initialState,
+      loading: false,
+      error: { message: 'hi' },
+    });
+  });
 });
