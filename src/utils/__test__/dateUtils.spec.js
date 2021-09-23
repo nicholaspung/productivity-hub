@@ -83,4 +83,13 @@ describe('#DateUtils', () => {
     expect(utils.simplifyDisplayTime(date1)).toEqual('12:00 PM');
     expect(utils.simplifyDisplayTime(date2)).toEqual('06:30 AM');
   });
+  it('#sortByTime', () => {
+    const date1 = { start_time: new Date(2020, 1, 1).toISOString() };
+    const date2 = { start_time: new Date(2020, 2, 1).toISOString() };
+    const date3 = { start_time: new Date(2020, 3, 1).toISOString() };
+    const arr1 = [date3, date2, date1];
+    const arr2 = [date1, date3, date2, date3];
+    expect(arr1.sort(utils.sortByTime)).toEqual([date1, date2, date3]);
+    expect(arr2.sort(utils.sortByTime)).toEqual([date1, date2, date3, date3]);
+  });
 });

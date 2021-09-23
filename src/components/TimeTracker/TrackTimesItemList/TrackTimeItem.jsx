@@ -36,7 +36,7 @@ const TrackTimeItem = ({ trackTime, deleteTrackTime }) => {
         onClick={() => setOpen(!open)}
       >
         <div className="flex justify-between">
-          <p>{trackTime.track_time_name.name}</p>
+          <p className="text-left">{trackTime.track_time_name.name}</p>
           <p>{displayHourMinSecTime(trackTime.total_time, false)}</p>
         </div>
       </button>

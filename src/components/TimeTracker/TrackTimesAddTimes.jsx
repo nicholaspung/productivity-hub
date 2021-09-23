@@ -75,9 +75,11 @@ export const TrackTimesAddTimes = ({
     // also add for when there's a start time and total time | end time and total
   };
 
-  const onClearForm = () => {
+  const onClearForm = (settings = { resetName: true }) => {
     if (!data) {
-      setTimeName(defaultTimeName);
+      if (settings.resetName) {
+        setTimeName(defaultTimeName);
+      }
       setDate(getDateTransform(today));
       setStartTime('');
       setEndTime('');
@@ -137,7 +139,7 @@ export const TrackTimesAddTimes = ({
       await actionFunction(newTime);
     }
 
-    onClearForm();
+    onClearForm({ resetName: false });
     if (toggle) {
       toggle();
     }
@@ -161,7 +163,7 @@ export const TrackTimesAddTimes = ({
                 id="track-time-name-filter"
                 onChange={(event) => setTimeName(event.target.value)}
                 className={smallerFormInputClassName}
-                defaultValue={timeName}
+                value={timeName}
               >
                 {trackTimeNames.map((tTName) => (
                   <option key={tTName.id}>{tTName.name}</option>

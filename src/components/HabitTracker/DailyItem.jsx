@@ -54,7 +54,7 @@ const DailyItem = ({
     reorderHabitsUtil(data, dailies, habits, direction, reorderHabits);
   const onDeleteHabit = () => deleteHabit(data.habit.id);
 
-  const labelId = data.habit.name.replace(/ /, '');
+  const labelId = `${data.habit.name.replace(/ /, '')}${data.id}`;
   const disabledInputClass = !disableInput ? 'cursor-pointer' : '';
 
   return (

@@ -19,6 +19,7 @@ import {
   TRACK_TIMES_END_TIMER_DONE,
   TRACK_TIMES_END_TIMER_ERROR,
   TRACK_TIMES_SET_CURRENT_TRACK_TIME,
+  TRACK_TIMES_BULK_UPDATE,
 } from '../../actions/timeTrackerActions';
 
 export const initialState = {
@@ -45,6 +46,7 @@ export default function (state = initialState, action) {
     case TRACK_TIMES_ADDING_DONE:
     case TRACK_TIMES_UPDATING_DONE:
     case TRACK_TIMES_DELETING_DONE:
+    case TRACK_TIMES_BULK_UPDATE:
       return {
         ...state,
         loading: false,

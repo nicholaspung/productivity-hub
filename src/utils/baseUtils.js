@@ -9,3 +9,15 @@ export const helperRemoveObjectFromArray = (array, index) => {
   arrayCopy.splice(index, 1);
   return arrayCopy;
 };
+
+export const helperReplacePropertyInArray = (array, property, data) => {
+  const arrayCopy = [...array];
+  return arrayCopy.map((item) => {
+    if (item[property].id === data.id) {
+      const itemCopy = { ...item };
+      itemCopy[property] = data;
+      return itemCopy;
+    }
+    return item;
+  });
+};

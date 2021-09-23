@@ -25,4 +25,70 @@ describe('#BaseUtils', () => {
       { id: 2, name: 'heyo' },
     ]);
   });
+  it('#helperReplacePropertyInArray', () => {
+    const arr1 = [
+      {
+        test: {
+          id: 1,
+          name: 'test',
+        },
+      },
+      {
+        test: {
+          id: 2,
+          name: 'test 2',
+        },
+      },
+    ];
+    const data1 = {
+      id: 1,
+      name: 'new test',
+    };
+    const arr2 = [
+      {
+        cow: {
+          id: 1,
+          milk: true,
+        },
+      },
+      {
+        cow: {
+          id: 2,
+          milk: false,
+        },
+      },
+    ];
+    const data2 = {
+      id: 2,
+      milk: true,
+    };
+    expect(utils.helperReplacePropertyInArray(arr1, 'test', data1)).toEqual([
+      {
+        test: {
+          id: 1,
+          name: 'new test',
+        },
+      },
+      {
+        test: {
+          id: 2,
+          name: 'test 2',
+        },
+      },
+    ]);
+    expect(utils.helperReplacePropertyInArray(arr2, 'cow', data2)).toEqual([
+      {
+        cow: {
+          id: 1,
+          milk: true,
+        },
+      },
+      {
+        cow: {
+          id: 2,
+          milk: true,
+        },
+      },
+    ]);
+  });
 });

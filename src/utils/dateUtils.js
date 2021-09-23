@@ -73,3 +73,15 @@ export const simplifyDisplayTime = (timeString) => {
     splitString[0].length === 2 ? splitString[0] : `0${splitString[0]}`;
   return `${firstItem}:${splitString[1]} ${splitString[2].substring(3)}`;
 };
+
+export const sortByTime = (a, b) => {
+  const day1StartTime = new Date(a.start_time);
+  const day2StartTime = new Date(b.start_time);
+  if (day1StartTime < day2StartTime) {
+    return -1;
+  }
+  if (day1StartTime > day2StartTime) {
+    return 1;
+  }
+  return 0;
+};

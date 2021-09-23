@@ -209,4 +209,16 @@ describe('#TrackTimesReducer', () => {
       currentTrackTime: { name: 'current track time' },
     });
   });
+  it('#TRACK_TIMES_BULK_UPDATE', () => {
+    expect(
+      reducer(initialState, {
+        type: 'TRACK_TIMES_BULK_UPDATE',
+        payload: [],
+      }),
+    ).toEqual({
+      ...initialState,
+      loading: false,
+      trackTimes: [],
+    });
+  });
 });

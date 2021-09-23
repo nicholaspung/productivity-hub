@@ -141,7 +141,6 @@ const CurrentTrackTimeContent = ({
             <div className="w-36">
               <div className="mb-2">
                 <FilledButton
-                  type="button"
                   action={() => {
                     continueTrackTime(
                       previousCurrentTrackTime.track_time_name.id,

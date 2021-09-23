@@ -1,6 +1,7 @@
 import {
   helperReplaceObjectInArray,
   helperRemoveObjectFromArray,
+  helperReplacePropertyInArray,
 } from '../../utils/baseUtils';
 import {
   getTrackTimes as getTrackTimesAPI,
@@ -58,6 +59,7 @@ export const TRACK_TIME_PREFERENCES_UPDATING_ERROR =
   'TRACK_TIME_PREFERENCES_UPDATING_ERROR';
 export const TIME_TRACKER_CLEAR = 'TIME_TRACKER_CLEAR';
 export const TRACK_TIME_NAME_SET_BREAK_TIME = 'TRACK_TIME_NAME_SET_BREAK_TIME';
+export const TRACK_TIMES_BULK_UPDATE = 'TRACK_TIMES_BULK_UPDATE';
 
 export const createTrackTimeNameAndStartTrackTimeTimer = (name) => async (
   dispatch,
@@ -257,12 +259,24 @@ export const updateTrackTimeName = (id, trackTimeName) => async (
   dispatch({ type: TRACK_TIME_NAMES_UPDATING });
   try {
     const { data } = await updateTrackTimeNameAPI(id, trackTimeName);
-    const { trackTimeNames } = getState();
+    const {
+      trackTimeNames,
+      trackTimes: { trackTimes },
+    } = getState();
     const trackTimeNamesCopy = helperReplaceObjectInArray(
       trackTimeNames,
       'trackTimeNames',
       data,
     );
+    const trackTimesWithReplacedName = helperReplacePropertyInArray(
+      trackTimes,
+      'track_time_name',
+      data,
+    );
+    dispatch({
+      type: TRACK_TIMES_BULK_UPDATE,
+      payload: trackTimesWithReplacedName,
+    });
     return dispatch({
       type: TRACK_TIME_NAMES_UPDATING_DONE,
       payload: trackTimeNamesCopy,

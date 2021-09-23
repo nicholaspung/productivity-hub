@@ -7,13 +7,13 @@ import {
   getTrackTimesLoading as getTrackTimesLoadingSelector,
 } from '../../../redux/selectors/timeTrackerSelectors';
 import TrackTimeItem from './TrackTimeItem';
-import { displayHourMinSecTime } from '../../../utils/dateUtils';
+import { displayHourMinSecTime, sortByTime } from '../../../utils/dateUtils';
 import EmptyItem from '../../BaseComponents/EmptyItem';
 
 const TrackTimesItemList = ({ trackTimes, error, loading }) => (
   <div className="p-4">
     <div className="border-2 border-gray-500 p-4 flex justify-between">
-      <h2 className="font-bold underline">Total Time</h2>
+      <h2 className="font-bold underline">Total Time Tracked</h2>
       <p className="underline">
         {displayHourMinSecTime(
           trackTimes.reduce((acc, curr) => acc + curr.total_time, 0),
@@ -26,7 +26,7 @@ const TrackTimesItemList = ({ trackTimes, error, loading }) => (
         <EmptyItem length={trackTimes.length} error={error} loading={loading} />
       </div>
     ) : null}
-    {trackTimes.map((trackTime) => (
+    {trackTimes.sort(sortByTime).map((trackTime) => (
       <TrackTimeItem trackTime={trackTime} key={trackTime.id} />
     ))}
   </div>
