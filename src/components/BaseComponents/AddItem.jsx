@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FilledButton } from '.';
-import { ReactComponent as SaveSVG } from '../../assets/icons/save.svg';
+import AddItemButtons from './AddItemButtons';
 
 const AddItem = ({
   addItem,
+  addItem2 = () => {},
   labelTitle = '',
   labelButton = '',
+  labelButton2 = '',
   placeholder = '',
   property = '',
   classes = '',
   MobileIconOverride,
+  MobileIconOverride2,
+  secondButton = false,
+  disable = false,
   setOutsideState = () => {},
   callback = () => {},
+  callback2 = () => {},
 }) => {
   const [newItem, setNewItem] = useState('');
 
@@ -22,6 +27,13 @@ const AddItem = ({
     setNewItem('');
     setOutsideState('');
     callback();
+  };
+  const onAddItem2 = (event) => {
+    event.preventDefault();
+    addItem2({ [property]: newItem });
+    setNewItem('');
+    setOutsideState('');
+    callback2();
   };
   const onTextChange = (event) => {
     setNewItem(event.target.value);
@@ -38,18 +50,25 @@ const AddItem = ({
           onChange={onTextChange}
           value={newItem}
           placeholder={placeholder}
-          className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className={`block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${
+            disable ? 'pointer-events-none' : ''
+          }`}
+          disabled={disable}
         />
-        <FilledButton action={onAddItem} classes="lg:hidden">
-          {MobileIconOverride ? (
-            <MobileIconOverride className="w-4 h-auto" />
-          ) : (
-            <SaveSVG className="w-4 h-auto" />
-          )}
-        </FilledButton>
-        <FilledButton action={onAddItem} classes="hidden lg:inline-flex">
-          {labelButton}
-        </FilledButton>
+        {secondButton && (
+          <AddItemButtons
+            onAddItemAction={onAddItem2}
+            MobileIconOverrideImage={MobileIconOverride2}
+            disableMe={disable}
+            labelButtonText={labelButton2}
+          />
+        )}
+        <AddItemButtons
+          onAddItemAction={onAddItem}
+          MobileIconOverrideImage={MobileIconOverride}
+          disableMe={disable}
+          labelButtonText={labelButton}
+        />
       </label>
     </form>
   );
@@ -57,14 +76,20 @@ const AddItem = ({
 
 AddItem.propTypes = {
   addItem: PropTypes.func.isRequired,
+  addItem2: PropTypes.func,
   labelTitle: PropTypes.string,
   labelButton: PropTypes.string,
+  labelButton2: PropTypes.string,
   placeholder: PropTypes.string,
   property: PropTypes.string,
   classes: PropTypes.string,
+  secondButton: PropTypes.bool,
+  disable: PropTypes.bool,
   MobileIconOverride: PropTypes.object,
+  MobileIconOverride2: PropTypes.object,
   setOutsideState: PropTypes.func,
   callback: PropTypes.func,
+  callback2: PropTypes.func,
 };
 
 export default AddItem;

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  getTimeTrackerEnablePomodoro as getTimeTrackerEnablePomodoroSelector,
-  getTimeTrackerPomodoroIntervalTime as getTimeTrackerPomodoroIntervalTimeSelector,
+  // getTimeTrackerEnablePomodoro as getTimeTrackerEnablePomodoroSelector,
+  // getTimeTrackerPomodoroIntervalTime as getTimeTrackerPomodoroIntervalTimeSelector,
+  // getTimeTrackerBreakIntervalTime as getTimeTrackerBreakIntervalTimeSelector,
   getTrackTimeNamesBreakTime as getTrackTimeNamesBreakTimeSelector,
-  getTimeTrackerBreakIntervalTime as getTimeTrackerBreakIntervalTimeSelector,
   getTrackTimeCurrentTrackTime as getTrackTimeCurrentTrackTimeSelector,
 } from '../../../redux/selectors/timeTrackerSelectors';
 import {
@@ -25,9 +25,9 @@ import { ReactComponent as PlaySVG } from '../../../assets/icons/play.svg';
 const CurrentTrackTimeContent = ({
   currentTrackTime,
   onModalButton,
-  timeTrackerEnablePomodoro,
-  timeTrackerPomodoroIntervalTime,
-  timeTrackerBreakIntervalTime,
+  // timeTrackerEnablePomodoro,
+  // timeTrackerPomodoroIntervalTime,
+  // timeTrackerBreakIntervalTime,
   endTrackTimeTimer,
   startTrackTimeTimer,
   breakTime,
@@ -66,20 +66,20 @@ const CurrentTrackTimeContent = ({
     setFinished(true);
   };
 
-  useEffect(() => {
-    let interval = null;
-    if (timeTrackerEnablePomodoro) {
-      const timeLimit =
-        currentTrackTime.id === breakTime.id
-          ? timeTrackerBreakIntervalTime
-          : timeTrackerPomodoroIntervalTime;
-      interval = setInterval(() => {
-        endNewTrackTime();
-      }, timeLimit);
-      setTimeElapsedInterval(interval);
-    }
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   let interval = null;
+  //   if (timeTrackerEnablePomodoro) {
+  //     const timeLimit =
+  //       currentTrackTime.id === breakTime.id
+  //         ? timeTrackerBreakIntervalTime
+  //         : timeTrackerPomodoroIntervalTime;
+  //     interval = setInterval(() => {
+  //       endNewTrackTime();
+  //     }, timeLimit);
+  //     setTimeElapsedInterval(interval);
+  //   }
+  //   return () => clearInterval(interval);
+  // }, []);
 
   useEffect(() => {
     displayElapsedTime();
@@ -148,13 +148,15 @@ const CurrentTrackTimeContent = ({
                   }}
                   classes="w-full"
                 >
-                  Continue{' '}
-                  <span className="ml-2">
-                    <PlaySVG
-                      className="w-4 h-auto"
-                      title="Continue current track time name"
-                    />
-                  </span>
+                  <div className="flex flex-row items-center">
+                    Continue{' '}
+                    <span className="ml-2">
+                      <PlaySVG
+                        className="w-4 h-auto"
+                        title="Continue current track time name"
+                      />
+                    </span>
+                  </div>
                 </FilledButton>
               </div>
               <div className="mb-2">
@@ -162,13 +164,15 @@ const CurrentTrackTimeContent = ({
                   action={() => continueTrackTime(breakTime.id)}
                   classes="w-full"
                 >
-                  Take a Break{' '}
-                  <span className="ml-2">
-                    <PlaySVG
-                      className="w-4 h-auto"
-                      title="Start tracking your break"
-                    />
-                  </span>
+                  <div className="flex flex-row items-center">
+                    Take a Break{' '}
+                    <span className="ml-2">
+                      <PlaySVG
+                        className="w-4 h-auto"
+                        title="Start tracking your break"
+                      />
+                    </span>
+                  </div>
                 </FilledButton>
               </div>
               <Button
@@ -188,25 +192,25 @@ const CurrentTrackTimeContent = ({
 CurrentTrackTimeContent.propTypes = {
   currentTrackTime: PropTypes.object.isRequired,
   onModalButton: PropTypes.func.isRequired,
-  timeTrackerEnablePomodoro: PropTypes.bool.isRequired,
-  timeTrackerPomodoroIntervalTime: PropTypes.string,
+  // timeTrackerEnablePomodoro: PropTypes.bool.isRequired,
+  // timeTrackerPomodoroIntervalTime: PropTypes.string,
+  // timeTrackerBreakIntervalTime: PropTypes.string.isRequired,
   endTrackTimeTimer: PropTypes.func.isRequired,
   startTrackTimeTimer: PropTypes.func.isRequired,
   breakTime: PropTypes.object.isRequired,
-  timeTrackerBreakIntervalTime: PropTypes.string.isRequired,
   isShowing: PropTypes.bool,
 };
 
 export default connect(
   (state) => ({
-    timeTrackerEnablePomodoro: getTimeTrackerEnablePomodoroSelector(state),
-    timeTrackerPomodoroIntervalTime: getTimeTrackerPomodoroIntervalTimeSelector(
-      state,
-    ),
+    // timeTrackerEnablePomodoro: getTimeTrackerEnablePomodoroSelector(state),
+    // timeTrackerPomodoroIntervalTime: getTimeTrackerPomodoroIntervalTimeSelector(
+    //   state,
+    // ),
+    // timeTrackerBreakIntervalTime: getTimeTrackerBreakIntervalTimeSelector(
+    //   state,
+    // ),
     breakTime: getTrackTimeNamesBreakTimeSelector(state),
-    timeTrackerBreakIntervalTime: getTimeTrackerBreakIntervalTimeSelector(
-      state,
-    ),
     currentTrackTime: getTrackTimeCurrentTrackTimeSelector(state),
   }),
   {

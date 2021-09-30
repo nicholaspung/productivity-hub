@@ -31,9 +31,12 @@ const Vice = ({
   const modalChanges = useDisableBodyScroll();
 
   const [edit, setEdit] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
-  const onLinkAction = () =>
+  const onLinkAction = () => {
+    setClicked(true);
     incrementFrequencyForViceAnalytic(viceAnalytic.id, viceAnalytic.frequency);
+  };
   const onDeleteAction = () => deleteVice(viceAnalytic.vice.id);
   const onArchiveAction = () =>
     editVice(viceAnalytic.vice.id, {
@@ -56,6 +59,10 @@ const Vice = ({
             href={viceVice.link}
             className={`flex-1 text-center ${
               cantAccess ? 'line-through pointer-events-none' : ''
+            } ${
+              clicked
+                ? 'text-gray-400 italic pointer-events-none cursor-not-allowed'
+                : ''
             }`}
             target="_blank"
             rel="noopener noreferrer"
