@@ -96,22 +96,11 @@ const fetchDailiesForDay = (apiCall, date = new Date()) => async (
       type: DAILIES_CACHE_DONE,
       payload: transformDailiesForCache(dateObj, data),
     });
-    if (date.toLocaleDateString() !== new Date().toLocaleDateString()) {
-      return dispatch({
-        type: DAILIES_CACHE_DONE,
-        payload: transformDailiesForCache(dateObj, data),
-      });
-    }
-    dispatch({
-      type: DAILIES_CACHE_DONE,
-      payload: transformDailiesForCache(dateObj, data),
-    });
     data.sort(sortDailies);
     if (date.toLocaleDateString() === new Date().toLocaleDateString()) {
       dispatch({ type: TODAY_DAILY_CACHE });
     } else if (
-      getYesterday(date).toLocaleDateString() ===
-      getYesterday().toLocaleDateString()
+      date.toLocaleDateString() === getYesterday().toLocaleDateString()
     ) {
       dispatch({ type: YESTERDAY_DAILY_CACHE });
     }

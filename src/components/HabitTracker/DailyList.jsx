@@ -22,6 +22,7 @@ import Modal from '../BaseComponents/Modal';
 import ListLoading from './SharedComponents/ListLoading';
 import ListRefresh from './SharedComponents/ListRefresh';
 import useDisableBodyScroll from '../../hooks/useDisableBodyScroll';
+import { ConnectedYesterdayDailiesContent } from './YesterdayDailies';
 
 const filterCategories = {
   [FILTERS.UNFINISHED]: {
@@ -50,6 +51,7 @@ const DailyList = ({
 }) => {
   const [filter, setFilter] = useState(FILTERS.UNFINISHED);
   const [showHabits, setShowHabits] = useState(false);
+  const [showPreviousDailies, setShowPreviousDailies] = useState(false);
   const modalChanges = useDisableBodyScroll();
 
   useEffect(() => {
@@ -96,6 +98,14 @@ const DailyList = ({
         }}
         Component={HabitList}
       />
+      <Modal
+        isShowing={showPreviousDailies}
+        toggle={() => {
+          modalChanges(false);
+          setShowPreviousDailies(false);
+        }}
+        Component={ConnectedYesterdayDailiesContent}
+      />
       <div className="p-4 rounded-md border-2 border-gray-200 bg-white">
         {!loading && (
           <div className="h-0">
@@ -108,6 +118,16 @@ const DailyList = ({
               className={`${smallerFilledButtonClassName} relative bottom-3 right-3`}
             >
               See Habits
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                modalChanges(true);
+                setShowPreviousDailies(true);
+              }}
+              className={`${smallerFilledButtonClassName} relative bottom-3 right-3 ml-3`}
+            >
+              See Previous Dailies
             </button>
           </div>
         )}

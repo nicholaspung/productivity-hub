@@ -89,7 +89,7 @@ YesterdayDailiesContent.propTypes = {
   cache: PropTypes.bool.isRequired,
 };
 
-const ConnectedYesterdayDailiesContent = connect(
+export const ConnectedYesterdayDailiesContent = connect(
   (state) => ({
     yesterday: getDailiesDailiesCacheForDate(state, getYesterday()),
     cache: getDailiesYesterdayDailyCache(state),
