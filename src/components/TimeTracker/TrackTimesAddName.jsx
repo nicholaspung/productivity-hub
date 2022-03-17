@@ -25,6 +25,10 @@ const TrackTimesAddName = ({
   error,
   loading,
 }) => {
+  // Extract this out into it's own hook
+  // i.e. trackTimeNameInputHook - holds state and is able to be cleared from both
+  // saving a new tracktime and starttime, while also clearing when a saved tracktime
+  // play is pressed
   const [outsideState, setOutsideState] = useState('');
 
   return (
@@ -57,7 +61,9 @@ const TrackTimesAddName = ({
               (trackTimeName) =>
                 !trackTimeName.archived &&
                 (outsideState
-                  ? trackTimeName.name.includes(outsideState)
+                  ? trackTimeName.name
+                      .toLowerCase()
+                      .includes(outsideState.toLowerCase())
                   : true),
             )
             .map((trackTimeName) => (
