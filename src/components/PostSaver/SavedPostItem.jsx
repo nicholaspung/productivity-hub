@@ -6,39 +6,20 @@ import { ReactComponent as CancelSVG } from '../../assets/icons/cancel.svg';
 import { trackSpecificEventsFromUser } from '../../api/baseApi';
 import { userAnalyticLabels } from '../../constants/baseConstants';
 import { smallerFilledButtonClassName } from '../BaseComponents';
-import { getUserAnalyticLabelFrequencyAndThreshold } from '../../redux/selectors/userSelectors';
 
-const SavedPostItem = ({
-  savedPost,
-  savedPostTitleAnalyticFrequencyAndThreshold,
-  updateSavedPost,
-  setThresholdFunction,
-  setSeeThreshold,
-}) => {
+const SavedPostItem = ({ savedPost, updateSavedPost }) => {
   const [clicked, setClicked] = useState(false);
 
   const trackSavedPostTitle = (e) => {
     e.persist();
     if (e.type === 'click' || e.type === 'contextmenu') {
-      if (
-        savedPostTitleAnalyticFrequencyAndThreshold.frequency >=
-        savedPostTitleAnalyticFrequencyAndThreshold.threshold
-      ) {
-        const url = e.target.href;
-        const { target } = e.target;
-        e.preventDefault();
-        setThresholdFunction(() => (use) => {
-          if (use) {
-            setClicked(true);
-            window.open(url, target);
-            updateSavedPost(savedPost.id);
-          }
-        });
-        setSeeThreshold(true);
-        return false;
-      }
+      const url = e.target.href;
+      const { target } = e.target;
+      e.preventDefault();
       setClicked(true);
+      window.open(url, target);
       updateSavedPost(savedPost.id);
+      return false;
     }
     return trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_TITLE);
   };
@@ -74,18 +55,9 @@ const SavedPostItem = ({
 
 SavedPostItem.propTypes = {
   savedPost: PropTypes.object.isRequired,
-  savedPostTitleAnalyticFrequencyAndThreshold: PropTypes.object.isRequired,
   updateSavedPost: PropTypes.func.isRequired,
-  setThresholdFunction: PropTypes.func.isRequired,
-  setSeeThreshold: PropTypes.func.isRequired,
 };
 
-export default connect(
-  (state) => ({
-    savedPostTitleAnalyticFrequencyAndThreshold: getUserAnalyticLabelFrequencyAndThreshold(
-      state,
-      userAnalyticLabels.SAVED_POST_TITLE,
-    ),
-  }),
-  { updateSavedPost: updateSavedPostAction },
-)(SavedPostItem);
+export default connect(null, { updateSavedPost: updateSavedPostAction })(
+  SavedPostItem,
+);

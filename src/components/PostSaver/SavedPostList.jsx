@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getSavedPosts as getSavedPostsAction } from '../../redux/actions/postSaverActions';
@@ -7,16 +7,13 @@ import {
   getSavedPostsLoading,
   getSavedPostsError,
 } from '../../redux/selectors/postSaverSelectors';
-import { getUserAnalyticLabelFrequencyAndThreshold } from '../../redux/selectors/userSelectors';
 import { FilledButton, overflowDisplayContainer } from '../BaseComponents';
 import EmptyItem from '../BaseComponents/EmptyItem';
 import { trackSpecificEventsFromUser } from '../../api/baseApi';
 import { userAnalyticLabels } from '../../constants/baseConstants';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 import { ReactComponent as RefreshSVG } from '../../assets/icons/refresh.svg';
-import NotFocused from '../BaseComponents/NotFocused';
 import SavedPostItem from './SavedPostItem';
-import Modal from '../BaseComponents/Modal';
 import { sortSavedPostTitles } from '../../utils/savedPostUtils';
 
 const SavedPostList = ({
@@ -25,13 +22,7 @@ const SavedPostList = ({
   getSavedPosts,
   classes = '',
   error,
-  savedPostRefreshAnalyticFrequencyAndThreshold,
 }) => {
-  const emptyFunction = () => () => {};
-
-  const [seeThreshold, setSeeThreshold] = useState(false);
-  const [thresholdFunction, setThresholdFunction] = useState(emptyFunction);
-
   useEffect(() => {
     getSavedPosts();
     trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_REFRESH);
@@ -39,18 +30,6 @@ const SavedPostList = ({
   }, [getSavedPosts]);
 
   const onRefreshAction = () => {
-    if (
-      savedPostRefreshAnalyticFrequencyAndThreshold.frequency >=
-      savedPostRefreshAnalyticFrequencyAndThreshold.threshold
-    ) {
-      setThresholdFunction(() => (use) => {
-        if (use) {
-          getSavedPosts();
-        }
-      });
-      setSeeThreshold(true);
-      return false;
-    }
     getSavedPosts();
     return trackSpecificEventsFromUser(userAnalyticLabels.SAVED_POST_REFRESH);
   };
@@ -61,15 +40,6 @@ const SavedPostList = ({
         <FilledButton action={onRefreshAction}>
           <RefreshSVG className="w-4 h-auto" />
         </FilledButton>
-        <Modal
-          isShowing={seeThreshold}
-          toggle={(use) => {
-            thresholdFunction(use);
-            setSeeThreshold(false);
-            setThresholdFunction(emptyFunction);
-          }}
-          Component={NotFocused}
-        />
       </div>
       {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
       <h1 className="text-2xl font-bold text-center">Saved Post List</h1>
@@ -79,12 +49,7 @@ const SavedPostList = ({
           ? savedPosts
               .sort(sortSavedPostTitles)
               .map((savedPost) => (
-                <SavedPostItem
-                  savedPost={savedPost}
-                  setThresholdFunction={setThresholdFunction}
-                  setSeeThreshold={setSeeThreshold}
-                  key={savedPost.id}
-                />
+                <SavedPostItem savedPost={savedPost} key={savedPost.id} />
               ))
           : null}
       </ul>
@@ -104,7 +69,6 @@ SavedPostList.propTypes = {
   getSavedPosts: PropTypes.func.isRequired,
   classes: PropTypes.string,
   error: PropTypes.object.isRequired,
-  savedPostRefreshAnalyticFrequencyAndThreshold: PropTypes.object.isRequired,
 };
 
 export default connect(
@@ -112,10 +76,6 @@ export default connect(
     savedPosts: getSavedPostsSavedPosts(state),
     loading: getSavedPostsLoading(state),
     error: getSavedPostsError(state),
-    savedPostRefreshAnalyticFrequencyAndThreshold: getUserAnalyticLabelFrequencyAndThreshold(
-      state,
-      userAnalyticLabels.SAVED_POST_REFRESH,
-    ),
   }),
   { getSavedPosts: getSavedPostsAction },
 )(SavedPostList);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -10,7 +10,6 @@ import {
   getPostsLoading,
   getPostsError,
 } from '../../redux/selectors/postSaverSelectors';
-import { getUserAnalyticLabelFrequencyAndThreshold } from '../../redux/selectors/userSelectors';
 import {
   FilledButton,
   smallerFilledButtonClassName,
@@ -24,8 +23,6 @@ import { ReactComponent as RefreshSVG } from '../../assets/icons/refresh.svg';
 import { ReactComponent as ExternalLinkSVG } from '../../assets/icons/externallink.svg';
 import { ReactComponent as ArrowLeftSVG } from '../../assets/icons/arrowleft.svg';
 import { ReactComponent as ArrowRightSVG } from '../../assets/icons/arrowright.svg';
-import NotFocused from '../BaseComponents/NotFocused';
-import Modal from '../BaseComponents/Modal';
 
 const AllPosts = ({
   getPosts,
@@ -34,14 +31,7 @@ const AllPosts = ({
   getRefreshedPosts,
   classes = '',
   error,
-  allPostRefreshAnalyticThreshold,
-  allPostTitleAnalyticThreshold,
 }) => {
-  const emptyFunction = () => () => {};
-
-  const [seeThreshold, setSeeThreshold] = useState(false);
-  const [thresholdFunction, setThresholdFunction] = useState(emptyFunction);
-
   useEffect(() => {
     getPosts();
   }, [getPosts]);
@@ -51,41 +41,19 @@ const AllPosts = ({
   const trackAllPostTitle = (e) => {
     e.persist();
     if (e.type === 'click' || e.type === 'contextmenu') {
-      if (
-        allPostTitleAnalyticThreshold.frequency >=
-        allPostTitleAnalyticThreshold.threshold
-      ) {
-        let url = e.target.href;
-        let { target } = e.target;
-        if (e.target.nodeName === 'svg') {
-          url = e.target.parentNode.href;
-          target = e.target.parentNode.target;
-        }
-        e.preventDefault();
-        setThresholdFunction(() => (use) => {
-          if (use) {
-            window.open(url, target);
-          }
-        });
-        setSeeThreshold(true);
-        return false;
+      let url = e.target.href;
+      let { target } = e.target;
+      if (e.target.nodeName === 'svg') {
+        url = e.target.parentNode.href;
+        target = e.target.parentNode.target;
       }
+      e.preventDefault();
+      window.open(url, target);
+      return false;
     }
     return trackSpecificEventsFromUser(userAnalyticLabels.ALL_POST_TITLE);
   };
   const onRefreshAction = () => {
-    if (
-      allPostRefreshAnalyticThreshold.frequency >=
-      allPostRefreshAnalyticThreshold.threshold
-    ) {
-      setThresholdFunction(() => (use) => {
-        if (use) {
-          getRefreshedPosts();
-        }
-      });
-      setSeeThreshold(true);
-      return false;
-    }
     getRefreshedPosts();
     return trackSpecificEventsFromUser(userAnalyticLabels.ALL_POST_REFRESH);
   };
@@ -96,15 +64,6 @@ const AllPosts = ({
         <FilledButton action={onRefreshAction}>
           <RefreshSVG className="w-4 h-auto" />
         </FilledButton>
-        <Modal
-          isShowing={seeThreshold}
-          toggle={(use) => {
-            thresholdFunction(use);
-            setSeeThreshold(false);
-            setThresholdFunction(emptyFunction);
-          }}
-          Component={NotFocused}
-        />
       </div>
       {loading && <LoadingSVG className="w-6 h-auto animate-spin absolute" />}
       <h1 className="text-2xl font-bold text-center">All Posts</h1>
@@ -159,8 +118,6 @@ AllPosts.propTypes = {
   getRefreshedPosts: PropTypes.func.isRequired,
   classes: PropTypes.string,
   error: PropTypes.object.isRequired,
-  allPostRefreshAnalyticThreshold: PropTypes.object.isRequired,
-  allPostTitleAnalyticThreshold: PropTypes.object.isRequired,
 };
 
 export default connect(
@@ -168,14 +125,6 @@ export default connect(
     postsObj: getPostsFetchedPosts(state),
     loading: getPostsLoading(state),
     error: getPostsError(state),
-    allPostRefreshAnalyticThreshold: getUserAnalyticLabelFrequencyAndThreshold(
-      state,
-      userAnalyticLabels.ALL_POST_REFRESH,
-    ),
-    allPostTitleAnalyticThreshold: getUserAnalyticLabelFrequencyAndThreshold(
-      state,
-      userAnalyticLabels.ALL_POST_TITLE,
-    ),
   }),
   {
     getPosts: getPostsAction,
