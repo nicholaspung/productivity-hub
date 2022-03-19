@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -10,27 +10,50 @@ import TrackTimeItem from './TrackTimeItem';
 import { displayHourMinSecTime, sortByTime } from '../../../utils/dateUtils';
 import EmptyItem from '../../BaseComponents/EmptyItem';
 
-const TrackTimesItemList = ({ trackTimes, error, loading }) => (
-  <div className="p-4">
-    <div className="border-2 border-gray-500 p-4 flex justify-between">
-      <h2 className="font-bold underline">Total Time Tracked</h2>
-      <p className="underline">
-        {displayHourMinSecTime(
-          trackTimes.reduce((acc, curr) => acc + curr.total_time, 0),
-          false,
-        )}
-      </p>
-    </div>
-    {Object.keys(error).length ? (
-      <div className="border-b-2 border-r-2 border-l-2 border-gray-500 w-full p-4">
-        <EmptyItem length={trackTimes.length} error={error} loading={loading} />
+const TrackTimesItemList = ({ trackTimes, error, loading }) => {
+  const [group, setGroup] = useState(false);
+
+  return (
+    <div className="p-4">
+      <div className="border-2 border-gray-500 p-4 flex justify-between">
+        <h2 className="font-bold underline">Total Time Tracked</h2>
+        <div className="flex items-center">
+          <label
+            htmlFor="group-times"
+            className="mr-4 border-2 border-gray-500 flex items-center px-4"
+          >
+            <input
+              type="checkbox"
+              id="group-times"
+              className="form-checkbox mr-2"
+              value={group}
+              onChange={(event) => setGroup(event.target.checked)}
+            />
+            <span>Group</span>
+          </label>
+          <p className="underline">
+            {displayHourMinSecTime(
+              trackTimes.reduce((acc, curr) => acc + curr.total_time, 0),
+              false,
+            )}
+          </p>
+        </div>
       </div>
-    ) : null}
-    {trackTimes.sort(sortByTime).map((trackTime) => (
-      <TrackTimeItem trackTime={trackTime} key={trackTime.id} />
-    ))}
-  </div>
-);
+      {Object.keys(error).length ? (
+        <div className="border-b-2 border-r-2 border-l-2 border-gray-500 w-full p-4">
+          <EmptyItem
+            length={trackTimes.length}
+            error={error}
+            loading={loading}
+          />
+        </div>
+      ) : null}
+      {trackTimes.sort(sortByTime).map((trackTime) => (
+        <TrackTimeItem trackTime={trackTime} key={trackTime.id} />
+      ))}
+    </div>
+  );
+};
 TrackTimesItemList.propTypes = {
   trackTimes: PropTypes.array.isRequired,
   error: PropTypes.object.isRequired,
