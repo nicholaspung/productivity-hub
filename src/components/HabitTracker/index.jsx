@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DailyList from './DailyList';
@@ -35,4 +35,4 @@ HabitTracker.propTypes = {
 
 export default connect((state) => ({
   loading: getDailiesLoadingStatus(state),
-}))(HabitTracker);
+}))(memo(HabitTracker));

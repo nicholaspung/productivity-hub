@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 const ItemList = ({
@@ -31,4 +31,4 @@ ItemList.propTypes = {
   filterFunction: PropTypes.func,
 };
 
-export default ItemList;
+export default memo(ItemList);

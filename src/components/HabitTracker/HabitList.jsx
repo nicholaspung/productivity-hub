@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ItemList from './SharedComponents/ItemList';
@@ -98,4 +98,4 @@ export default connect(
     error: getDailiesError(state),
   }),
   { getHabits: getHabitsAction },
-)(HabitList);
+)(memo(HabitList));

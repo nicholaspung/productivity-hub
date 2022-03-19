@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { LONG_MONTH_NAMES } from '../../../constants/habitTrackerConstants';
 import {
@@ -34,4 +34,4 @@ CalendarMonth.propTypes = {
   display: PropTypes.array.isRequired,
 };
 
-export default CalendarMonth;
+export default memo(CalendarMonth);

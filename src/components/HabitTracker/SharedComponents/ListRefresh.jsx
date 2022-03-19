@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { smallerFilledButtonClassName } from '../../BaseComponents';
 import { ReactComponent as RefreshSVG } from '../../../assets/icons/refresh.svg';
@@ -19,4 +19,4 @@ ListRefresh.propTypes = {
   action: PropTypes.func.isRequired,
 };
 
-export default ListRefresh;
+export default memo(ListRefresh);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { FilledButton, smallerButtonClassName } from '../BaseComponents';
 
@@ -49,4 +49,4 @@ HabitDelete.propTypes = {
   backupFunction: PropTypes.func.isRequired,
 };
 
-export default HabitDelete;
+export default memo(HabitDelete);

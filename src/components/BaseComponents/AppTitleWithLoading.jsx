@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as LoadingSVG } from '../../assets/icons/loading.svg';
 
@@ -18,4 +18,4 @@ AppTitleWithLoading.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-export default AppTitleWithLoading;
+export default memo(AppTitleWithLoading);

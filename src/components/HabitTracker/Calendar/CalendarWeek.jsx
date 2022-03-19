@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import CalendarDay from './CalendarDay';
 import CalendarWeekNames from './CalendarWeekNames';
@@ -25,4 +25,4 @@ CalendarWeek.propTypes = {
   labelView: PropTypes.string.isRequired,
 };
 
-export default CalendarWeek;
+export default memo(CalendarWeek);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ItemList from './SharedComponents/ItemList';
@@ -136,4 +136,4 @@ export default connect(
     error: getTodosError(state),
   }),
   { getTodos: getTodosAction, addTodo: addTodoAction },
-)(TodoList);
+)(memo(TodoList));

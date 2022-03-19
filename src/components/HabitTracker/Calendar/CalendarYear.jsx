@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import CalendarMonth from './CalendarMonth';
 import { getIdxOfFirstDayForMonthsForYear } from '../../../utils/habitTrackerUtils';
@@ -83,4 +83,4 @@ CalendarYear.propTypes = {
   display: PropTypes.array.isRequired,
 };
 
-export default CalendarYear;
+export default memo(CalendarYear);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 const EmptyItem = ({
@@ -26,4 +26,4 @@ EmptyItem.propTypes = {
   message: PropTypes.string,
 };
 
-export default EmptyItem;
+export default memo(EmptyItem);

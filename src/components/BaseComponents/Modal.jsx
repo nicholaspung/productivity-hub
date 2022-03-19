@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
@@ -42,4 +42,4 @@ Modal.propTypes = {
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
-export default Modal;
+export default memo(Modal);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -124,4 +124,4 @@ export default connect(
     getDailiesForYear: getDailiesForYearAction,
     getDailiesForWeek: getDailiesForWeekAction,
   },
-)(CalendarHeader);
+)(memo(CalendarHeader));

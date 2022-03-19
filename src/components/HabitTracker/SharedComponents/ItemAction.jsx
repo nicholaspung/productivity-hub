@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import {
   formInputClassName,
@@ -230,4 +230,4 @@ ItemAction.propTypes = {
   labelName: PropTypes.string,
 };
 
-export default ItemAction;
+export default memo(ItemAction);

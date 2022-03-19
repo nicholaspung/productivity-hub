@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VIEWS, getDayInfo } from '../../../utils/habitTrackerUtils';
@@ -85,4 +85,4 @@ CalendarDay.propTypes = {
 
 export default connect((state) => ({
   earliestHabitDate: getEarliestHabitDate(state),
-}))(CalendarDay);
+}))(memo(CalendarDay));

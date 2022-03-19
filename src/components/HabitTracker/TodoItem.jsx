@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -172,4 +172,4 @@ export default connect((state) => ({ todos: getTodosTodos(state) }), {
   editTodo: editTodoAction,
   deleteTodo: deleteTodoAction,
   reorderTodos: reorderTodosAction,
-})(TodoItem);
+})(memo(TodoItem));

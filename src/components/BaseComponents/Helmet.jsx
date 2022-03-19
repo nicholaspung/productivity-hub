@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
@@ -15,4 +15,4 @@ HelmetComponent.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-export default HelmetComponent;
+export default memo(HelmetComponent);

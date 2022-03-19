@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -199,4 +199,4 @@ export default connect(
     deleteHabit: deleteHabitAction,
     toggleDaily: toggleDailyAction,
   },
-)(DailyItem);
+)(memo(DailyItem));

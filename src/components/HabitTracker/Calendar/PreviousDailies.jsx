@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { FilledButton } from '../../BaseComponents';
 import DailyItem from '../DailyItem';
@@ -20,4 +20,4 @@ PreviousDailies.propTypes = {
   date: PropTypes.instanceOf(Date).isRequired,
 };
 
-export default PreviousDailies;
+export default memo(PreviousDailies);

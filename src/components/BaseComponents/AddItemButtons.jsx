@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { FilledButton } from '.';
 import { ReactComponent as SaveSVG } from '../../assets/icons/save.svg';
@@ -33,9 +33,9 @@ const AddItemButtons = ({
 
 AddItemButtons.propTypes = {
   onAddItemAction: PropTypes.func.isRequired,
-  MobileIconOverrideImage: PropTypes.object.isRequired,
+  MobileIconOverrideImage: PropTypes.object,
   disableMe: PropTypes.bool.isRequired,
   labelButtonText: PropTypes.string.isRequired,
 };
 
-export default AddItemButtons;
+export default memo(AddItemButtons);

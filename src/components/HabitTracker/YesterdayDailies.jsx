@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ItemList from './SharedComponents/ItemList';
@@ -97,7 +97,7 @@ export const ConnectedYesterdayDailiesContent = connect(
     error: getDailiesError(state),
   }),
   { createDailiesForDay: createDailiesForDayAction },
-)(YesterdayDailiesContent);
+)(memo(YesterdayDailiesContent));
 
 const YesterdayDailies = () => {
   const todayString = new Date().toLocaleDateString();
@@ -119,4 +119,4 @@ const YesterdayDailies = () => {
   );
 };
 
-export default YesterdayDailies;
+export default memo(YesterdayDailies);

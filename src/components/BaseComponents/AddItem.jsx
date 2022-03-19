@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import AddItemButtons from './AddItemButtons';
 
@@ -92,4 +92,4 @@ AddItem.propTypes = {
   callback2: PropTypes.func,
 };
 
-export default AddItem;
+export default memo(AddItem);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getDailiesForWeek as getDailiesForWeekAction } from '../../../redux/actions/habitTrackerActions';
@@ -85,4 +85,4 @@ export default connect(
     dateRangeCache: getDailiesDateRangeCache(state),
   }),
   { getDailiesForWeek: getDailiesForWeekAction },
-)(Calendar);
+)(memo(Calendar));
