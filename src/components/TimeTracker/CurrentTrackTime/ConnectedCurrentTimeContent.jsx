@@ -22,7 +22,7 @@ import { ReactComponent as ExitSVG } from '../../../assets/icons/exit.svg';
 import { ReactComponent as ExpandSVG } from '../../../assets/icons/expand.svg';
 import { ReactComponent as PlaySVG } from '../../../assets/icons/play.svg';
 
-const CurrentTrackTimeContent = ({
+const CurrentTimeContent = ({
   currentTrackTime,
   onModalButton,
   // timeTrackerEnablePomodoro,
@@ -189,7 +189,7 @@ const CurrentTrackTimeContent = ({
   );
 };
 
-CurrentTrackTimeContent.propTypes = {
+CurrentTimeContent.propTypes = {
   currentTrackTime: PropTypes.object.isRequired,
   onModalButton: PropTypes.func.isRequired,
   // timeTrackerEnablePomodoro: PropTypes.bool.isRequired,
@@ -217,4 +217,4 @@ export default connect(
     endTrackTimeTimer: endTrackTimeTimerAction,
     startTrackTimeTimer: startTrackTimeTimerAction,
   },
-)(CurrentTrackTimeContent);
+)(CurrentTimeContent);

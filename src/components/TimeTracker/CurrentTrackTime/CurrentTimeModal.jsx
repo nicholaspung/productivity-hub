@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import ConnectedCurrentTrackTimeContent from './ConnectedCurrentTrackTimeContent';
+import ConnectedCurrentTimeContent from './ConnectedCurrentTimeContent';
 import useDisableBodyScroll from '../../../hooks/useDisableBodyScroll';
 
-const CurrentTrackTimeModal = ({ toggle, isShowing }) => {
+const CurrentTimeModal = ({ toggle, isShowing }) => {
   const modalChanges = useDisableBodyScroll();
 
   useEffect(() => {
@@ -16,15 +16,15 @@ const CurrentTrackTimeModal = ({ toggle, isShowing }) => {
   };
 
   return (
-    <ConnectedCurrentTrackTimeContent
+    <ConnectedCurrentTimeContent
       onModalButton={onModalButton}
       isShowing={isShowing}
     />
   );
 };
-CurrentTrackTimeModal.propTypes = {
+CurrentTimeModal.propTypes = {
   toggle: PropTypes.func.isRequired,
   isShowing: PropTypes.bool.isRequired,
 };
 
-export default CurrentTrackTimeModal;
+export default CurrentTimeModal;

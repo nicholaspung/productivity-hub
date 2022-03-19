@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TrackTime = ({ trackTime }) => {
+const TimeVisual = ({ trackTime }) => {
   const heightOfTimeChart = 24 * 24;
   const secondsInTheDay = 60 * 60 * 24;
   const getNumberOfSecondsInDate = (date) =>
@@ -27,8 +27,8 @@ const TrackTime = ({ trackTime }) => {
     </div>
   );
 };
-TrackTime.propTypes = {
+TimeVisual.propTypes = {
   trackTime: PropTypes.object.isRequired,
 };
 
-export default TrackTime;
+export default TimeVisual;

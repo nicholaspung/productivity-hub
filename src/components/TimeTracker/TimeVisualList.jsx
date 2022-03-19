@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TrackTimeVisual from './TrackTimeVisual';
+import TimeVisual from './TimeVisual';
 import { getTrackTimes as getTrackTimesSelector } from '../../redux/selectors/timeTrackerSelectors';
 
-const TrackTimesVisualList = ({ trackTimes }) => {
+const TimeVisualList = ({ trackTimes }) => {
   const hourlyTimeArray = () => {
     const times = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     const amTimes = times.map((time) => `${time}AM`);
@@ -20,7 +20,7 @@ const TrackTimesVisualList = ({ trackTimes }) => {
       <div className="p-4">
         <div>
           {trackTimes.map((trackTime) => (
-            <TrackTimeVisual trackTime={trackTime} key={trackTime.id} />
+            <TimeVisual trackTime={trackTime} key={trackTime.id} />
           ))}
         </div>
         <div className="flex">
@@ -53,10 +53,10 @@ const TrackTimesVisualList = ({ trackTimes }) => {
   );
 };
 
-TrackTimesVisualList.propTypes = {
+TimeVisualList.propTypes = {
   trackTimes: PropTypes.array.isRequired,
 };
 
 export default connect((state) => ({
   trackTimes: getTrackTimesSelector(state),
-}))(TrackTimesVisualList);
+}))(TimeVisualList);

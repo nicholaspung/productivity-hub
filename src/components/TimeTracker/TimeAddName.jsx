@@ -12,11 +12,11 @@ import {
   getTrackTimeNamesError as getTrackTimeNamesErrorSelector,
   hasCurrentTrackTime as hasCurrentTrackTimeSelector,
 } from '../../redux/selectors/timeTrackerSelectors';
-import TrackTimeName from './TrackTimeName';
+import TimeName from './TimeName';
 import { ReactComponent as PlaySVG } from '../../assets/icons/play.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
 
-const TrackTimesAddName = ({
+const TimeAddName = ({
   trackTimeNames,
   hasCurrentTrackTime,
   setShowCurrentTrackTimeModal,
@@ -67,7 +67,7 @@ const TrackTimesAddName = ({
                   : true),
             )
             .map((trackTimeName) => (
-              <TrackTimeName
+              <TimeName
                 trackTimeName={trackTimeName}
                 setShowCurrentTrackTimeModal={setShowCurrentTrackTimeModal}
                 key={trackTimeName.id}
@@ -79,7 +79,7 @@ const TrackTimesAddName = ({
   );
 };
 
-TrackTimesAddName.propTypes = {
+TimeAddName.propTypes = {
   trackTimeNames: PropTypes.array.isRequired,
   setShowCurrentTrackTimeModal: PropTypes.func.isRequired,
   createTrackTimeNameAndStartTrackTimeTimer: PropTypes.func.isRequired,
@@ -100,4 +100,4 @@ export default connect(
     addTrackTimeName: addTrackTimeNameAction,
     createTrackTimeNameAndStartTrackTimeTimer: createTrackTimeNameAndStartTrackTimeTimerAction,
   },
-)(TrackTimesAddName);
+)(TimeAddName);

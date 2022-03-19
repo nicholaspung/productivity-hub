@@ -6,12 +6,14 @@ import {
   getTrackTimesError as getTrackTimesErrorSelector,
   getTrackTimesLoading as getTrackTimesLoadingSelector,
 } from '../../../redux/selectors/timeTrackerSelectors';
-import TrackTimeItem from './TrackTimeItem';
 import { displayHourMinSecTime, sortByTime } from '../../../utils/dateUtils';
 import EmptyItem from '../../BaseComponents/EmptyItem';
+import TimeItemList from './TimeItemList';
+import TimeItemGroupList from './TimeItemGroupList';
 
 const TrackTimesItemList = ({ trackTimes, error, loading }) => {
   const [group, setGroup] = useState(false);
+  const sortedData = trackTimes.sort(sortByTime);
 
   return (
     <div className="p-4">
@@ -48,9 +50,11 @@ const TrackTimesItemList = ({ trackTimes, error, loading }) => {
           />
         </div>
       ) : null}
-      {trackTimes.sort(sortByTime).map((trackTime) => (
-        <TrackTimeItem trackTime={trackTime} key={trackTime.id} />
-      ))}
+      {group ? (
+        <TimeItemGroupList data={sortedData} />
+      ) : (
+        <TimeItemList data={sortedData} />
+      )}
     </div>
   );
 };

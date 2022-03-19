@@ -7,11 +7,11 @@ import {
   getTrackTimeNames as getTrackTimeNamesAction,
   getTrackTimes as getTrackTimesAction,
 } from '../../redux/actions/timeTrackerActions';
-import TrackTimesAddName from './TrackTimesAddName';
+import TimeAddName from './TimeAddName';
 import TabsBox from './TabsBox';
-import TrackTimesVisualList from './TrackTimesVisualList';
+import TimeVisualList from './TimeVisualList';
 import CurrentTrackTime from './CurrentTrackTime';
-import ConnectedTrackTimesAddTimes from './TrackTimesAddTimes';
+import ConnectedAddTimes from './AddTimes';
 import TrackTimesItemList from './TrackTimesItemList';
 
 const TimeTracker = ({
@@ -51,13 +51,13 @@ const TimeTracker = ({
           tabs={[
             {
               id: 1,
-              component: TrackTimesAddName,
+              component: TimeAddName,
               name: 'Track',
               componentProps: { setShowCurrentTrackTimeModal },
             },
             {
               id: 2,
-              component: ConnectedTrackTimesAddTimes,
+              component: ConnectedAddTimes,
               name: 'Add Time',
             },
           ]}
@@ -66,7 +66,7 @@ const TimeTracker = ({
           tabs={[
             {
               id: 1,
-              component: TrackTimesVisualList,
+              component: TimeVisualList,
               name: 'Visual',
             },
             {

@@ -16,7 +16,7 @@ import {
 } from '../../utils/dateUtils';
 import { addTrackTime as addTrackTimeAction } from '../../redux/actions/timeTrackerActions';
 
-export const TrackTimesAddTimes = ({
+export const AddTimes = ({
   trackTimeNames,
   actionFunction,
   data,
@@ -266,7 +266,7 @@ export const TrackTimesAddTimes = ({
   );
 };
 
-TrackTimesAddTimes.propTypes = {
+AddTimes.propTypes = {
   trackTimeNames: PropTypes.array,
   actionFunction: PropTypes.func,
   data: PropTypes.object,
@@ -274,11 +274,11 @@ TrackTimesAddTimes.propTypes = {
   labelTitle: PropTypes.string,
 };
 
-const ConnectedTrackTimesAddTImes = connect(
+const ConnectedAddTimes = connect(
   (state) => ({
     trackTimeNames: getTrackTimeNamesSelector(state),
   }),
   { actionFunction: addTrackTimeAction },
-)(TrackTimesAddTimes);
+)(AddTimes);
 
-export default ConnectedTrackTimesAddTImes;
+export default ConnectedAddTimes;

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { updateTrackTimeName as updateTrackTimeNameAction } from '../../redux/actions/timeTrackerActions';
 import { formInputClassName, FilledButton, Button } from '../BaseComponents';
 
-const EditTrackTimeName = ({ toggle, data, updateTrackTimeName }) => {
+const EditTimeName = ({ toggle, data, updateTrackTimeName }) => {
   const [name, setName] = useState(data.name);
   const [nameError, setNameError] = useState('');
 
@@ -47,7 +47,7 @@ const EditTrackTimeName = ({ toggle, data, updateTrackTimeName }) => {
   );
 };
 
-EditTrackTimeName.propTypes = {
+EditTimeName.propTypes = {
   toggle: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   updateTrackTimeName: PropTypes.func.isRequired,
@@ -55,4 +55,4 @@ EditTrackTimeName.propTypes = {
 
 export default connect(null, {
   updateTrackTimeName: updateTrackTimeNameAction,
-})(EditTrackTimeName);
+})(EditTimeName);

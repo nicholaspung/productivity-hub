@@ -7,7 +7,7 @@ import { ReactComponent as EditSVG } from '../../assets/icons/edit.svg';
 import { ReactComponent as DeleteSVG } from '../../assets/icons/delete.svg';
 import useDisableBodyScroll from '../../hooks/useDisableBodyScroll';
 import Modal from '../BaseComponents/Modal';
-import EditTrackTimeName from './EditTrackTimeName';
+import EditTimeName from './EditTimeName';
 import { hasCurrentTrackTime as hasCurrentTrackTimeSelector } from '../../redux/selectors/timeTrackerSelectors';
 import {
   updateTrackTimeName as updateTrackTimeNameAction,
@@ -16,7 +16,7 @@ import {
 } from '../../redux/actions/timeTrackerActions';
 import { getDateTransform } from '../../utils/dateUtils';
 
-const TrackTimeName = ({
+const TimeName = ({
   trackTimeName,
   hasCurrentTrackTime,
   updateTrackTimeName,
@@ -83,14 +83,14 @@ const TrackTimeName = ({
           modalChanges(false);
           setEdit(false);
         }}
-        Component={EditTrackTimeName}
+        Component={EditTimeName}
         data={trackTimeName}
       />
     </div>
   );
 };
 
-TrackTimeName.propTypes = {
+TimeName.propTypes = {
   trackTimeName: PropTypes.object.isRequired,
   hasCurrentTrackTime: PropTypes.bool.isRequired,
   updateTrackTimeName: PropTypes.func.isRequired,
@@ -108,4 +108,4 @@ export default connect(
     updateTrackTimeName: updateTrackTimeNameAction,
     startTrackTimeTimer: startTrackTimeTimerAction,
   },
-)(TrackTimeName);
+)(TimeName);

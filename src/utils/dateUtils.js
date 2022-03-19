@@ -85,3 +85,20 @@ export const sortByTime = (a, b) => {
   }
   return 0;
 };
+
+export const groupByTimeItem = (sortedArr) => {
+  const result = [];
+  const trackTimeItemPosition = {};
+  sortedArr.forEach((item) => {
+    const itemName = item.track_time_name.name;
+    let itemPosition = trackTimeItemPosition[itemName];
+    if (itemPosition !== undefined) {
+      result[itemPosition].push(item);
+    } else {
+      itemPosition = result.length;
+      trackTimeItemPosition[itemName] = itemPosition;
+      result.push([item]);
+    }
+  });
+  return result;
+};

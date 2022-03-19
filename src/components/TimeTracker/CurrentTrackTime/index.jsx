@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CurrentTrackTimeModal from './CurrentTrackTimeModal';
-import ConnectedCurrentTrackTimeContent from './ConnectedCurrentTrackTimeContent';
+import CurrentTimeModal from './CurrentTimeModal';
+import ConnectedCurrentTimeContent from './ConnectedCurrentTimeContent';
 import Modal from '../../BaseComponents/Modal';
 
 const CurrentTrackTime = ({
@@ -21,12 +21,12 @@ const CurrentTrackTime = ({
         }
         setShowCurrentTrackTimeModal(false);
       }}
-      Component={CurrentTrackTimeModal}
+      Component={CurrentTimeModal}
     />
     {!showCurrentTrackTimeModal && showCurrentTrackTimeBox && (
       <div className="bg-gray-100 rounded-md border-2 border-gray-200 mx-8 flex justify-center">
         <div className="bg-white w-full md:w-3/4 md:border-l-2 md:border-r-2 border-gray-200">
-          <ConnectedCurrentTrackTimeContent
+          <ConnectedCurrentTimeContent
             onModalButton={(finished) => {
               if (finished) {
                 setShowCurrentTrackTimeBox(false);

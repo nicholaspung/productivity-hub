@@ -9,17 +9,17 @@ import useDisableBodyScroll from '../../../hooks/useDisableBodyScroll';
 import { ReactComponent as EditSVG } from '../../../assets/icons/edit.svg';
 import Modal from '../../BaseComponents/Modal';
 import { ReactComponent as DeleteSVG } from '../../../assets/icons/delete.svg';
-import { TrackTimesAddTimes } from '../TrackTimesAddTimes';
+import { AddTimes } from '../AddTimes';
 import {
   deleteTrackTime as deleteTrackTimeAction,
   updateTrackTime as updateTrackTimeAction,
 } from '../../../redux/actions/timeTrackerActions';
 
-const ConnectedTrackTimesAddTimes = connect(null, {
+const ConnectedAddTimes = connect(null, {
   actionFunction: updateTrackTimeAction,
-})(TrackTimesAddTimes);
+})(AddTimes);
 
-const TrackTimeItem = ({ trackTime, deleteTrackTime }) => {
+const TimeItem = ({ trackTime, deleteTrackTime }) => {
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const modalChanges = useDisableBodyScroll();
@@ -53,7 +53,7 @@ const TrackTimeItem = ({ trackTime, deleteTrackTime }) => {
                 modalChanges(false);
                 setEdit(false);
               }}
-              Component={ConnectedTrackTimesAddTimes}
+              Component={ConnectedAddTimes}
               data={trackTime}
               labelTitle="Edit Time"
             />
@@ -76,11 +76,11 @@ const TrackTimeItem = ({ trackTime, deleteTrackTime }) => {
     </div>
   );
 };
-TrackTimeItem.propTypes = {
+TimeItem.propTypes = {
   trackTime: PropTypes.object.isRequired,
   deleteTrackTime: PropTypes.func.isRequired,
 };
 
 export default connect(null, {
   deleteTrackTime: deleteTrackTimeAction,
-})(TrackTimeItem);
+})(TimeItem);
