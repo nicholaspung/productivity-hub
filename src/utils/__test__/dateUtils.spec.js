@@ -92,4 +92,35 @@ describe('#DateUtils', () => {
     expect(arr1.sort(utils.sortByTime)).toEqual([date1, date2, date3]);
     expect(arr2.sort(utils.sortByTime)).toEqual([date1, date2, date3, date3]);
   });
+  it('#groupByTimeItem', () => {
+    const sortedArr1 = [
+      { track_time_name: { name: 'test1' }, id: 1 },
+      { track_time_name: { name: 'test2' }, id: 2 },
+      { track_time_name: { name: 'test2' }, id: 3 },
+      { track_time_name: { name: 'test1' }, id: 4 },
+      { track_time_name: { name: 'test3' }, id: 5 },
+      { track_time_name: { name: 'test3' }, id: 6 },
+      { track_time_name: { name: 'test1' }, id: 7 },
+    ];
+    const sortedArr2 = [
+      { track_time_name: { name: 'test1' }, id: 1 },
+      { track_time_name: { name: 'test1' }, id: 2 },
+      { track_time_name: { name: 'test2' }, id: 3 },
+      { track_time_name: { name: 'test2' }, id: 4 },
+      { track_time_name: { name: 'test3' }, id: 5 },
+      { track_time_name: { name: 'test3' }, id: 6 },
+      { track_time_name: { name: 'test4' }, id: 7 },
+    ];
+    expect(utils.groupByTimeItem(sortedArr1)).toEqual([
+      [sortedArr1[0], sortedArr1[3], sortedArr1[6]],
+      [sortedArr1[1], sortedArr1[2]],
+      [sortedArr1[4], sortedArr1[5]],
+    ]);
+    expect(utils.groupByTimeItem(sortedArr2)).toEqual([
+      [sortedArr2[0], sortedArr2[1]],
+      [sortedArr2[2], sortedArr2[3]],
+      [sortedArr2[4], sortedArr2[5]],
+      [sortedArr2[6]],
+    ]);
+  });
 });
