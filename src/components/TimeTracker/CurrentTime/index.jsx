@@ -4,7 +4,7 @@ import CurrentTimeModal from './CurrentTimeModal';
 import ConnectedCurrentTimeContent from './ConnectedCurrentTimeContent';
 import Modal from '../../BaseComponents/Modal';
 
-const CurrentTrackTime = ({
+const CurrentTime = ({
   showCurrentTrackTimeModal,
   setShowCurrentTrackTimeModal,
   setShowCurrentTrackTimeBox,
@@ -40,11 +40,11 @@ const CurrentTrackTime = ({
     )}
   </>
 );
-CurrentTrackTime.propTypes = {
+CurrentTime.propTypes = {
   showCurrentTrackTimeModal: PropTypes.bool.isRequired,
   setShowCurrentTrackTimeModal: PropTypes.func.isRequired,
   setShowCurrentTrackTimeBox: PropTypes.func.isRequired,
   showCurrentTrackTimeBox: PropTypes.bool.isRequired,
 };
 
-export default CurrentTrackTime;
+export default CurrentTime;

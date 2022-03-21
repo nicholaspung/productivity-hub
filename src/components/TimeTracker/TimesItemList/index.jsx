@@ -11,7 +11,7 @@ import EmptyItem from '../../BaseComponents/EmptyItem';
 import TimeItemList from './TimeItemList';
 import TimeItemGroupList from './TimeItemGroupList';
 
-const TrackTimesItemList = ({ trackTimes, error, loading }) => {
+const TimesItemList = ({ trackTimes, error, loading }) => {
   const [group, setGroup] = useState(false);
   const sortedData = trackTimes.sort(sortByTime);
 
@@ -58,7 +58,7 @@ const TrackTimesItemList = ({ trackTimes, error, loading }) => {
     </div>
   );
 };
-TrackTimesItemList.propTypes = {
+TimesItemList.propTypes = {
   trackTimes: PropTypes.array.isRequired,
   error: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -68,4 +68,4 @@ export default connect((state) => ({
   trackTimes: getTrackTimesSelector(state),
   error: getTrackTimesErrorSelector(state),
   loading: getTrackTimesLoadingSelector(state),
-}))(TrackTimesItemList);
+}))(TimesItemList);

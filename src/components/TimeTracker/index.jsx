@@ -10,9 +10,9 @@ import {
 import TimeAddName from './TimeAddName';
 import TabsBox from './TabsBox';
 import TimeVisualList from './TimeVisualList';
-import CurrentTrackTime from './CurrentTrackTime';
+import CurrentTime from './CurrentTime';
 import ConnectedAddTimes from './AddTimes';
-import TrackTimesItemList from './TrackTimesItemList';
+import TimesItemList from './TimesItemList';
 
 const TimeTracker = ({
   currentTrackTime,
@@ -40,7 +40,7 @@ const TimeTracker = ({
         content="This is where you track your time spent."
       />
       <h1 className="text-3xl font-bold text-center p-4">Time Tracker</h1>
-      <CurrentTrackTime
+      <CurrentTime
         showCurrentTrackTimeModal={showCurrentTrackTimeModal}
         setShowCurrentTrackTimeModal={setShowCurrentTrackTimeModal}
         setShowCurrentTrackTimeBox={setShowCurrentTrackTimeBox}
@@ -71,7 +71,7 @@ const TimeTracker = ({
             },
             {
               id: 2,
-              component: TrackTimesItemList,
+              component: TimesItemList,
               name: 'List',
             },
           ]}
