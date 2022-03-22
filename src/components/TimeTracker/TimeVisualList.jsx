@@ -18,6 +18,9 @@ const TimeVisualList = ({ trackTimes }) => {
   return (
     <div className="flex flex-col">
       <div className="p-4">
+        <div className="flex justify-center my-4">
+          <h2 className="font-bold underline">Today</h2>
+        </div>
         <div>
           {trackTimes.map((trackTime) => (
             <TimeVisual trackTime={trackTime} key={trackTime.id} />

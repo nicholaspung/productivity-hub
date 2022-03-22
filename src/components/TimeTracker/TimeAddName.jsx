@@ -55,6 +55,7 @@ const TimeAddName = ({
             length={trackTimeNames.length}
             error={error}
             loading={loading}
+            message={"You haven't added anything to track yet. Let's start!"}
           />
           {trackTimeNames
             .filter(

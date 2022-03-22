@@ -41,15 +41,14 @@ const TimesItemList = ({ trackTimes, error, loading }) => {
           </p>
         </div>
       </div>
-      {Object.keys(error).length ? (
-        <div className="border-b-2 border-r-2 border-l-2 border-gray-500 w-full p-4">
-          <EmptyItem
-            length={trackTimes.length}
-            error={error}
-            loading={loading}
-          />
-        </div>
-      ) : null}
+      <div className="border-b-2 border-r-2 border-l-2 border-gray-500 w-full p-4">
+        <EmptyItem
+          length={trackTimes.length}
+          error={error}
+          loading={loading}
+          message={"You haven't tracked anything yet. Let's start!"}
+        />
+      </div>
       {group ? (
         <TimeItemGroupList data={sortedData} />
       ) : (
