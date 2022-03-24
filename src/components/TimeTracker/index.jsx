@@ -13,6 +13,7 @@ import TimeVisualList from './TimeVisualList';
 import CurrentTime from './CurrentTime';
 import ConnectedAddTimes from './AddTimes';
 import TimesItemList from './TimesItemList';
+import NewFeature from './NewFeature';
 
 const TimeTracker = ({
   currentTrackTime,
@@ -77,6 +78,7 @@ const TimeTracker = ({
           ]}
         />
       </div>
+      <NewFeature />
     </>
   );
 };
