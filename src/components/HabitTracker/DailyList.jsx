@@ -109,26 +109,29 @@ const DailyList = ({
       <div className="p-4 rounded-md border-2 border-gray-200 bg-white">
         {!loading && (
           <div className="h-0">
-            <button
-              type="button"
-              onClick={() => {
-                modalChanges(true);
-                setShowHabits(true);
-              }}
-              className={`${smallerFilledButtonClassName} relative bottom-3 right-3`}
-            >
-              See Habits
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                modalChanges(true);
-                setShowPreviousDailies(true);
-              }}
-              className={`${smallerFilledButtonClassName} relative bottom-3 right-3 ml-3`}
-            >
-              See Previous Dailies
-            </button>
+            <div>
+              <button
+                type="button"
+                onClick={() => {
+                  modalChanges(true);
+                  setShowHabits(true);
+                }}
+                className={`${smallerFilledButtonClassName} relative bottom-3 right-3`}
+              >
+                See Habits
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  modalChanges(true);
+                  setShowPreviousDailies(true);
+                }}
+                className={`${smallerFilledButtonClassName} relative bottom-3 right-3 ml-3`}
+              >
+                <span className="hidden md:block">See Previous Dailies</span>
+                <span className="md:hidden">See Prev Dailies</span>
+              </button>
+            </div>
           </div>
         )}
         {loading && <ListLoading />}
