@@ -2,9 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TimeVisual from './TimeVisual';
-import { getTrackTimes as getTrackTimesSelector } from '../../redux/selectors/timeTrackerSelectors';
+import {
+  getTrackTimes as getTrackTimesSelector,
+  getTrackTimesLoading as getTrackTimesLoadingSelector,
+} from '../../redux/selectors/timeTrackerSelectors';
+import HeaderTitleWithLoadingAndButton from '../BaseComponents/HeaderTitleWithLoadingAndButton';
 
-const TimeVisualList = ({ trackTimes }) => {
+const TimeVisualListHeader = () => (
+  <h2 className="font-bold underline text-center">Today</h2>
+);
+
+const TimeVisualList = ({ trackTimes, loading }) => {
   const hourlyTimeArray = () => {
     const times = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     const amTimes = times.map((time) => `${time}AM`);
@@ -18,8 +26,11 @@ const TimeVisualList = ({ trackTimes }) => {
   return (
     <div className="flex flex-col">
       <div className="p-4">
-        <div className="flex justify-center my-4">
-          <h2 className="font-bold underline">Today</h2>
+        <div className="my-4">
+          <HeaderTitleWithLoadingAndButton
+            loading={loading}
+            HeaderComponent={TimeVisualListHeader}
+          />
         </div>
         <div>
           {trackTimes.map((trackTime) => (
@@ -58,8 +69,10 @@ const TimeVisualList = ({ trackTimes }) => {
 
 TimeVisualList.propTypes = {
   trackTimes: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default connect((state) => ({
   trackTimes: getTrackTimesSelector(state),
+  loading: getTrackTimesLoadingSelector(state),
 }))(TimeVisualList);
