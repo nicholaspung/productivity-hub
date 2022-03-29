@@ -6,7 +6,10 @@ import {
   FilledButton,
   Button,
 } from '../BaseComponents';
-import { getTrackTimeNames as getTrackTimeNamesSelector } from '../../redux/selectors/timeTrackerSelectors';
+import {
+  getTrackTimeNames as getTrackTimeNamesSelector,
+  getTrackTimeNamesLoading as getTrackTimeNamesLoadingSelector,
+} from '../../redux/selectors/timeTrackerSelectors';
 import {
   getDateTransform,
   getSecondsFromStartTimeToEndTime,
@@ -15,6 +18,7 @@ import {
   simplifyDisplayTime,
 } from '../../utils/dateUtils';
 import { addTrackTime as addTrackTimeAction } from '../../redux/actions/timeTrackerActions';
+import HeaderTitleWithLoadingAndButton from '../BaseComponents/HeaderTitleWithLoadingAndButton';
 
 export const AddTimes = ({
   trackTimeNames,
@@ -22,6 +26,7 @@ export const AddTimes = ({
   data,
   toggle,
   labelTitle = 'Add Time',
+  loading,
 }) => {
   const hasData = Boolean(data && data.id);
   const today = new Date();
@@ -148,7 +153,7 @@ export const AddTimes = ({
   return (
     <form onSubmit={onSubmitForm}>
       <div className="p-4">
-        <h1 className="text-2xl font-bold text-center">{labelTitle}</h1>
+        <HeaderTitleWithLoadingAndButton loading={loading} title={labelTitle} />
         <label htmlFor="track-time-name-filter">
           <span className="w-full text-xs">Name</span>
           <div className="relative">
@@ -272,11 +277,13 @@ AddTimes.propTypes = {
   data: PropTypes.object,
   toggle: PropTypes.func,
   labelTitle: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
 };
 
 const ConnectedAddTimes = connect(
   (state) => ({
     trackTimeNames: getTrackTimeNamesSelector(state),
+    loading: getTrackTimeNamesLoadingSelector(state),
   }),
   { actionFunction: addTrackTimeAction },
 )(AddTimes);

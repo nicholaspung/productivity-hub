@@ -5,6 +5,7 @@ import AddItem from '../BaseComponents/AddItem';
 import {
   addTrackTimeName as addTrackTimeNameAction,
   createTrackTimeNameAndStartTrackTimeTimer as createTrackTimeNameAndStartTrackTimeTimerAction,
+  getTrackTimeNames as getTrackTimeNamesAction,
 } from '../../redux/actions/timeTrackerActions';
 import {
   getTrackTimeNames as getTrackTimeNamesSelector,
@@ -15,6 +16,7 @@ import {
 import TimeName from './TimeName';
 import { ReactComponent as PlaySVG } from '../../assets/icons/play.svg';
 import EmptyItem from '../BaseComponents/EmptyItem';
+import HeaderTitleWithLoadingAndButton from '../BaseComponents/HeaderTitleWithLoadingAndButton';
 
 const TimeAddName = ({
   trackTimeNames,
@@ -24,17 +26,22 @@ const TimeAddName = ({
   addTrackTimeName,
   error,
   loading,
+  getTrackTimeNames,
 }) => {
-  // Extract this out into it's own hook
-  // i.e. trackTimeNameInputHook - holds state and is able to be cleared from both
-  // saving a new tracktime and starttime, while also clearing when a saved tracktime
-  // play is pressed
   const [outsideState, setOutsideState] = useState('');
+
+  const onRefreshAction = async () => {
+    await getTrackTimeNames();
+  };
 
   return (
     <div className="flex flex-col">
       <div className="p-4">
-        <h1 className="text-2xl font-bold text-center">Start Tracking!</h1>
+        <HeaderTitleWithLoadingAndButton
+          onRefreshAction={onRefreshAction}
+          loading={loading}
+          title="Start Tracking!"
+        />
         <AddItem
           addItem={createTrackTimeNameAndStartTrackTimeTimer}
           addItem2={addTrackTimeName}
@@ -88,6 +95,7 @@ TimeAddName.propTypes = {
   addTrackTimeName: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
+  getTrackTimeNames: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -100,5 +108,6 @@ export default connect(
   {
     addTrackTimeName: addTrackTimeNameAction,
     createTrackTimeNameAndStartTrackTimeTimer: createTrackTimeNameAndStartTrackTimeTimerAction,
+    getTrackTimeNames: getTrackTimeNamesAction,
   },
 )(TimeAddName);
